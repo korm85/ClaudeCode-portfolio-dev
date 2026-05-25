@@ -184,15 +184,21 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               { value: "5", label: "Enterprise clients in 5 months" },
             ]}
             customerLine="Baker Hughes · Thales · Elos Medtech · 3D Systems · Beehive"
+            prdQuote={{
+              text: "Operators stop trusting the system and miss the alerts that actually matter — solved with condition-based filtering across multiple layers.",
+              linkLabel: "Smart Alerting PRD",
+              linkUrl: "/artifacts/amvero-smart-alerting-prd.pdf",
+            }}
             ctaLabel="Try interactive prototype"
             ctaSubtitle="Figma Make · ~2 min walkthrough of the alerts flow"
             onCta={onOpenAmvero}
             docs={[
-              { name: "Product Article", url: "https://drive.google.com/file/d/1nlpqP3HfYCE-Y6ngzdWjNLnulv7eqLqx/view" },
+              { name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
               { name: "Launch Announcement", url: "https://drive.google.com/file/d/18rYHWxkrakU_upjXpZjqHeDLN6DSPNOT/view" },
-              { name: "Sales Deck", url: "https://drive.google.com/file/d/1C_T1hrDOoDEiiqUUfId0EYoN5Rpne5pP/view" },
-              { name: "Alerts PRD", url: "https://docs.google.com/document/d/1zoWRqvujh96Wlu9V3eaDodg8C0gYmsjvuJvhB0HCPKo/edit" },
+              { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.pdf" },
               { name: "ROI Optimizer", url: "https://drive.google.com/file/d/1GbkdsS5vJLpCvJQOYmCaMfCiRhDfAl6T/view" },
+              { name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
+              { name: "End-to-End Traceability Record", url: "/artifacts/amvero-end-to-end-traceability-record.pdf" },
             ]}
             quote={{
               text: "We've seen a 98% reduction in engineering review time per build, allowing our team to focus on more critical tasks. This, combined with an 18% reduction in scrap costs, has delivered a powerful return on investment and significantly improved our operational efficiency.",
