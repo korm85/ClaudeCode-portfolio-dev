@@ -26,6 +26,7 @@ interface WorkCardProps {
   roleTag: string;
   title: string;
   description: string;
+  decisions?: string[];
   image: string;
   imageAlt: string;
   metrics: { value: string; label: string }[];
@@ -39,7 +40,7 @@ interface WorkCardProps {
 }
 
 function WorkCard({
-  eyebrow, roleTag, title, description, image, imageAlt,
+  eyebrow, roleTag, title, description, decisions, image, imageAlt,
   metrics, customerLine, ctaLabel, onCta, docs, quote, prdQuote,
 }: WorkCardProps) {
   const ref = useScrollReveal();
@@ -72,6 +73,19 @@ function WorkCard({
         <div>
           <h3 className="text-xl md:text-2xl font-light text-[#fafafa] leading-snug mb-4">{title}</h3>
           <p className="text-sm text-[#71717a] leading-relaxed mb-4">{description}</p>
+          {decisions && decisions.length > 0 && (
+            <div className="mb-4">
+              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#71717a]/40 mb-2">Key decisions</div>
+              <ul className="space-y-1.5">
+                {decisions.map((d, i) => (
+                  <li key={i} className="flex gap-2 text-xs text-[#71717a]/80 leading-relaxed">
+                    <span className="text-[#5eead4]/50 mt-0.5 shrink-0">–</span>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <p className="text-xs text-[#71717a]/60 mb-4">
             <span className="text-[#71717a]">Customers:</span> {customerLine}
           </p>
@@ -203,7 +217,12 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
             title="Real-time AI quality control for industrial manufacturing"
-            description="An AI vision system that watches production in real time and flags errors before they accumulate as scrap. Deployed across aerospace, energy, and medical manufacturing clients."
+            description="I took AMVero from first enterprise pilot to five paying clients in five months — writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
+            decisions={[
+              "Chose condition-based multi-layer filtering over severity thresholds — the design decision that turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
+              "Defined on-premise as a product, not a cloud port — positioning it for aerospace and medical clients where data sovereignty was a hard requirement, not a preference.",
+              "Wrote the deployment playbook to compress enterprise onboarding, enabling five clients in five months without a dedicated customer success team.",
+            ]}
             image="/amvero-product.png"
             imageAlt="Real-time AI quality control dashboard"
             metrics={[
@@ -240,7 +259,12 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Predictive simulation that lets clients ship right the first time"
-            description="Simulation software that predicts how parts will behave during manufacturing, so clients eliminate expensive physical trials and ship correct parts on the first attempt."
+            description="I owned 3DXpert Simulation for three years, shipping the thermo-mechanical module that unified two previously separate tools — enabling clients to achieve 99%+ dimensional accuracy on their first print without trial parts, cooling delays, or dedicated server hardware."
+            decisions={[
+              "Coupled thermal and mechanical solvers into a single pre-deformed model rather than keeping them as separate tools — the architectural decision that eliminated interlayer wait times and made first-time-right printing viable at serial production scale.",
+              "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
+              "Ran a structured beta with Knauf — eight years of simulation experience, 180 tools per year — to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
+            ]}
             image="/simulation-knauf-fit.png"
             imageAlt="Predictive simulation structural fit validation"
             metrics={[
