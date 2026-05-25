@@ -25,6 +25,9 @@
     h1 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 14px; }
     .meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); }
     .meta strong { color: var(--text); font-weight: 500; }
+    .source-chip { display: inline-flex; align-items: center; gap: 5px; margin-top: 14px; font-size: 11px; letter-spacing: 0.04em; background: var(--teal-soft); border: 1px solid var(--teal-dim); border-radius: 4px; padding: 4px 10px; color: #134e4a; }
+    .source-chip a { color: var(--teal); text-decoration: none; font-weight: 600; }
+    .source-chip a:hover { text-decoration: underline; }
 
     section { margin-top: 40px; }
     h2 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--teal-dim); }
@@ -66,6 +69,7 @@
       <span><strong>Material</strong> 316L</span>
       <span><strong>Process</strong> L-PBF, 20+ hour build</span>
     </div>
+    <div class="source-chip">Official Oqton publication</div>
   </div>
 
   <div class="summary-bar">
