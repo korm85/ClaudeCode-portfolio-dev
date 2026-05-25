@@ -189,7 +189,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             prdQuote={{
               text: "Operators stop trusting the system and miss the alerts that actually matter — solved with condition-based filtering across multiple layers.",
               linkLabel: "Smart Alerting PRD",
-              linkUrl: "/artifacts/amvero-smart-alerting-prd.pdf",
+              linkUrl: "/artifacts/amvero-smart-alerting-prd.html",
             }}
             ctaLabel="Try interactive prototype"
             ctaSubtitle="Figma Make · ~2 min walkthrough of the alerts flow"
@@ -197,7 +197,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             docs={[
               { name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
               { name: "Launch Announcement", url: "https://drive.google.com/file/d/18rYHWxkrakU_upjXpZjqHeDLN6DSPNOT/view" },
-              { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.pdf" },
+              { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.html" },
               { name: "ROI Optimizer", url: "/artifacts/roi-optimizer.html" },
               { name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
               { name: "End-to-End Traceability Record", url: "/artifacts/amvero-end-to-end-traceability-record.pdf" },
