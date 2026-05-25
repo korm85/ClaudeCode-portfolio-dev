@@ -4,6 +4,7 @@
 Portfolio site redesigned and transformed into a premium dark gold visual style matching emilybeal.com (black canvas, surface card elements, thin dark borders, and gold accents). Features custom cursor tracking, dual-column timeline structure with year indexes, structured values/background grid, testimonials outcomes metrics, and reskinned interactive modals/calculators.
 
 ## Last completed
+- 2026-05-25: Surfaced PM artifacts as value-labeled badges on AMVero card — PRD pull quote (Smart Alerting PRD), Go-to-Market Narrative (authored by Michael), Enterprise Deployment Playbook, End-to-End Traceability Record (pages 1-2). All four docs served as local PDFs from `/public/artifacts/`.
 - 2026-05-24: Fixed custom follower cursor layer bug by raising z-index to z-[9999] so it renders on top of modals, and extended interactive hover states to range sliders, selects, labels, and textareas.
 - 2026-05-24: Refactored project cards to horizontal full-width stacked layouts on desktop, widening metric boxes and preventing text wrap clipping.
 - 2026-05-24: Reduced hero tagline text size to restore visual balance and prevent it from looking out of place.
