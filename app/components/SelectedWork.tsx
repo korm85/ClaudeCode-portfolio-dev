@@ -111,20 +111,22 @@ function WorkCard({
           </div>
 
           {/* Docs */}
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {docs.map((doc, i) => (
               <a
                 key={i}
                 href={doc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-2.5 py-1"
+                className="flex items-start justify-between gap-1 text-sm text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-3 py-2"
               >
-                {doc.name}
-                {doc.suffix && (
-                  <span className="opacity-50 text-[9px]">{doc.suffix}</span>
-                )}
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <span className="leading-snug">
+                  {doc.name}
+                  {doc.suffix && (
+                    <span className="block opacity-50 text-[10px] mt-0.5">{doc.suffix}</span>
+                  )}
+                </span>
+                <svg className="w-3 h-3 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                 </svg>
               </a>
