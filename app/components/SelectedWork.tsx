@@ -198,7 +198,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               { name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
               { name: "Launch Announcement", url: "https://drive.google.com/file/d/18rYHWxkrakU_upjXpZjqHeDLN6DSPNOT/view" },
               { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.pdf" },
-              { name: "ROI Optimizer", url: "https://drive.google.com/file/d/1GbkdsS5vJLpCvJQOYmCaMfCiRhDfAl6T/view" },
+              { name: "ROI Optimizer", url: "/artifacts/roi-optimizer.html" },
               { name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
               { name: "End-to-End Traceability Record", url: "/artifacts/amvero-end-to-end-traceability-record.pdf" },
             ]}
