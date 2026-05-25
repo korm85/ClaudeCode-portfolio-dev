@@ -196,7 +196,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             onCta={onOpenAmvero}
             docs={[
               { name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
-              { name: "Launch Announcement", url: "https://drive.google.com/file/d/18rYHWxkrakU_upjXpZjqHeDLN6DSPNOT/view" },
+              { name: "Launch Announcement", url: "/artifacts/amvero-launch-announcement.html" },
               { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.html" },
               { name: "ROI Optimizer", url: "/artifacts/roi-optimizer.html" },
               { name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
@@ -226,9 +226,9 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             ctaSubtitle="Interactive calculator · input your build volume to see projected savings"
             onCta={onOpenSimulation}
             docs={[
-              { name: "Thermal Whitepaper", url: "https://drive.google.com/file/d/13v5VOTdE8XOMEmy79SaHz6h4s8E_3VU8/view" },
-              { name: "Customer Story: Tooling", url: "https://drive.google.com/file/d/14xkfVrlu1sj1c3YY9w3R-xtejPW1yHgO/view" },
-              { name: "Customer Story: Large Parts", url: "https://drive.google.com/file/d/14yNMaShYmz9dlhq6LMOxtihkh4xPZvTe/view" },
+              { name: "Thermal Whitepaper", url: "/artifacts/simulation-thermal-whitepaper.html" },
+              { name: "Customer Story: Tooling", url: "/artifacts/simulation-customer-story-tooling.html" },
+              { name: "Customer Story: Large Parts", url: "/artifacts/simulation-customer-story-large-parts.html" },
             ]}
             quote={{
               text: "We have achieved a lightweight component we would have never imagined creating before this project. This application creates new sparks for more AM applications in the marine industry.",
