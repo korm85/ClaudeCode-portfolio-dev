@@ -5,12 +5,19 @@ import { useScrollReveal } from "../hooks/useScrollReveal";
 interface Doc {
   name: string;
   url: string;
+  suffix?: string;
 }
 
 interface Quote {
   text: string;
   author: string;
   role: string;
+}
+
+interface PrdQuote {
+  text: string;
+  linkLabel: string;
+  linkUrl: string;
 }
 
 interface WorkCardProps {
@@ -27,11 +34,12 @@ interface WorkCardProps {
   onCta: () => void;
   docs: Doc[];
   quote?: Quote;
+  prdQuote?: PrdQuote;
 }
 
 function WorkCard({
   eyebrow, roleTag, title, description, image, imageAlt,
-  metrics, customerLine, ctaLabel, onCta, docs, quote,
+  metrics, customerLine, ctaLabel, onCta, docs, quote, prdQuote,
 }: WorkCardProps) {
   const ref = useScrollReveal();
 
@@ -63,9 +71,24 @@ function WorkCard({
         <div>
           <h3 className="text-xl md:text-2xl font-light text-[#fafafa] leading-snug mb-4">{title}</h3>
           <p className="text-sm text-[#71717a] leading-relaxed mb-4">{description}</p>
-          <p className="text-xs text-[#71717a]/60 mb-6">
+          <p className="text-xs text-[#71717a]/60 mb-4">
             <span className="text-[#71717a]">Customers:</span> {customerLine}
           </p>
+          {prdQuote && (
+            <div className="border-l-2 border-[#5eead4]/30 bg-[#5eead4]/[0.03] rounded-r px-3 py-2 mb-4">
+              <p className="text-xs italic text-white/60 leading-relaxed">
+                &ldquo;{prdQuote.text}&rdquo;
+              </p>
+              <a
+                href={prdQuote.linkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[9px] font-mono uppercase tracking-widest text-[#5eead4]/50 hover:text-[#5eead4]/80 transition-colors mt-1 inline-block"
+              >
+                {prdQuote.linkLabel} ↗
+              </a>
+            </div>
+          )}
           <button
             onClick={onCta}
             className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-[#5eead4]/40 rounded-sm text-[#5eead4] hover:bg-[#5eead4]/10 hover:border-[#5eead4]/70 transition-all uppercase tracking-[0.08em] font-mono"
@@ -98,6 +121,9 @@ function WorkCard({
                 className="inline-flex items-center gap-1 text-xs text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-2.5 py-1"
               >
                 {doc.name}
+                {doc.suffix && (
+                  <span className="opacity-50 text-[9px]">{doc.suffix}</span>
+                )}
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                 </svg>
