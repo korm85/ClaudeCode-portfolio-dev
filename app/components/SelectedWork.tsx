@@ -6,6 +6,7 @@ interface Doc {
   name: string;
   url: string;
   suffix?: string;
+  category?: string;
 }
 
 interface Quote {
@@ -110,28 +111,54 @@ function WorkCard({
             ))}
           </div>
 
-          {/* Docs */}
-          <div className="grid grid-cols-3 gap-2">
-            {docs.map((doc, i) => (
-              <a
-                key={i}
-                href={doc.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start justify-between gap-1 text-sm text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-3 py-2"
-              >
-                <span className="leading-snug">
-                  {doc.name}
-                  {doc.suffix && (
-                    <span className="block opacity-50 text-[10px] mt-0.5">{doc.suffix}</span>
-                  )}
-                </span>
-                <svg className="w-3 h-3 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                </svg>
-              </a>
-            ))}
-          </div>
+          {/* Docs grouped by PM lifecycle category */}
+          {(() => {
+            const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
+              (acc, doc) => {
+                const cat = doc.category ?? '';
+                const existing = acc.find(g => g.label === cat);
+                if (existing) existing.items.push(doc);
+                else acc.push({ label: cat, items: [doc] });
+                return acc;
+              },
+              []
+            );
+            const categorised = groups.some(g => g.label !== '');
+            return (
+              <div className={categorised ? "space-y-4" : ""}>
+                {groups.map((group, gi) => (
+                  <div key={gi}>
+                    {categorised && group.label && (
+                      <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#71717a]/40 mb-1.5">
+                        {group.label}
+                      </div>
+                    )}
+                    <div className="grid grid-cols-3 gap-2">
+                      {group.items.map((doc, i) => (
+                        <a
+                          key={i}
+                          href={doc.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-start justify-between gap-1 text-sm text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-3 py-2"
+                        >
+                          <span className="leading-snug">
+                            {doc.name}
+                            {doc.suffix && (
+                              <span className="block opacity-50 text-[10px] mt-0.5">{doc.suffix}</span>
+                            )}
+                          </span>
+                          <svg className="w-3 h-3 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          </svg>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -195,12 +222,12 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             ctaSubtitle="Figma Make · ~2 min walkthrough of the alerts flow"
             onCta={onOpenAmvero}
             docs={[
-              { name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
-              { name: "Launch Announcement", url: "/artifacts/amvero-launch-announcement.html" },
-              { name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.html" },
-              { name: "ROI Optimizer", url: "/artifacts/roi-optimizer.html" },
-              { name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
-              { name: "End-to-End Traceability Record", url: "/artifacts/amvero-end-to-end-traceability-record.pdf" },
+              { category: "Go-to-Market", name: "Go-to-Market Narrative", suffix: "· by Michael", url: "/artifacts/amvero-go-to-market-narrative.pdf" },
+              { category: "Go-to-Market", name: "Launch Announcement", url: "/artifacts/amvero-launch-announcement.html" },
+              { category: "Product & Pricing", name: "Alerts PRD", url: "/artifacts/amvero-smart-alerting-prd.html" },
+              { category: "Product & Pricing", name: "ROI Optimizer", url: "/artifacts/roi-optimizer.html" },
+              { category: "Customer Success", name: "Enterprise Deployment Playbook", url: "/artifacts/amvero-enterprise-deployment-playbook.pdf" },
+              { category: "Customer Success", name: "End-to-End Traceability Record", url: "/artifacts/amvero-end-to-end-traceability-record.pdf" },
             ]}
             quote={{
               text: "We've seen a 98% reduction in engineering review time per build, allowing our team to focus on more critical tasks. This, combined with an 18% reduction in scrap costs, has delivered a powerful return on investment and significantly improved our operational efficiency.",
@@ -226,9 +253,9 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             ctaSubtitle="Interactive calculator · input your build volume to see projected savings"
             onCta={onOpenSimulation}
             docs={[
-              { name: "Thermal Whitepaper", url: "/artifacts/simulation-thermal-whitepaper.html" },
-              { name: "Customer Story: Tooling", url: "/artifacts/simulation-customer-story-tooling.html" },
-              { name: "Customer Story: Large Parts", url: "/artifacts/simulation-customer-story-large-parts.html" },
+              { category: "Validation", name: "Thermal Whitepaper", url: "/artifacts/simulation-thermal-whitepaper.html" },
+              { category: "Customers", name: "Customer Story: Tooling", url: "/artifacts/simulation-customer-story-tooling.html" },
+              { category: "Customers", name: "Customer Story: Large Parts", url: "/artifacts/simulation-customer-story-large-parts.html" },
             ]}
             quote={{
               text: "We have achieved a lightweight component we would have never imagined creating before this project. This application creates new sparks for more AM applications in the marine industry.",
