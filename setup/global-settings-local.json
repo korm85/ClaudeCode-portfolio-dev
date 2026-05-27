@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude plugin:*)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/.claude-plugin/marketplace.json\")",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/obra/.claude-plugin ~/.claude/plugins/marketplaces/obra/external_plugins)",
+      "Bash(mv ~/.claude/plugins/marketplaces/obra/marketplace.json ~/.claude/plugins/marketplaces/obra/.claude-plugin/)",
+      "Bash(mv ~/.claude/plugins/marketplaces/obra/superpowers ~/.claude/plugins/marketplaces/obra/external_plugins/)",
+      "Bash(mkdir -p ~/.claude/plugins/cache/obra/superpowers)",
+      "Bash(cp -r ~/.claude/plugins/marketplaces/obra/external_plugins/superpowers/* ~/.claude/plugins/cache/obra/superpowers/)",
+      "WebFetch(domain:docs.alpaca.markets)",
+      "WebSearch"
+    ]
+  }
+}
