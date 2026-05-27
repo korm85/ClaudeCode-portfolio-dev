@@ -7,31 +7,31 @@ const TIMELINE = [
     years: "2025–Present",
     company: "Oqton",
     role: "Senior PM, AI Platform",
-    line: "Leading the AI vision product for industrial manufacturing.",
+    line: "Launched AMVero to five enterprise customers in five months: authored the deployment playbook, designed the smart alerting system, and defined the on-premise product variant for regulated industries.",
   },
   {
     years: "2022–2025",
     company: "Oqton",
     role: "Product Manager, Simulation",
-    line: "Owned strategy, roadmap, and pricing for predictive simulation software.",
+    line: "Shipped the thermo-mechanical simulation module — coupled two previously separate solvers, validated on standard workstations, and ran a structured beta with Knauf that eliminated launch risk and delivered a credible customer story at release.",
   },
   {
     years: "2017–2022",
     company: "3D Systems",
     role: "QA Team Lead",
-    line: "Built and led the QA team for industrial CAD/CAM software.",
+    line: "Built the QA function from scratch and led a team responsible for release certification on enterprise CAD/CAM software; the role where systematic defect thinking became the default.",
   },
   {
     years: "2015–2017",
     company: "3D Systems",
     role: "QA Engineer (Founding Team)",
-    line: "Designed validation frameworks for next-gen manufacturing tools.",
+    line: "Wrote the first validation frameworks for a new generation of manufacturing tools: pre-release, no existing playbook, high failure cost if defects shipped.",
   },
   {
     years: "2012–2015",
     company: "Cimatron",
     role: "QA Engineer",
-    line: "Tested precision CAD/CAM workflows for tooling and mold manufacturers worldwide.",
+    line: "Certified CAD/CAM software for tooling manufacturers across Europe and North America; learned to find the failure modes product teams hadn't imagined.",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function CareerTimeline() {
         </div>
 
         <p className="text-sm text-[#71717a]/60 mt-12 italic border-l border-[#5eead4]/30 pl-4">
-          A decade of QA engineering before PM. Edge-case thinking is the foundation of how I make AI product decisions.
+          A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping.
         </p>
       </div>
     </section>

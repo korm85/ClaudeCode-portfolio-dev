@@ -21,12 +21,14 @@ interface PrdQuote {
   linkUrl: string;
 }
 
+type Decision = string | { text: string; docLabel?: string; docUrl?: string };
+
 interface WorkCardProps {
   eyebrow: string;
   roleTag: string;
   title: string;
   description: string;
-  decisions?: string[];
+  decisions?: Decision[];
   image: string;
   imageAlt: string;
   metrics: { value: string; label: string }[];
@@ -77,12 +79,29 @@ function WorkCard({
             <div className="mb-4">
               <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#71717a]/40 mb-2">Key decisions</div>
               <ul className="space-y-1.5">
-                {decisions.map((d, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-[#71717a]/80 leading-relaxed">
-                    <span className="text-[#5eead4]/50 mt-0.5 shrink-0">–</span>
-                    <span>{d}</span>
-                  </li>
-                ))}
+                {decisions.map((d, i) => {
+                  const text = typeof d === "string" ? d : d.text;
+                  const docLabel = typeof d !== "string" ? d.docLabel : undefined;
+                  const docUrl = typeof d !== "string" ? d.docUrl : undefined;
+                  return (
+                    <li key={i} className="flex gap-2 text-xs text-[#71717a]/80 leading-relaxed">
+                      <span className="text-[#5eead4]/50 mt-0.5 shrink-0">–</span>
+                      <span>
+                        {text}
+                        {docLabel && docUrl && (
+                          <a
+                            href={docUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ml-2 text-[9px] font-mono tracking-wider text-[#5eead4]/40 hover:text-[#5eead4]/70 transition-colors border border-[#5eead4]/20 hover:border-[#5eead4]/40 rounded px-1 py-0.5 whitespace-nowrap"
+                          >
+                            {docLabel} ↗
+                          </a>
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
@@ -129,15 +148,15 @@ function WorkCard({
           {(() => {
             const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
               (acc, doc) => {
-                const cat = doc.category ?? '';
-                const existing = acc.find(g => g.label === cat);
+                const cat = doc.category ?? "";
+                const existing = acc.find((g) => g.label === cat);
                 if (existing) existing.items.push(doc);
                 else acc.push({ label: cat, items: [doc] });
                 return acc;
               },
               []
             );
-            const categorised = groups.some(g => g.label !== '');
+            const categorised = groups.some((g) => g.label !== "");
             return (
               <div className={categorised ? "space-y-4" : ""}>
                 {groups.map((group, gi) => (
@@ -147,7 +166,7 @@ function WorkCard({
                         {group.label}
                       </div>
                     )}
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className={`grid gap-2 ${group.items.length >= 3 ? "grid-cols-3" : "grid-cols-2"}`}>
                       {group.items.map((doc, i) => (
                         <a
                           key={i}
@@ -216,24 +235,37 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
           <WorkCard
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
-            title="Real-time AI quality control for industrial manufacturing"
-            description="I took AMVero from first enterprise pilot to five paying clients in five months — writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
+            title="Took an AI monitoring tool from pilot to five enterprise contracts in five months"
+            description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
             decisions={[
-              "Chose condition-based multi-layer filtering over severity thresholds — the design decision that turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
-              "Defined on-premise as a product, not a cloud port — positioning it for aerospace and medical clients where data sovereignty was a hard requirement, not a preference.",
-              "Wrote the deployment playbook to compress enterprise onboarding, enabling five clients in five months without a dedicated customer success team.",
+              {
+                text: "Chose condition-based multi-layer filtering over severity thresholds; this design decision turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
+                docLabel: "Alerts PRD",
+                docUrl: "/artifacts/amvero-smart-alerting-prd.html",
+              },
+              "Defined on-premise as a product, not a cloud port, for aerospace and defense clients who required air-gapped environments.",
+              {
+                text: "Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.",
+                docLabel: "Deployment Playbook",
+                docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
+              },
+              {
+                text: "Moved AMVero pricing from a flat per-seat model to a consumption-based credit system, aligning costs with customer production volume. Built the ROI simulator to find the optimal rate and show clients exactly where credits outperform legacy pricing.",
+                docLabel: "ROI Optimizer",
+                docUrl: "/artifacts/roi-optimizer.html",
+              },
             ]}
             image="/amvero-product.png"
-            imageAlt="Real-time AI quality control dashboard"
+            imageAlt="AMVero AI monitoring dashboard"
             metrics={[
-              { value: "98%", label: "Reduction in active monitoring time (Baker Hughes)" },
-              { value: "18%", label: "Scrap cost reduction (verified by aerospace client)" },
+              { value: "98%", label: "Reduction in review time, driven by the condition-based filtering architecture I specified" },
+              { value: "18%", label: "Scrap cost reduction, by defining the alert logic that caught failures mid-run before material was lost" },
               { value: "136h", label: "Saved per printer per year" },
               { value: "5", label: "Enterprise clients in 5 months" },
             ]}
             customerLine="Baker Hughes · Thales · Elos Medtech · 3D Systems · Beehive"
             prdQuote={{
-              text: "Operators stop trusting the system and miss the alerts that actually matter — solved with condition-based filtering across multiple layers.",
+              text: "Operators stop trusting the system and miss the alerts that actually matter. Solved with condition-based filtering across multiple layers.",
               linkLabel: "Smart Alerting PRD",
               linkUrl: "/artifacts/amvero-smart-alerting-prd.html",
             }}
@@ -258,23 +290,23 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
           <WorkCard
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
-            title="Predictive simulation that lets clients ship right the first time"
-            description="I owned 3DXpert Simulation for three years, shipping the thermo-mechanical module that unified two previously separate tools — enabling clients to achieve 99%+ dimensional accuracy on their first print without trial parts, cooling delays, or dedicated server hardware."
+            title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
+            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients hit 99%+ dimensional accuracy without running trial parts or waiting between stages."
             decisions={[
-              "Coupled thermal and mechanical solvers into a single pre-deformed model rather than keeping them as separate tools — the architectural decision that eliminated interlayer wait times and made first-time-right printing viable at serial production scale.",
-              "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
-              "Ran a structured beta with Knauf — eight years of simulation experience, 180 tools per year — to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
+              "Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module, where both solvers run in a single coupled pass. That is the step that eliminated inter-stage wait times and made serial production with first-time-right accuracy viable.",
+              "Validated on standard engineering workstations, not servers; a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
+              "Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
             ]}
             image="/simulation-knauf-fit.png"
             imageAlt="Predictive simulation structural fit validation"
             metrics={[
-              { value: "80%", label: "Fewer manufacturing errors" },
+              { value: "80%", label: "Fewer dimensional errors, achieved once thermal and mechanical ran as a single coupled pass in the thermo-mechanical module" },
               { value: "99%+", label: "Dimensional accuracy via predictive compensation" },
               { value: "<150µm", label: "Maximum measured dimensional deviation" },
             ]}
             customerLine="Knauf and tooling manufacturers across Europe"
-            ctaLabel="Try the ROI simulator"
-            ctaSubtitle="Interactive calculator · input your build volume to see projected savings"
+            ctaLabel="Explore case study"
+            ctaSubtitle="Overview, validation data, and customer stories"
             onCta={onOpenSimulation}
             docs={[
               { category: "Validation", name: "Thermal Whitepaper", url: "/artifacts/simulation-thermal-whitepaper.html" },

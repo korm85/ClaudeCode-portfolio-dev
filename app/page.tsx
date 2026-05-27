@@ -123,7 +123,7 @@ export default function Home() {
           </h1>
 
           <p className="text-xl md:text-2xl lg:text-3.5xl font-sans font-light text-text-secondary leading-snug tracking-tight max-w-3xl mb-12">
-            Building complex products from scratch, owning the end-to-end process to transform complex data into actionable insights.
+            I spent a decade breaking enterprise software before I built it. Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
           </p>
 
           <div className="flex gap-8 mb-14">
@@ -144,7 +144,7 @@ export default function Home() {
           <div className="w-full max-w-md border-t border-border-dark/60 mb-8" />
 
           <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-text-muted">
-            Shipped to: <span className="text-text-primary font-semibold">Baker Hughes · Thales · Elos Medtech · Oqton · Beehive</span>
+            Shipped to: <span className="text-text-primary font-semibold">Baker Hughes · Thales · Elos Medtech · Beehive</span>
           </p>
         </div>
       </section>
