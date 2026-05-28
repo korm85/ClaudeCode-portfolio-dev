@@ -40,18 +40,18 @@ function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
   return (
     <div ref={ref} className="flex gap-6 md:gap-10 group">
       <div className="hidden md:flex flex-col items-center pt-2">
-        <div className="w-[15px] h-[15px] rounded-full border border-[#27272a]/50 group-hover:border-[#5eead4] group-hover:bg-[#5eead4]/20 transition-all duration-300 flex items-center justify-center">
-          <div className="w-[5px] h-[5px] rounded-full bg-[#71717a]/30 group-hover:bg-[#5eead4] transition-colors" />
+        <div className="w-[14px] h-[14px] rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300 flex items-center justify-center">
+          <div className="w-[5px] h-[5px] rounded-full bg-text-muted group-hover:bg-primary transition-colors" />
         </div>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 pb-8 border-b border-border-dark last:border-0 last:pb-0">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-          <span className="text-xs text-[#5eead4] font-medium tracking-wider">{entry.years}</span>
-          <span className="text-sm text-[#fafafa] font-light">{entry.company}</span>
-          <span className="text-xs text-[#71717a]">·</span>
-          <span className="text-sm text-[#71717a]">{entry.role}</span>
+          <span className="text-xs text-primary font-medium tracking-wider font-mono">{entry.years}</span>
+          <span className="text-sm font-semibold font-display text-text-primary">{entry.company}</span>
+          <span className="text-xs text-text-muted">·</span>
+          <span className="text-sm text-text-secondary">{entry.role}</span>
         </div>
-        <p className="text-sm text-[#71717a]/60">{entry.line}</p>
+        <p className="text-sm text-text-muted leading-relaxed">{entry.line}</p>
       </div>
     </div>
   );
@@ -59,25 +59,25 @@ function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
 
 export default function CareerTimeline() {
   return (
-    <section id="career" className="px-6 md:px-12 py-32 border-t border-[#27272a]/30">
+    <section id="career" className="px-6 md:px-12 py-24 border-t border-border-dark bg-canvas">
       <div className="max-w-5xl mx-auto">
         <div className="mb-16">
-          <span className="text-[10px] tracking-[0.4em] uppercase text-[#71717a]">Career</span>
-          <h2 className="text-4xl md:text-5xl font-extralight text-[#fafafa] mt-2">
+          <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Career</span>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
             10+ years in industrial B2B software
           </h2>
         </div>
 
         <div className="relative">
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-[#27272a]/50 hidden md:block" />
-          <div className="space-y-10">
+          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-border-dark hidden md:block" />
+          <div className="space-y-0">
             {TIMELINE.map((entry, i) => (
               <TimelineEntry key={i} entry={entry} />
             ))}
           </div>
         </div>
 
-        <p className="text-sm text-[#71717a]/60 mt-12 italic border-l border-[#5eead4]/30 pl-4">
+        <p className="text-sm text-text-muted mt-12 italic border-l-2 border-primary/30 pl-4">
           A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping.
         </p>
       </div>

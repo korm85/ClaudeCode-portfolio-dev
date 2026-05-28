@@ -48,23 +48,23 @@ function WorkCard({
   const ref = useScrollReveal();
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative bg-surface border border-border-dark rounded p-8 md:p-10">
       {/* Eyebrow */}
       <div className="mb-4">
-        <span className="text-[10px] tracking-[0.4em] uppercase text-[#5eead4] font-medium">
+        <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium font-mono">
           {eyebrow}
         </span>
       </div>
 
       {/* 16:9 image */}
-      <div className="relative overflow-hidden rounded-lg border border-[#27272a]/50 mb-8 group">
+      <div className="relative overflow-hidden rounded border border-border-dark mb-8 group">
         <img
           src={image}
           alt={imageAlt}
           className="w-full aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
         <div className="absolute bottom-3 left-3">
-          <p className="text-xs text-white/70 bg-black/40 backdrop-blur-sm px-2 py-1 rounded">
+          <p className="text-xs text-text-secondary bg-surface/80 backdrop-blur-sm px-2 py-1 rounded border border-border-dark">
             {roleTag}
           </p>
         </div>
@@ -73,19 +73,19 @@ function WorkCard({
       {/* Two-col content */}
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <h3 className="text-xl md:text-2xl font-light text-[#fafafa] leading-snug mb-4">{title}</h3>
-          <p className="text-sm text-[#71717a] leading-relaxed mb-4">{description}</p>
+          <h3 className="text-xl md:text-2xl font-semibold font-display text-text-primary leading-snug mb-4">{title}</h3>
+          <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
           {decisions && decisions.length > 0 && (
             <div className="mb-4">
-              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#71717a]/40 mb-2">Key decisions</div>
+              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-2">Key decisions</div>
               <ul className="space-y-1.5">
                 {decisions.map((d, i) => {
                   const text = typeof d === "string" ? d : d.text;
                   const docLabel = typeof d !== "string" ? d.docLabel : undefined;
                   const docUrl = typeof d !== "string" ? d.docUrl : undefined;
                   return (
-                    <li key={i} className="flex gap-2 text-xs text-[#71717a]/80 leading-relaxed">
-                      <span className="text-[#5eead4]/50 mt-0.5 shrink-0">–</span>
+                    <li key={i} className="flex gap-2 text-xs text-text-secondary leading-relaxed">
+                      <span className="text-primary/50 mt-0.5 shrink-0">–</span>
                       <span>
                         {text}
                         {docLabel && docUrl && (
@@ -93,7 +93,7 @@ function WorkCard({
                             href={docUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="ml-2 text-[9px] font-mono tracking-wider text-[#5eead4]/40 hover:text-[#5eead4]/70 transition-colors border border-[#5eead4]/20 hover:border-[#5eead4]/40 rounded px-1 py-0.5 whitespace-nowrap"
+                            className="ml-2 text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1 py-0.5 whitespace-nowrap"
                           >
                             {docLabel} ↗
                           </a>
@@ -105,19 +105,19 @@ function WorkCard({
               </ul>
             </div>
           )}
-          <p className="text-xs text-[#71717a]/60 mb-4">
-            <span className="text-[#71717a]">Customers:</span> {customerLine}
+          <p className="text-xs text-text-muted mb-4">
+            <span className="text-text-secondary">Customers:</span> {customerLine}
           </p>
           {prdQuote && (
-            <div className="border-l-2 border-[#5eead4]/30 bg-[#5eead4]/[0.03] rounded-r px-3 py-2 mb-4">
-              <p className="text-xs italic text-white/60 leading-relaxed">
+            <div className="border-l-2 border-primary/30 bg-primary-dim rounded-r px-3 py-2 mb-4">
+              <p className="text-xs italic text-text-secondary leading-relaxed">
                 &ldquo;{prdQuote.text}&rdquo;
               </p>
               <a
                 href={prdQuote.linkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[9px] font-mono uppercase tracking-widest text-[#5eead4]/50 hover:text-[#5eead4]/80 transition-colors mt-1 inline-block"
+                className="text-[9px] font-mono uppercase tracking-widest text-primary/60 hover:text-primary transition-colors mt-1 inline-block"
               >
                 {prdQuote.linkLabel} ↗
               </a>
@@ -125,7 +125,7 @@ function WorkCard({
           )}
           <button
             onClick={onCta}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-[#5eead4]/40 rounded-sm text-[#5eead4] hover:bg-[#5eead4]/10 hover:border-[#5eead4]/70 transition-all uppercase tracking-[0.08em] font-mono"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
           >
             {ctaLabel}
           </button>
@@ -135,9 +135,9 @@ function WorkCard({
           {/* Metrics */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             {metrics.map((m, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl md:text-3xl font-light text-[#5eead4]">{m.value}</div>
-                <div className="text-xs text-[#71717a] mt-1 max-w-[140px] mx-auto leading-snug">
+              <div key={i} className="bg-canvas border border-border-dark rounded p-4 text-center">
+                <div className="text-2xl md:text-3xl font-bold font-display text-primary">{m.value}</div>
+                <div className="text-xs text-text-muted mt-1 max-w-[140px] mx-auto leading-snug">
                   {m.label}
                 </div>
               </div>
@@ -162,7 +162,7 @@ function WorkCard({
                 {groups.map((group, gi) => (
                   <div key={gi}>
                     {categorised && group.label && (
-                      <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#71717a]/40 mb-1.5">
+                      <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-1.5">
                         {group.label}
                       </div>
                     )}
@@ -173,7 +173,7 @@ function WorkCard({
                           href={doc.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-start justify-between gap-1 text-sm text-[#71717a] hover:text-[#5eead4] transition-colors border border-[#27272a]/50 rounded px-3 py-2"
+                          className="flex items-start justify-between gap-1 text-xs text-text-secondary hover:text-primary transition-colors border border-border-dark hover:border-primary/30 rounded px-3 py-2 bg-canvas hover:bg-primary-dim"
                         >
                           <span className="leading-snug">
                             {doc.name}
@@ -197,14 +197,14 @@ function WorkCard({
 
       {/* Customer quote */}
       {quote && (
-        <div className="mt-10 border-t border-[#27272a]/40 pt-8">
-          <blockquote className="border-l-2 border-[#5eead4]/40 pl-5">
-            <p className="text-sm text-[#fafafa]/80 font-light leading-relaxed italic">
+        <div className="mt-10 border-t border-border-dark pt-8">
+          <blockquote className="border-l-2 border-primary/40 pl-5">
+            <p className="text-sm text-text-secondary leading-relaxed italic">
               &ldquo;{quote.text}&rdquo;
             </p>
             <footer className="mt-3 flex items-center gap-2">
-              <span className="w-4 h-px bg-[#5eead4]/40" />
-              <span className="text-[10px] font-mono tracking-wider text-[#71717a] uppercase">
+              <span className="w-4 h-px bg-primary/40" />
+              <span className="text-[10px] font-mono tracking-wider text-text-muted uppercase">
                 {quote.author} &middot; {quote.role}
               </span>
             </footer>
@@ -222,16 +222,16 @@ interface SelectedWorkProps {
 
 export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: SelectedWorkProps) {
   return (
-    <section id="work" className="px-6 md:px-12 py-32 border-t border-[#27272a]/30">
+    <section id="work" className="px-6 md:px-12 py-24 border-t border-border-dark bg-canvas">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-20">
-          <span className="text-[10px] tracking-[0.4em] uppercase text-[#71717a]">Selected Work</span>
-          <h2 className="text-4xl md:text-5xl font-extralight text-[#fafafa] mt-2">
+        <div className="mb-16">
+          <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Selected Work</span>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
             Featured Products
           </h2>
         </div>
 
-        <div className="space-y-32">
+        <div className="space-y-12">
           <WorkCard
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"

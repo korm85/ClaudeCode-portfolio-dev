@@ -1,25 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-canvas: #000000;
-  --color-surface: #111213;
-  --color-border-dark: #232426;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-teal-accent: #5eead4;
-  --color-teal-accent-dim: rgba(94, 234, 212, 0.1);
-  --color-amber-metric: #5eead4;
+  --color-canvas: #f7f9fb;
+  --color-surface: #ffffff;
+  --color-surface-dim: #eceef0;
+  --color-border-dark: #E2E8F0;
+  --color-text-primary: #191c1e;
+  --color-text-secondary: #434655;
+  --color-text-muted: #737686;
+  --color-primary: #004ac6;
+  --color-primary-bright: #2563eb;
+  --color-primary-dim: rgba(0, 74, 198, 0.08);
+  --color-outline-variant: #c3c6d7;
 
-  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, monospace;
-  --font-display: var(--font-display), serif;
-
-  --background-image-amvero: linear-gradient(135deg, #111213 0%, #000000 100%);
-  --background-image-simulation: linear-gradient(135deg, #111213 0%, #000000 100%);
-  --background-image-practice: linear-gradient(135deg, #111213 0%, #000000 100%);
-  --background-image-background: linear-gradient(135deg, #000000 0%, #111213 100%);
-  --background-image-contact: linear-gradient(135deg, #111213 0%, #000000 100%);
+  --font-sans: var(--font-roboto-flex), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-space-grotesk), sans-serif;
 }
 
 @layer base {
@@ -31,7 +27,7 @@
   body {
     font-family: var(--font-sans);
     color: var(--color-text-primary);
-    background-color: #000000;
+    background-color: #f7f9fb;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100dvh;
@@ -51,6 +47,12 @@
   body.custom-cursor-body textarea {
     cursor: none !important;
   }
+}
+
+/* ── Section divider ── */
+.section-divider-light {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #E2E8F0 20%, #c3c6d7 50%, #E2E8F0 80%, transparent 100%);
 }
 
 /* ── Premium Animations & Fluid Transitions ── */
@@ -229,5 +231,5 @@
 /* ── Section divider gradient ── */
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #c7d2fe 20%, #e0e7ff 50%, #c7d2fe 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #E2E8F0 20%, #c3c6d7 50%, #E2E8F0 80%, transparent 100%);
 }

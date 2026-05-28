@@ -15,50 +15,6 @@ export default function Home() {
   const [simulationOpen, setSimulationOpen] = useState(false);
   const [time, setTime] = useState("");
 
-  // Custom Cursor Tracker State
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Add cursor-none body override class on mount
-    document.body.classList.add("custom-cursor-body");
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
-
-      const target = e.target as HTMLElement | null;
-      if (target) {
-        const isInteractive =
-          target.closest("a") ||
-          target.closest("button") ||
-          target.closest('[role="button"]') ||
-          target.classList.contains("cursor-zoom-in") ||
-          target.classList.contains("cursor-zoom-out") ||
-          target.closest(".interactive-card") ||
-          target.tagName === "INPUT" ||
-          target.tagName === "SELECT" ||
-          target.tagName === "LABEL" ||
-          target.tagName === "TEXTAREA";
-        setIsHovering(!!isInteractive);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      document.body.classList.remove("custom-cursor-body");
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [isVisible]);
-
   useEffect(() => {
     const update = () => {
       setTime(
@@ -76,38 +32,20 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col min-h-screen bg-canvas text-text-primary overflow-x-hidden relative">
-      {/* Custom Follower Cursor */}
-      {isVisible && (
-        <div
-          className="hidden md:block pointer-events-none fixed z-[9999] rounded-full transition-all duration-75 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            left: cursorPos.x,
-            top: cursorPos.y,
-            width: isHovering ? "48px" : "24px",
-            height: isHovering ? "48px" : "24px",
-            backgroundColor: isHovering ? "rgba(94, 234, 212, 0.7)" : "rgba(94, 234, 212, 0.6)",
-            boxShadow: "0 0 0 1px rgba(0,0,0,0.4)",
-          }}
-        />
-      )}
-
+    <main className="flex flex-col min-h-screen bg-canvas text-text-primary overflow-x-hidden">
       <Header />
 
       {/* ── Hero ── */}
       <section
         id="hero"
-        className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 border-b border-border-dark/40 overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 border-b border-border-dark overflow-hidden bg-canvas"
       >
-        {/* Subtle background radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(176,142,79,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
-        
-        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto px-4">
-          <p className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-teal-accent font-bold mb-8">
-            👋 HI, I'M MICHAEL, SENIOR PRODUCT MANAGER
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto px-4">
+          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-primary font-medium mb-8">
+            👋 Hi, I&apos;m Michael, Senior Product Manager
           </p>
 
-          <div className="mb-10 rounded-full p-[3px] bg-teal-accent-dim border border-teal-accent/20 hover:border-teal-accent/50 transition-colors duration-500 shadow-2xl">
+          <div className="mb-10 rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
             <Image
               src="/profile.jpeg"
               alt="Michael Korenevsky"
@@ -118,33 +56,38 @@ export default function Home() {
             />
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extralight text-white tracking-tight mb-8 hidden">
-            Michael Korenevsky
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-tight tracking-tight max-w-3xl mb-8">
+            I spent a decade{" "}
+            <em className="not-italic text-primary">breaking</em>{" "}
+            enterprise software before I built it.
           </h1>
 
-          <p className="text-xl md:text-2xl lg:text-3.5xl font-sans font-light text-text-secondary leading-snug tracking-tight max-w-3xl mb-12">
-            I spent a decade breaking enterprise software before I built it. Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
+          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mb-12">
+            Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
           </p>
 
-          <div className="flex gap-8 mb-14">
+          <div className="flex gap-4 mb-14">
             <a
               href="#work"
-              className="text-teal-accent text-xs font-mono uppercase tracking-wider hover:text-white transition-colors border border-border-dark bg-surface px-5 py-2.5 rounded-sm hover:border-teal-accent/40"
+              className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
             >
               View Work
             </a>
             <a
               href="#contact"
-              className="text-teal-accent text-xs font-mono uppercase tracking-wider hover:text-white transition-colors border border-border-dark bg-surface px-5 py-2.5 rounded-sm hover:border-teal-accent/40"
+              className="text-white text-sm font-medium bg-primary px-6 py-2.5 rounded hover:bg-primary-bright transition-all"
             >
               Get in Touch
             </a>
           </div>
 
-          <div className="w-full max-w-md border-t border-border-dark/60 mb-8" />
+          <div className="w-full max-w-md border-t border-border-dark mb-8" />
 
           <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-text-muted">
-            Shipped to: <span className="text-text-primary font-semibold">Baker Hughes · Thales · Elos Medtech · Beehive</span>
+            Shipped to:{" "}
+            <span className="text-text-secondary font-semibold">
+              Baker Hughes · Thales · Elos Medtech · Beehive
+            </span>
           </p>
         </div>
       </section>
@@ -162,24 +105,24 @@ export default function Home() {
       <CareerTimeline />
 
       {/* ── About ── */}
-      <section id="about" className="px-6 md:px-12 py-32 border-t border-border-dark/40 bg-canvas">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-bold font-mono">About</span>
-            <h2 className="text-3xl md:text-5xl font-extralight text-white mt-2">
+      <section id="about" className="px-6 md:px-12 py-24 border-t border-border-dark bg-surface">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">About</span>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
               Background
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-16">
-            <div className="bg-surface border border-border-dark p-8 rounded-xl">
-              <h3 className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-teal-accent mb-4 font-bold font-mono">Education</h3>
-              <p className="text-lg font-light text-white">B.Sc. Mechanical Engineering</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-canvas border border-border-dark p-8 rounded">
+              <h3 className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium font-mono">Education</h3>
+              <p className="text-base font-semibold font-display text-text-primary">B.Sc. Mechanical Engineering</p>
               <p className="text-sm text-text-muted mt-1">
                 Ben-Gurion University of the Negev · 2008–2012
               </p>
             </div>
-            <div className="bg-surface border border-border-dark p-8 rounded-xl">
-              <h3 className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-teal-accent mb-4 font-bold font-mono">Languages</h3>
+            <div className="bg-canvas border border-border-dark p-8 rounded">
+              <h3 className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium font-mono">Languages</h3>
               <div className="space-y-3">
                 {[
                   ["Hebrew", "Native"],
@@ -187,7 +130,7 @@ export default function Home() {
                   ["Russian", "Fluent"],
                 ].map(([lang, level]) => (
                   <div key={lang} className="flex items-center justify-between border-b border-border-dark pb-2 last:border-0 last:pb-0">
-                    <span className="text-sm font-light text-text-secondary">{lang}</span>
+                    <span className="text-sm text-text-secondary">{lang}</span>
                     <span className="text-xs text-text-muted font-mono">{level}</span>
                   </div>
                 ))}
@@ -201,14 +144,14 @@ export default function Home() {
       <ContactSection />
 
       {/* ── Footer ── */}
-      <footer className="px-6 md:px-12 py-10 border-t border-border-dark bg-canvas">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase text-text-muted font-mono">
+      <footer className="px-6 md:px-12 py-8 border-t border-border-dark bg-canvas">
+        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase text-text-muted font-mono">
           <span>© 2026 Michael Korenevsky</span>
           <div className="flex items-center gap-4">
             {time && <span>ISR {time}</span>}
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-accent animate-pulse" />
-              Neural Link Active
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Available
             </span>
           </div>
         </div>

@@ -31,27 +31,27 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-canvas/90 backdrop-blur-md border-b border-border-dark" : ""
+        scrolled
+          ? "bg-canvas/90 backdrop-blur-md border-b border-border-dark shadow-sm"
+          : ""
       }`}
     >
       <div className="flex items-center justify-center px-6 md:px-12 py-5 relative max-w-7xl mx-auto">
-        {/* Desktop nav centered */}
         <nav className="hidden md:flex justify-center gap-10 text-text-secondary text-[11px] tracking-[0.25em] uppercase font-mono">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
               onClick={(e) => { e.preventDefault(); scrollTo(item.id); }}
-              className="hover:text-teal-accent transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        {/* Mobile toggle (centered or on right) */}
         <button
-          className="md:hidden text-text-secondary text-[11px] tracking-[0.25em] uppercase font-mono hover:text-teal-accent transition-colors"
+          className="md:hidden text-text-secondary text-[11px] tracking-[0.25em] uppercase font-mono hover:text-primary transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -59,7 +59,6 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden px-6 py-4 flex flex-col gap-4 bg-canvas/95 backdrop-blur-md border-b border-border-dark">
           {NAV_ITEMS.map((item) => (
@@ -67,7 +66,7 @@ export default function Header() {
               key={item.id}
               href={`#${item.id}`}
               onClick={(e) => { e.preventDefault(); scrollTo(item.id); setMenuOpen(false); }}
-              className="text-text-secondary text-xs tracking-[0.2em] uppercase font-mono hover:text-teal-accent transition-colors"
+              className="text-text-secondary text-xs tracking-[0.2em] uppercase font-mono hover:text-primary transition-colors"
             >
               {item.label}
             </a>

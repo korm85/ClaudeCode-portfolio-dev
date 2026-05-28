@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { Poppins, Hepta_Slab, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Roboto_Flex, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const heptaSlab = Hepta_Slab({
-  variable: "--font-display",
+const robotoFlex = Roboto_Flex({
+  variable: "--font-roboto-flex",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
@@ -32,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${heptaSlab.variable} ${jetBrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${robotoFlex.variable} ${jetBrainsMono.variable} h-full`}
     >
       <body className="min-h-full bg-canvas text-text-primary">
         {children}
