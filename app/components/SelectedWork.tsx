@@ -29,11 +29,17 @@ type Decision = string | {
   metric?: { value: string; context: string };
 };
 
+interface KpiStat {
+  value: string;
+  label: string;
+}
+
 interface WorkCardProps {
   eyebrow: string;
   roleTag: string;
   title: string;
   description: string;
+  kpis?: KpiStat[];
   decisions?: Decision[];
   image: string;
   imageAlt: string;
@@ -47,7 +53,7 @@ interface WorkCardProps {
 }
 
 function WorkCard({
-  eyebrow, roleTag, title, description, decisions, image, imageAlt,
+  eyebrow, roleTag, title, description, kpis, decisions, image, imageAlt,
   customerLine, ctaLabel, onCta, docs, quote, prdQuote,
 }: WorkCardProps) {
   const ref = useScrollReveal();
@@ -60,6 +66,22 @@ function WorkCard({
           {eyebrow}
         </span>
       </div>
+
+      {/* KPI strip — 3 headline numbers before the image */}
+      {kpis && kpis.length > 0 && (
+        <div className="grid grid-cols-3 gap-px bg-border-dark border border-border-dark rounded overflow-hidden mb-8">
+          {kpis.map((kpi, i) => (
+            <div key={i} className="bg-canvas px-5 py-4 flex flex-col gap-1">
+              <span className="text-3xl md:text-4xl font-bold font-display text-primary leading-none tracking-tight">
+                {kpi.value}
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted leading-snug">
+                {kpi.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* 16:9 image */}
       <div className="relative overflow-hidden rounded border border-border-dark mb-8 group">
@@ -158,7 +180,7 @@ function WorkCard({
         </div>
       </div>
 
-      {/* Decision tiles — full width 2-col grid on desktop */}
+      {/* Decision tiles — stat-burst layout: metric dominates, text is secondary */}
       {decisions && decisions.length > 0 && (
         <div className="border-t border-border-dark pt-8">
           <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-4">Key decisions</div>
@@ -170,8 +192,9 @@ function WorkCard({
               const label = typeof d !== "string" ? d.label : undefined;
               const metric = typeof d !== "string" ? d.metric : undefined;
               return (
-                <div key={i} className="border border-border-dark rounded-sm p-4 bg-canvas">
-                  <div className="flex items-center justify-between mb-2">
+                <div key={i} className="border border-border-dark rounded-sm p-5 bg-canvas flex flex-col gap-3">
+                  {/* Label row */}
+                  <div className="flex items-center justify-between">
                     {label && (
                       <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
                         {label}
@@ -188,13 +211,23 @@ function WorkCard({
                       </a>
                     )}
                   </div>
-                  <p className="text-xs text-text-secondary leading-relaxed">{text}</p>
+
+                  {/* Metric burst — dominant visual anchor */}
                   {metric && (
-                    <div className="mt-3 pt-3 border-t border-border-dark flex items-baseline gap-2">
-                      <span className="text-xl font-bold font-display text-primary">{metric.value}</span>
-                      <span className="text-[11px] text-text-muted leading-snug">{metric.context}</span>
+                    <div>
+                      <span className="text-4xl md:text-5xl font-bold font-display text-primary leading-none tracking-tight">
+                        {metric.value}
+                      </span>
+                      <p className="text-[11px] font-mono text-text-muted mt-1 uppercase tracking-[0.12em]">
+                        {metric.context}
+                      </p>
                     </div>
                   )}
+
+                  {/* Decision text — supporting detail below the number */}
+                  <p className="text-xs text-text-secondary leading-relaxed border-t border-border-dark pt-3">
+                    {text}
+                  </p>
                 </div>
               );
             })}
@@ -244,6 +277,11 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
             title="Took an AI monitoring tool from pilot to five enterprise contracts in five months"
             description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
+            kpis={[
+              { value: "98%", label: "Alert review time cut" },
+              { value: "5", label: "Enterprise clients · 5 mo" },
+              { value: "136h", label: "Saved / printer / yr" },
+            ]}
             decisions={[
               {
                 label: "Alert Design",
@@ -303,6 +341,11 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
             description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients hit 99%+ dimensional accuracy without running trial parts or waiting between stages."
+            kpis={[
+              { value: "99%+", label: "Dimensional accuracy" },
+              { value: "80%", label: "Fewer dimensional errors" },
+              { value: "<150µm", label: "Max deviation measured" },
+            ]}
             decisions={[
               {
                 label: "Module Architecture",
