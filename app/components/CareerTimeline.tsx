@@ -44,8 +44,8 @@ function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
           <div className="w-[5px] h-[5px] rounded-full bg-text-muted group-hover:bg-primary transition-colors" />
         </div>
       </div>
-      <div className="flex-1 pb-8 border-b border-border-dark last:border-0 last:pb-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+      <div className="flex-1 pb-12 border-b border-border-dark last:border-0 last:pb-0">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
           <span className="text-xs text-primary font-medium tracking-wider font-mono">{entry.years}</span>
           <span className="text-sm font-semibold font-display text-text-primary">{entry.company}</span>
           <span className="text-xs text-text-muted">·</span>

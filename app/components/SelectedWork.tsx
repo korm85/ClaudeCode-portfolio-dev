@@ -37,7 +37,6 @@ interface WorkCardProps {
   decisions?: Decision[];
   image: string;
   imageAlt: string;
-  metrics: { value: string; label: string }[];
   customerLine: string;
   ctaLabel: string;
   ctaSubtitle: string;
@@ -49,7 +48,7 @@ interface WorkCardProps {
 
 function WorkCard({
   eyebrow, roleTag, title, description, decisions, image, imageAlt,
-  metrics, customerLine, ctaLabel, onCta, docs, quote, prdQuote,
+  customerLine, ctaLabel, onCta, docs, quote, prdQuote,
 }: WorkCardProps) {
   const ref = useScrollReveal();
 
@@ -150,18 +149,6 @@ function WorkCard({
         </div>
 
         <div>
-          {/* Metrics */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            {metrics.map((m, i) => (
-              <div key={i} className="bg-canvas border border-border-dark rounded p-4 text-center">
-                <div className="text-2xl md:text-3xl font-bold font-display text-primary">{m.value}</div>
-                <div className="text-xs text-text-muted mt-1 max-w-[140px] mx-auto leading-snug">
-                  {m.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* Docs grouped by PM lifecycle category */}
           {(() => {
             const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
@@ -273,6 +260,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
                 text: "Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.",
                 docLabel: "Deployment Playbook",
                 docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
+                metric: { value: "136h", context: "saved per printer per year" },
               },
               {
                 label: "Pricing Model",
@@ -284,12 +272,6 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             ]}
             image="/amvero-product.png"
             imageAlt="AMVero AI monitoring dashboard"
-            metrics={[
-              { value: "98%", label: "Reduction in review time, driven by the condition-based filtering architecture I specified" },
-              { value: "18%", label: "Scrap cost reduction, by defining the alert logic that caught failures mid-run before material was lost" },
-              { value: "136h", label: "Saved per printer per year" },
-              { value: "5", label: "Enterprise clients in 5 months" },
-            ]}
             customerLine="Baker Hughes · Thales · Elos Medtech · 3D Systems · Beehive"
             prdQuote={{
               text: "Operators stop trusting the system and miss the alerts that actually matter. Solved with condition-based filtering across multiple layers.",
@@ -338,11 +320,6 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             ]}
             image="/simulation-knauf-fit.png"
             imageAlt="Predictive simulation structural fit validation"
-            metrics={[
-              { value: "80%", label: "Fewer dimensional errors, achieved once thermal and mechanical ran as a single coupled pass in the thermo-mechanical module" },
-              { value: "99%+", label: "Dimensional accuracy via predictive compensation" },
-              { value: "<150µm", label: "Maximum measured dimensional deviation" },
-            ]}
             customerLine="Knauf and tooling manufacturers across Europe"
             ctaLabel="Explore case study"
             ctaSubtitle="Overview, validation data, and customer stories"
