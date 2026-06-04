@@ -308,17 +308,17 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               },
               {
                 label: "Onboarding",
-                text: "Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.",
+                text: "Wrote the deployment playbook to turn a week-long IT coordination process (company IT, shopfloor operator, Oqton rep) into a self-service setup requiring minimal guidance. Regulated manufacturers went live without disrupting production.",
                 docLabel: "Deployment Playbook",
                 docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
-                metric: { value: "136h", context: "saved per printer per year", tag: "impact" },
+                metric: { value: "1 Day", context: "time-to-live (was 1 week)", tag: "outcome" },
               },
               {
                 label: "Pricing Model",
-                text: "Moved AMVero from flat per-seat to consumption-based credits, aligning costs with production volume. Built the ROI simulator to find the optimal rate.",
+                text: "Moved AMVero from flat per-seat to consumption-based credits. Small shops with low print volume pay only when printing; large enterprises avoid high upfront costs to get started. The 18% scrap reduction is the ROI that justified both models.",
                 docLabel: "ROI Optimizer",
                 docUrl: "/artifacts/roi-optimizer.html",
-                metric: { value: "18%", context: "scrap cost reduction for clients", tag: "impact" },
+                metric: { value: "18%", context: "scrap cost reduction — the ROI that made credits viable", tag: "impact" },
               },
             ]}
             image="/amvero-product.png"
@@ -351,11 +351,11 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
-            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients hit 99%+ dimensional accuracy without running trial parts or waiting between stages."
+            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients compensate for close to 100% of dimensional distortion without running trial parts or waiting between stages."
             kpis={[
-              { value: "99%+", label: "Dimensional accuracy" },
+              { value: "~100%", label: "Distortion compensated (Knauf)" },
               { value: "80%", label: "Fewer dimensional errors" },
-              { value: "<150µm", label: "Max deviation measured" },
+              { value: "<0.2mm", label: "Max deviation (Knauf)" },
             ]}
             decisions={[
               {
@@ -365,13 +365,13 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               },
               {
                 label: "Infrastructure Scope",
-                text: "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
-                metric: { value: "8h 15m", context: "to solve 6.7M elements on a standard workstation", tag: "outcome" },
+                text: "Validated on standard engineering workstations, not servers. Aerospace and defense clients operate in air-gapped, ITAR-compliant environments where cloud compute is not an option — local processing was a compliance requirement, not just a performance choice.",
+                metric: { value: "8h 15m", context: "full solve on local hardware — air-gapped, ITAR-compliant", tag: "outcome" },
               },
               {
                 label: "Beta Strategy",
                 text: "Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
-                metric: { value: "<150µm", context: "max measured dimensional deviation", tag: "impact" },
+                metric: { value: "<0.2mm", context: "max dimensional deviation — Knauf validation", tag: "outcome" },
               },
             ]}
             image="/simulation-knauf-fit.png"
