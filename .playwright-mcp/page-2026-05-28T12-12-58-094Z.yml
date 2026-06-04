@@ -1,0 +1,294 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e5]:
+      - link "Work" [ref=e6] [cursor=pointer]:
+        - /url: "#work"
+      - link "How I work" [ref=e7] [cursor=pointer]:
+        - /url: "#how-i-work"
+      - link "Career" [ref=e8] [cursor=pointer]:
+        - /url: "#career"
+      - link "About" [ref=e9] [cursor=pointer]:
+        - /url: "#about"
+      - link "Contact" [ref=e10] [cursor=pointer]:
+        - /url: "#contact"
+    - generic [ref=e12]:
+      - paragraph [ref=e13]: 👋 Hi, I'm Michael, Senior Product Manager
+      - img "Michael Korenevsky" [ref=e15]
+      - heading "I spent a decade breaking enterprise software before I built it." [level=1] [ref=e16]:
+        - text: I spent a decade
+        - emphasis [ref=e17]: breaking
+        - text: enterprise software before I built it.
+      - paragraph [ref=e18]: Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
+      - generic [ref=e19]:
+        - link "View Work" [ref=e20] [cursor=pointer]:
+          - /url: "#work"
+        - link "Get in Touch" [ref=e21] [cursor=pointer]:
+          - /url: "#contact"
+      - paragraph [ref=e23]: "Shipped to: Baker Hughes · Thales · Elos Medtech · Beehive"
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - text: Selected Work
+        - heading "Featured Products" [level=2] [ref=e27]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - generic [ref=e31]:
+              - img "AMVero AI monitoring dashboard" [ref=e32]
+              - paragraph [ref=e34]: Senior PM, AI Platform · Oqton · 2025–Present
+            - generic [ref=e35]:
+              - generic [ref=e36]: AI Platform
+              - heading "Took an AI monitoring tool from pilot to five enterprise contracts in five months" [level=3] [ref=e37]
+              - paragraph [ref=e38]: I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production.
+              - generic [ref=e39]:
+                - generic [ref=e40]:
+                  - generic [ref=e41]: 98%
+                  - generic [ref=e42]: Reduction in review time, driven by the condition-based filtering architecture I specified
+                - generic [ref=e43]:
+                  - generic [ref=e44]: 18%
+                  - generic [ref=e45]: Scrap cost reduction, by defining the alert logic that caught failures mid-run before material was lost
+                - generic [ref=e46]:
+                  - generic [ref=e47]: 136h
+                  - generic [ref=e48]: Saved per printer per year
+                - generic [ref=e49]:
+                  - generic [ref=e50]: "5"
+                  - generic [ref=e51]: Enterprise clients in 5 months
+              - generic [ref=e52]:
+                - generic [ref=e53]: Key decisions
+                - list [ref=e54]:
+                  - listitem [ref=e55]:
+                    - generic [ref=e56]: –
+                    - generic [ref=e57]:
+                      - text: Chose condition-based multi-layer filtering over severity thresholds; this design decision turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.
+                      - link "Alerts PRD ↗" [ref=e58] [cursor=pointer]:
+                        - /url: /artifacts/amvero-smart-alerting-prd.html
+                  - listitem [ref=e59]:
+                    - generic [ref=e60]: –
+                    - generic [ref=e61]: Defined on-premise as a product, not a cloud port, for aerospace and defense clients who required air-gapped environments.
+                  - listitem [ref=e62]:
+                    - generic [ref=e63]: –
+                    - generic [ref=e64]:
+                      - text: Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.
+                      - link "Deployment Playbook ↗" [ref=e65] [cursor=pointer]:
+                        - /url: /artifacts/amvero-enterprise-deployment-playbook.pdf
+                  - listitem [ref=e66]:
+                    - generic [ref=e67]: –
+                    - generic [ref=e68]:
+                      - text: Moved AMVero pricing from a flat per-seat model to a consumption-based credit system, aligning costs with customer production volume. Built the ROI simulator to find the optimal rate and show clients exactly where credits outperform legacy pricing.
+                      - link "ROI Optimizer ↗" [ref=e69] [cursor=pointer]:
+                        - /url: /artifacts/roi-optimizer.html
+              - paragraph [ref=e70]: "Customers: Baker Hughes · Thales · Elos Medtech · 3D Systems · Beehive"
+              - generic [ref=e71]:
+                - paragraph [ref=e72]: “Operators stop trusting the system and miss the alerts that actually matter. Solved with condition-based filtering across multiple layers.”
+                - link "Smart Alerting PRD ↗" [ref=e73] [cursor=pointer]:
+                  - /url: /artifacts/amvero-smart-alerting-prd.html
+              - button "Try interactive prototype" [ref=e75]
+          - generic [ref=e77]:
+            - generic [ref=e78]:
+              - generic [ref=e79]: Go-to-Market
+              - generic [ref=e80]:
+                - link "Go-to-Market Narrative · by Michael" [ref=e81] [cursor=pointer]:
+                  - /url: /artifacts/amvero-go-to-market-narrative.pdf
+                  - generic [ref=e82]:
+                    - text: Go-to-Market Narrative
+                    - generic [ref=e83]: · by Michael
+                  - img [ref=e84]
+                - link "Launch Announcement" [ref=e86] [cursor=pointer]:
+                  - /url: /artifacts/amvero-launch-announcement.html
+                  - generic [ref=e87]: Launch Announcement
+                  - img [ref=e88]
+            - generic [ref=e90]:
+              - generic [ref=e91]: Product & Pricing
+              - generic [ref=e92]:
+                - link "Alerts PRD" [ref=e93] [cursor=pointer]:
+                  - /url: /artifacts/amvero-smart-alerting-prd.html
+                  - generic [ref=e94]: Alerts PRD
+                  - img [ref=e95]
+                - link "ROI Optimizer" [ref=e97] [cursor=pointer]:
+                  - /url: /artifacts/roi-optimizer.html
+                  - generic [ref=e98]: ROI Optimizer
+                  - img [ref=e99]
+            - generic [ref=e101]:
+              - generic [ref=e102]: Customer Success
+              - generic [ref=e103]:
+                - link "Enterprise Deployment Playbook" [ref=e104] [cursor=pointer]:
+                  - /url: /artifacts/amvero-enterprise-deployment-playbook.pdf
+                  - generic [ref=e105]: Enterprise Deployment Playbook
+                  - img [ref=e106]
+                - link "End-to-End Traceability Record" [ref=e108] [cursor=pointer]:
+                  - /url: /artifacts/amvero-end-to-end-traceability-record.pdf
+                  - generic [ref=e109]: End-to-End Traceability Record
+                  - img [ref=e110]
+          - blockquote [ref=e113]:
+            - paragraph [ref=e114]: “We've seen a 98% reduction in engineering review time per build, allowing our team to focus on more critical tasks. This, combined with an 18% reduction in scrap costs, has delivered a powerful return on investment and significantly improved our operational efficiency.”
+            - generic [ref=e117]: Amar Patel · Digital Transformation Lead, Baker Hughes
+        - generic [ref=e118]:
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - generic [ref=e121]: Predictive Simulation
+              - heading "Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable" [level=3] [ref=e122]
+              - paragraph [ref=e123]: "I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients hit 99%+ dimensional accuracy without running trial parts or waiting between stages."
+              - generic [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: 80%
+                  - generic [ref=e127]: Fewer dimensional errors, achieved once thermal and mechanical ran as a single coupled pass in the thermo-mechanical module
+                - generic [ref=e128]:
+                  - generic [ref=e129]: 99%+
+                  - generic [ref=e130]: Dimensional accuracy via predictive compensation
+                - generic [ref=e131]:
+                  - generic [ref=e132]: <150µm
+                  - generic [ref=e133]: Maximum measured dimensional deviation
+              - generic [ref=e134]:
+                - generic [ref=e135]: Key decisions
+                - list [ref=e136]:
+                  - listitem [ref=e137]:
+                    - generic [ref=e138]: –
+                    - generic [ref=e139]: Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module, where both solvers run in a single coupled pass. That is the step that eliminated inter-stage wait times and made serial production with first-time-right accuracy viable.
+                  - listitem [ref=e140]:
+                    - generic [ref=e141]: –
+                    - generic [ref=e142]: Validated on standard engineering workstations, not servers; a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.
+                  - listitem [ref=e143]:
+                    - generic [ref=e144]: –
+                    - generic [ref=e145]: Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.
+              - paragraph [ref=e146]: "Customers: Knauf and tooling manufacturers across Europe"
+              - button "Explore case study" [ref=e148]
+            - generic [ref=e149]:
+              - img "Predictive simulation structural fit validation" [ref=e150]
+              - paragraph [ref=e152]: Product Manager, Simulation · Oqton · 2022–2025
+          - generic [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e156]: Validation
+              - link "Thermal Whitepaper" [ref=e158] [cursor=pointer]:
+                - /url: /artifacts/simulation-thermal-whitepaper.html
+                - generic [ref=e159]: Thermal Whitepaper
+                - img [ref=e160]
+            - generic [ref=e162]:
+              - generic [ref=e163]: Customers
+              - generic [ref=e164]:
+                - 'link "Customer Story: Tooling" [ref=e165] [cursor=pointer]':
+                  - /url: /artifacts/simulation-customer-story-tooling.html
+                  - generic [ref=e166]: "Customer Story: Tooling"
+                  - img [ref=e167]
+                - 'link "Customer Story: Large Parts" [ref=e169] [cursor=pointer]':
+                  - /url: /artifacts/simulation-customer-story-large-parts.html
+                  - generic [ref=e170]: "Customer Story: Large Parts"
+                  - img [ref=e171]
+          - blockquote [ref=e174]:
+            - paragraph [ref=e175]: “We have achieved a lightweight component we would have never imagined creating before this project. This application creates new sparks for more AM applications in the marine industry.”
+            - generic [ref=e178]: Francesco Trevisan · AM Expert, Wärtsilä
+    - generic [ref=e180]:
+      - generic [ref=e181]:
+        - text: How I Work
+        - heading "An AI-native PM practice" [level=2] [ref=e182]
+        - paragraph [ref=e183]: I run a multi-agent workspace that compresses the time from customer signal to shipped feature. Specialized AI tools handle discovery, spec drafting, prototyping, and competitive research in parallel.
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - img [ref=e186]
+          - heading "Discovery & specs" [level=3] [ref=e189]
+          - paragraph [ref=e190]: I pulled customer support data and Jira history into a single view before writing the AMVero alerting spec — and caught a threshold conflict that would have shipped an alert operators couldn't act on.
+        - generic [ref=e191]:
+          - img [ref=e192]
+          - heading "Prototyping" [level=3] [ref=e196]
+          - paragraph [ref=e197]: I built the AMVero alert flow as an interactive prototype before engineering started. Operators flagged the rule-creation UX in testing — we shipped a cleaner design in release 1 instead of fixing it in release 3.
+        - generic [ref=e198]:
+          - img [ref=e199]
+          - heading "Hermes PM agent" [level=3] [ref=e203]
+          - paragraph [ref=e204]: A custom AI agent monitors competitor product updates and pricing moves weekly. When a competitor claimed predictive defect detection, I had a verified technical rebuttal ready before the sales team asked for one.
+        - generic [ref=e205]:
+          - img [ref=e206]
+          - heading "Support intelligence" [level=3] [ref=e208]
+          - paragraph [ref=e209]: "Reading across hundreds of support tickets at once surfaced a pattern: operators weren't struggling with detection — they were struggling with alert fatigue. That finding repositioned the entire Smart Alerting roadmap."
+      - paragraph [ref=e210]: "The result: faster cycles from customer signal to validated prototype to shipped feature."
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - text: Career
+        - heading "10+ years in industrial B2B software" [level=2] [ref=e214]
+      - generic [ref=e217]:
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e224]: 2025–Present
+            - generic [ref=e225]: Oqton
+            - generic [ref=e226]: ·
+            - generic [ref=e227]: Senior PM, AI Platform
+          - paragraph [ref=e228]: "Launched AMVero to five enterprise customers in five months: authored the deployment playbook, designed the smart alerting system, and defined the on-premise product variant for regulated industries."
+        - generic [ref=e233]:
+          - generic [ref=e234]:
+            - generic [ref=e235]: 2022–2025
+            - generic [ref=e236]: Oqton
+            - generic [ref=e237]: ·
+            - generic [ref=e238]: Product Manager, Simulation
+          - paragraph [ref=e239]: Shipped the thermo-mechanical simulation module — coupled two previously separate solvers, validated on standard workstations, and ran a structured beta with Knauf that eliminated launch risk and delivered a credible customer story at release.
+        - generic [ref=e244]:
+          - generic [ref=e245]:
+            - generic [ref=e246]: 2017–2022
+            - generic [ref=e247]: 3D Systems
+            - generic [ref=e248]: ·
+            - generic [ref=e249]: QA Team Lead
+          - paragraph [ref=e250]: Built the QA function from scratch and led a team responsible for release certification on enterprise CAD/CAM software; the role where systematic defect thinking became the default.
+        - generic [ref=e255]:
+          - generic [ref=e256]:
+            - generic [ref=e257]: 2015–2017
+            - generic [ref=e258]: 3D Systems
+            - generic [ref=e259]: ·
+            - generic [ref=e260]: QA Engineer (Founding Team)
+          - paragraph [ref=e261]: "Wrote the first validation frameworks for a new generation of manufacturing tools: pre-release, no existing playbook, high failure cost if defects shipped."
+        - generic [ref=e266]:
+          - generic [ref=e267]:
+            - generic [ref=e268]: 2012–2015
+            - generic [ref=e269]: Cimatron
+            - generic [ref=e270]: ·
+            - generic [ref=e271]: QA Engineer
+          - paragraph [ref=e272]: Certified CAD/CAM software for tooling manufacturers across Europe and North America; learned to find the failure modes product teams hadn't imagined.
+      - paragraph [ref=e273]: "A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping."
+    - generic [ref=e275]:
+      - generic [ref=e276]:
+        - text: About
+        - heading "Background" [level=2] [ref=e277]
+      - generic [ref=e278]:
+        - generic [ref=e279]:
+          - heading "Education" [level=3] [ref=e280]
+          - paragraph [ref=e281]: B.Sc. Mechanical Engineering
+          - paragraph [ref=e282]: Ben-Gurion University of the Negev · 2008–2012
+        - generic [ref=e283]:
+          - heading "Languages" [level=3] [ref=e284]
+          - generic [ref=e285]:
+            - generic [ref=e286]:
+              - generic [ref=e287]: Hebrew
+              - generic [ref=e288]: Native
+            - generic [ref=e289]:
+              - generic [ref=e290]: English
+              - generic [ref=e291]: Professional
+            - generic [ref=e292]:
+              - generic [ref=e293]: Russian
+              - generic [ref=e294]: Fluent
+    - generic [ref=e295]:
+      - generic:
+        - heading "LET'S BUILD" [level=2]
+      - generic [ref=e296]:
+        - text: Contact
+        - heading "Let's solve for the edge cases." [level=2] [ref=e297]
+        - paragraph [ref=e298]: Based in Israel. Open to remote and hybrid roles.
+        - generic [ref=e299]:
+          - link "Email" [ref=e300] [cursor=pointer]:
+            - /url: mailto:korm85@gmail.com
+            - img [ref=e301]
+            - text: Email
+          - link "LinkedIn" [ref=e304] [cursor=pointer]:
+            - /url: https://linkedin.com/in/michael-korenevsky
+            - img [ref=e305]
+            - text: LinkedIn
+          - link "Resume" [ref=e309] [cursor=pointer]:
+            - /url: https://docs.google.com/document/d/1lbPupUpBwSxuhgy3deDYpYZzX8OKtBLz1HrCqE_aZUY/edit?usp=sharing
+            - img [ref=e310]
+            - text: Resume
+          - link "Portfolio PDF" [ref=e313] [cursor=pointer]:
+            - /url: https://drive.google.com/file/d/1rP3LCConPL7ruGlyzQSfeEeYnY42HJxd/view?usp=sharing
+            - img [ref=e314]
+            - text: Portfolio PDF
+    - generic [ref=e318]:
+      - generic [ref=e319]: © 2026 Michael Korenevsky
+      - generic [ref=e320]:
+        - generic [ref=e321]: ISR 15:12
+        - generic [ref=e322]: Available
+  - button "Open Next.js Dev Tools" [ref=e329] [cursor=pointer]:
+    - img [ref=e330]
+  - alert [ref=e333]
