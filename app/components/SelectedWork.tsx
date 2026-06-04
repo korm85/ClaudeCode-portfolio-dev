@@ -21,7 +21,13 @@ interface PrdQuote {
   linkUrl: string;
 }
 
-type Decision = string | { text: string; docLabel?: string; docUrl?: string };
+type Decision = string | {
+  text: string;
+  docLabel?: string;
+  docUrl?: string;
+  label?: string;
+  metric?: { value: string; context: string };
+};
 
 interface WorkCardProps {
   eyebrow: string;
@@ -76,33 +82,45 @@ function WorkCard({
           <h3 className="text-xl md:text-2xl font-semibold font-display text-text-primary leading-snug mb-4">{title}</h3>
           <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
           {decisions && decisions.length > 0 && (
-            <div className="mb-4">
-              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-2">Key decisions</div>
-              <ul className="space-y-1.5">
+            <div className="mb-6">
+              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-3">Key decisions</div>
+              <div className="space-y-3">
                 {decisions.map((d, i) => {
                   const text = typeof d === "string" ? d : d.text;
                   const docLabel = typeof d !== "string" ? d.docLabel : undefined;
                   const docUrl = typeof d !== "string" ? d.docUrl : undefined;
+                  const label = typeof d !== "string" ? d.label : undefined;
+                  const metric = typeof d !== "string" ? d.metric : undefined;
                   return (
-                    <li key={i} className="flex gap-2 text-xs text-text-secondary leading-relaxed">
-                      <span className="text-primary/50 mt-0.5 shrink-0">–</span>
-                      <span>
-                        {text}
+                    <div key={i} className="border border-border-dark rounded-sm p-4 bg-canvas">
+                      <div className="flex items-center justify-between mb-2">
+                        {label && (
+                          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
+                            {label}
+                          </span>
+                        )}
                         {docLabel && docUrl && (
                           <a
                             href={docUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="ml-2 text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1 py-0.5 whitespace-nowrap"
+                            className="text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1.5 py-0.5 whitespace-nowrap"
                           >
                             {docLabel} ↗
                           </a>
                         )}
-                      </span>
-                    </li>
+                      </div>
+                      <p className="text-xs text-text-secondary leading-relaxed">{text}</p>
+                      {metric && (
+                        <div className="mt-3 pt-3 border-t border-border-dark flex items-baseline gap-2">
+                          <span className="text-xl font-bold font-display text-primary">{metric.value}</span>
+                          <span className="text-[11px] text-text-muted leading-snug">{metric.context}</span>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
-              </ul>
+              </div>
             </div>
           )}
           <p className="text-xs text-text-muted mb-4">
@@ -239,20 +257,29 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
             decisions={[
               {
-                text: "Chose condition-based multi-layer filtering over severity thresholds; this design decision turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
+                label: "Alert Design",
+                text: "Chose condition-based multi-layer filtering over severity thresholds — turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
                 docLabel: "Alerts PRD",
                 docUrl: "/artifacts/amvero-smart-alerting-prd.html",
+                metric: { value: "98%", context: "reduction in operator review time" },
               },
-              "Defined on-premise as a product, not a cloud port, for aerospace and defense clients who required air-gapped environments.",
               {
+                label: "Deployment Model",
+                text: "Defined on-premise as a product, not a cloud port, for aerospace and defense clients who required air-gapped environments.",
+                metric: { value: "5", context: "enterprise clients in 5 months" },
+              },
+              {
+                label: "Onboarding",
                 text: "Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.",
                 docLabel: "Deployment Playbook",
                 docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
               },
               {
-                text: "Moved AMVero pricing from a flat per-seat model to a consumption-based credit system, aligning costs with customer production volume. Built the ROI simulator to find the optimal rate and show clients exactly where credits outperform legacy pricing.",
+                label: "Pricing Model",
+                text: "Moved AMVero from flat per-seat to consumption-based credits, aligning costs with production volume. Built the ROI simulator to find the optimal rate.",
                 docLabel: "ROI Optimizer",
                 docUrl: "/artifacts/roi-optimizer.html",
+                metric: { value: "18%", context: "scrap cost reduction for clients" },
               },
             ]}
             image="/amvero-product.png"
@@ -293,9 +320,21 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
             description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients hit 99%+ dimensional accuracy without running trial parts or waiting between stages."
             decisions={[
-              "Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module, where both solvers run in a single coupled pass. That is the step that eliminated inter-stage wait times and made serial production with first-time-right accuracy viable.",
-              "Validated on standard engineering workstations, not servers; a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
-              "Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
+              {
+                label: "Module Architecture",
+                text: "Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module — both solvers in a single coupled pass. That step eliminated inter-stage wait times and made first-time-right serial production viable.",
+                metric: { value: "80%", context: "fewer dimensional errors" },
+              },
+              {
+                label: "Infrastructure Scope",
+                text: "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
+                metric: { value: "99%+", context: "dimensional accuracy" },
+              },
+              {
+                label: "Beta Strategy",
+                text: "Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
+                metric: { value: "<150µm", context: "max measured dimensional deviation" },
+              },
             ]}
             image="/simulation-knauf-fit.png"
             imageAlt="Predictive simulation structural fit validation"
