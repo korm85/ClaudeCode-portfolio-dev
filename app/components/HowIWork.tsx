@@ -3,23 +3,23 @@
 const CARDS = [
   {
     area: "Discovery",
-    outcome: "Identified thermo-mechanical simulation as the next competitive frontier — before competitors shipped",
-    body: "Using OpenCLAW and market signals, I tracked competing AM simulation products starting to build thermo-mechanical capability. I made the call to prioritize it before the market caught up — building it as a unified solver rather than a bolt-on. The result: we led the AM simulation market instead of responding to it.",
+    outcome: "Identified thermo-mechanical simulation as the next market requirement before competitors shipped it",
+    body: "Using OpenCLAW and market signals, I tracked competing AM simulation products starting to build thermo-mechanical capability. I prioritized it early, scoped it as a unified solver rather than a bolt-on, and shipped before the market consolidated. We led rather than followed.",
   },
   {
     area: "Prototyping",
     outcome: "Got operator sign-off on the AMVero alert UX before a single engineering ticket was written",
-    body: "I prototyped the AMVero alert rule-creation flow as a working interactive prototype and put it in front of operators before writing a single requirement. Operators flagged that the rule-creation flow was too abstract — they couldn't connect the conditions to real machine behavior. That feedback drove a UX redesign at prototype stage, not after release. Requirements only went to engineering after operators had validated the core interaction.",
+    body: "I prototyped the AMVero alert rule-creation flow and put it in front of operators before writing any requirements. Operators flagged that the conditions were too abstract to connect to real machine behavior. That feedback drove a UX redesign at prototype stage. Requirements only went to engineering after operators had validated the interaction.",
   },
   {
     area: "User Feedback",
-    outcome: "Turned unstructured operator feedback into a prioritized roadmap shift — before a single sprint was planned",
-    body: "Synthesizing hundreds of support tickets and field notes in one pass revealed that operators weren't struggling with detection accuracy — they were overwhelmed by alerts they couldn't interpret or act on. That pattern, surfaced in hours instead of months, redirected the entire Smart Alerting v26.2 roadmap. Without AI synthesis, the same signal would have arrived after engineering was already committed.",
+    outcome: "Operator feedback shifted the entire Smart Alerting roadmap before sprint planning started",
+    body: "Reading across hundreds of support tickets in one pass showed that operators were not struggling with detection accuracy. They were overwhelmed by alerts they could not act on. That pattern redirected the v26.2 roadmap. The same signal from customer calls would have arrived after engineering was already committed.",
   },
   {
     area: "Market Intelligence",
-    outcome: "Delivered a verified competitive rebuttal before the sales team asked for one",
-    body: "A custom agent monitors competitor product updates and pricing moves weekly. When a competitor claimed predictive defect detection, I had a verified technical breakdown ready before anyone in sales had flagged it. Proactive, not reactive — which is the only position that's actually useful to the business.",
+    outcome: "Had a verified competitive rebuttal ready before sales flagged the threat",
+    body: "A custom agent tracks competitor product updates and pricing changes weekly. When a competitor claimed predictive defect detection, I had a technical breakdown of why the claim was unverified ready before anyone in sales raised it. That is the only position that is useful to the business.",
   },
 ];
 
@@ -33,7 +33,7 @@ export default function HowIWork() {
             Where AI changes what&apos;s possible
           </h2>
           <p className="text-base text-text-secondary max-w-2xl leading-relaxed">
-            AI doesn&apos;t change what I do as a PM — it changes what&apos;s possible to know before a decision, and how much signal I can act on before engineering commits.
+            AI does not change what I do as a PM. It changes what I can know before a decision, and how early I can act on a signal before engineering commits.
           </p>
         </div>
 
