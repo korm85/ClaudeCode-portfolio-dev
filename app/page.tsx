@@ -38,84 +38,95 @@ export default function Home() {
       {/* ── Hero ── */}
       <section
         id="hero"
-        className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 border-b border-border-dark overflow-hidden bg-canvas"
+        className="relative min-h-screen flex items-center px-6 md:px-12 py-24 border-b border-border-dark overflow-hidden bg-canvas"
       >
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto px-4">
-          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-primary font-medium mb-5">
-            👋 Hi, I&apos;m Michael, Senior Product Manager
-          </p>
+        <div className="max-w-5xl mx-auto w-full">
+          {/* Desktop: two-column. Mobile: stacked. */}
+          <div className="flex flex-col md:flex-row md:items-center md:gap-16 gap-10">
 
-          <div className="mb-7 rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
-            <Image
-              src="/profile.jpeg"
-              alt="Michael Korenevsky"
-              width={220}
-              height={220}
-              priority
-              className="h-44 w-44 md:h-52 md:w-52 rounded-full object-cover object-top p-0.5"
-            />
-          </div>
+            {/* Left col — text */}
+            <div className="flex-1 flex flex-col items-start">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6">
+                👋 Hi, I&apos;m Michael, Senior Product Manager
+              </p>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-tight tracking-tight max-w-3xl mb-5">
-            I spent a decade{" "}
-            <em className="not-italic text-primary">breaking</em>{" "}
-            enterprise software before I built it.
-          </h1>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-text-primary leading-tight tracking-tight mb-6">
+                I spent a decade{" "}
+                <em className="not-italic text-primary">breaking</em>{" "}
+                enterprise software before I built it.
+              </h1>
 
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mb-7">
-            Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
-          </p>
+              <p className="text-base md:text-lg text-text-secondary leading-relaxed mb-8 max-w-lg">
+                Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
+              </p>
 
-          {/* Credential tags */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {["10+ yrs Industrial B2B", "Enterprise · Regulated Industries", "Israel · Open to Remote"].map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted border border-border-dark rounded px-3 py-1.5 bg-surface"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex gap-4 mb-10">
-            <a
-              href="#work"
-              className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
-            >
-              View Work
-            </a>
-            <a
-              href="#contact"
-              className="text-white text-sm font-medium bg-primary px-6 py-2.5 rounded hover:bg-primary-bright transition-all"
-            >
-              Get in Touch
-            </a>
-          </div>
-
-          {/* Client chips with industry context */}
-          <div className="w-full max-w-xl">
-            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3">
-              Shipped to
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {[
-                { name: "Baker Hughes", industry: "Energy" },
-                { name: "Thales", industry: "Defense" },
-                { name: "Elos Medtech", industry: "Medical Devices" },
-                { name: "Beehive", industry: "Manufacturing" },
-              ].map(({ name, industry }) => (
-                <div
-                  key={name}
-                  className="flex items-center gap-2 border border-border-dark rounded px-3 py-2 bg-surface"
-                >
-                  <span className="text-xs font-semibold text-text-primary font-display">{name}</span>
-                  <span className="text-[9px] font-mono uppercase tracking-wider text-primary/60 border-l border-border-dark pl-2">
-                    {industry}
+              {/* Credential tags */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {["10+ yrs Industrial B2B", "Enterprise · Regulated Industries", "Israel · Open to Remote"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted border border-border-dark rounded px-3 py-1.5 bg-surface"
+                  >
+                    {tag}
                   </span>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <div className="flex gap-4">
+                <a
+                  href="#work"
+                  className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
+                >
+                  View Work
+                </a>
+                <a
+                  href="#contact"
+                  className="text-white text-sm font-medium bg-primary px-6 py-2.5 rounded hover:bg-primary-bright transition-all"
+                >
+                  Get in Touch
+                </a>
+              </div>
             </div>
+
+            {/* Right col — photo + client chips */}
+            <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0">
+              <div className="rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
+                <Image
+                  src="/profile.jpeg"
+                  alt="Michael Korenevsky"
+                  width={260}
+                  height={260}
+                  priority
+                  className="h-52 w-52 md:h-64 md:w-64 rounded-full object-cover object-top p-0.5"
+                />
+              </div>
+
+              {/* Client chips */}
+              <div className="w-full">
+                <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3 text-center md:text-right">
+                  Shipped to
+                </p>
+                <div className="flex flex-wrap justify-center md:justify-end gap-2">
+                  {[
+                    { name: "Baker Hughes", industry: "Energy" },
+                    { name: "Thales", industry: "Defense" },
+                    { name: "Elos Medtech", industry: "Medical Devices" },
+                    { name: "Beehive", industry: "Manufacturing" },
+                  ].map(({ name, industry }) => (
+                    <div
+                      key={name}
+                      className="flex items-center gap-2 border border-border-dark rounded px-3 py-2 bg-surface"
+                    >
+                      <span className="text-xs font-semibold text-text-primary font-display">{name}</span>
+                      <span className="text-[9px] font-mono uppercase tracking-wider text-primary/60 border-l border-border-dark pl-2">
+                        {industry}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
