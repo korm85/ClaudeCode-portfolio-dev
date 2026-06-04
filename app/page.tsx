@@ -89,7 +89,7 @@ export default function Home() {
             </div>
 
             {/* Right col — photo + client chips */}
-            <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0">
+            <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0 md:self-start md:pt-2">
               <div className="rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
                 <Image
                   src="/profile.jpeg"
@@ -97,7 +97,7 @@ export default function Home() {
                   width={260}
                   height={260}
                   priority
-                  className="h-52 w-52 md:h-64 md:w-64 rounded-full object-cover object-top p-0.5"
+                  className="h-52 w-52 md:h-64 md:w-64 rounded-full object-cover object-[center_15%] p-0.5"
                 />
               </div>
 
