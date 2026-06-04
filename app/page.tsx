@@ -41,11 +41,11 @@ export default function Home() {
         className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 border-b border-border-dark overflow-hidden bg-canvas"
       >
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto px-4">
-          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-primary font-medium mb-8">
+          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-primary font-medium mb-5">
             👋 Hi, I&apos;m Michael, Senior Product Manager
           </p>
 
-          <div className="mb-10 rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
+          <div className="mb-7 rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
             <Image
               src="/profile.jpeg"
               alt="Michael Korenevsky"
@@ -56,17 +56,29 @@ export default function Home() {
             />
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-tight tracking-tight max-w-3xl mb-8">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-tight tracking-tight max-w-3xl mb-5">
             I spent a decade{" "}
             <em className="not-italic text-primary">breaking</em>{" "}
             enterprise software before I built it.
           </h1>
 
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mb-12">
+          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mb-7">
             Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
           </p>
 
-          <div className="flex gap-4 mb-14">
+          {/* Credential tags */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {["10+ yrs Industrial B2B", "Enterprise · Regulated Industries", "Israel · Open to Remote"].map((tag) => (
+              <span
+                key={tag}
+                className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted border border-border-dark rounded px-3 py-1.5 bg-surface"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex gap-4 mb-10">
             <a
               href="#work"
               className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
@@ -81,14 +93,30 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="w-full max-w-md border-t border-border-dark mb-8" />
-
-          <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-text-muted">
-            Shipped to:{" "}
-            <span className="text-text-secondary font-semibold">
-              Baker Hughes · Thales · Elos Medtech · Beehive
-            </span>
-          </p>
+          {/* Client chips with industry context */}
+          <div className="w-full max-w-xl">
+            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3">
+              Shipped to
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {[
+                { name: "Baker Hughes", industry: "Energy" },
+                { name: "Thales", industry: "Defense" },
+                { name: "Elos Medtech", industry: "Medical Devices" },
+                { name: "Beehive", industry: "Manufacturing" },
+              ].map(({ name, industry }) => (
+                <div
+                  key={name}
+                  className="flex items-center gap-2 border border-border-dark rounded px-3 py-2 bg-surface"
+                >
+                  <span className="text-xs font-semibold text-text-primary font-display">{name}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-primary/60 border-l border-border-dark pl-2">
+                    {industry}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
