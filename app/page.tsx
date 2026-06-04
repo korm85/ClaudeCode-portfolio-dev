@@ -38,7 +38,7 @@ export default function Home() {
       {/* ── Hero ── */}
       <section
         id="hero"
-        className="relative min-h-screen flex items-center px-6 md:px-12 py-24 border-b border-border-dark overflow-hidden bg-canvas"
+        className="relative flex items-center px-6 md:px-12 py-20 md:py-28 border-b border-border-dark overflow-hidden bg-canvas"
       >
         <div className="max-w-5xl mx-auto w-full">
           {/* Desktop: two-column. Mobile: stacked. */}
@@ -88,8 +88,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right col — photo + client chips */}
-            <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0 md:self-start md:pt-2">
+            {/* Right col — photo + client chips. On mobile appears above text via order-first */}
+            <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0 md:self-start md:pt-2 order-first md:order-last">
               <div className="rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
                 <Image
                   src="/profile.jpeg"

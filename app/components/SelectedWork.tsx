@@ -278,7 +278,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
         <div className="mb-16">
           <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Selected Work</span>
           <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
-            Featured Products
+            Two products I owned. Documented decisions. Verified outcomes.
           </h2>
         </div>
 
