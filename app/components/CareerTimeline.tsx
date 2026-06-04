@@ -7,31 +7,48 @@ const TIMELINE = [
     years: "2025–Present",
     company: "Oqton",
     role: "Senior PM, AI Platform",
-    line: "Launched AMVero to five enterprise customers in five months: authored the deployment playbook, designed the smart alerting system, and defined the on-premise product variant for regulated industries.",
+    achievements: [
+      "Launched AMVero to 5 enterprise clients in 5 months",
+      "Designed condition-based alert system — cut operator review time by 98%",
+      "Defined on-premise product variant for aerospace and defense clients",
+    ],
   },
   {
     years: "2022–2025",
     company: "Oqton",
     role: "Product Manager, Simulation",
-    line: "Shipped the thermo-mechanical simulation module — coupled two previously separate solvers, validated on standard workstations, and ran a structured beta with Knauf that eliminated launch risk and delivered a credible customer story at release.",
+    achievements: [
+      "Shipped thermo-mechanical module — coupled two solvers, eliminated inter-stage wait times",
+      "Validated on standard workstations, expanding the addressable market beyond dedicated compute",
+      "Structured beta with Knauf reduced launch risk and produced a credible customer story at release",
+    ],
   },
   {
     years: "2017–2022",
     company: "3D Systems",
     role: "QA Team Lead",
-    line: "Built the QA function from scratch and led a team responsible for release certification on enterprise CAD/CAM software; the role where systematic defect thinking became the default.",
+    achievements: [
+      "Built the QA function from scratch; led release certification for enterprise CAD/CAM software",
+      "Developed defect classification frameworks still used after the team scaled",
+    ],
   },
   {
     years: "2015–2017",
     company: "3D Systems",
     role: "QA Engineer (Founding Team)",
-    line: "Wrote the first validation frameworks for a new generation of manufacturing tools: pre-release, no existing playbook, high failure cost if defects shipped.",
+    achievements: [
+      "Wrote the first validation frameworks for a new generation of manufacturing tools",
+      "Pre-release environment, no existing playbook — high failure cost if defects shipped",
+    ],
   },
   {
     years: "2012–2015",
     company: "Cimatron",
     role: "QA Engineer",
-    line: "Certified CAD/CAM software for tooling manufacturers across Europe and North America; learned to find the failure modes product teams hadn't imagined.",
+    achievements: [
+      "Certified CAD/CAM software for tooling manufacturers across Europe and North America",
+      "Developed instinct for failure modes product teams hadn't considered",
+    ],
   },
 ];
 
@@ -51,7 +68,14 @@ function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
           <span className="text-xs text-text-muted">·</span>
           <span className="text-sm text-text-secondary">{entry.role}</span>
         </div>
-        <p className="text-sm text-text-muted leading-relaxed">{entry.line}</p>
+        <ul className="space-y-2">
+          {entry.achievements.map((a, i) => (
+            <li key={i} className="flex gap-2.5 text-sm text-text-muted leading-snug">
+              <span className="text-primary/40 mt-[3px] shrink-0">—</span>
+              <span>{a}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
