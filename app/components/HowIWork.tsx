@@ -3,8 +3,8 @@
 const CARDS = [
   {
     area: "Discovery",
-    outcome: "Found the market gap that shaped the Simulation roadmap before any customer asked for it",
-    body: "I use OpenCLAW to track what PMs in adjacent industries are solving — not to copy, but to see what problems are becoming table stakes. A pattern in industrial simulation pointed to ITAR-compliant air-gapped deployment as the next barrier for regulated aerospace customers. That signal informed the on-premise architecture decision months before it appeared in any sales call.",
+    outcome: "Identified thermo-mechanical simulation as the next competitive frontier — before competitors shipped",
+    body: "Using OpenCLAW and market signals, I tracked competing AM simulation products starting to build thermo-mechanical capability. I made the call to prioritize it before the market caught up — building it as a unified solver rather than a bolt-on. The result: we led the AM simulation market instead of responding to it.",
   },
   {
     area: "Prototyping",
