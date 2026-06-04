@@ -361,12 +361,12 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               {
                 label: "Module Architecture",
                 text: "Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module — both solvers in a single coupled pass. That step eliminated inter-stage wait times and made first-time-right serial production viable.",
-                metric: { value: "80%", context: "fewer dimensional errors", tag: "outcome" },
+                metric: { value: "80%", context: "fewer dimensional deviations vs. uncompensated", tag: "outcome" },
               },
               {
                 label: "Infrastructure Scope",
                 text: "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
-                metric: { value: "99%+", context: "dimensional accuracy", tag: "impact" },
+                metric: { value: "8h 15m", context: "to solve 6.7M elements on a standard workstation", tag: "outcome" },
               },
               {
                 label: "Beta Strategy",
