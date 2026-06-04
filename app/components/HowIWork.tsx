@@ -7,9 +7,9 @@ const CARDS = [
     body: "I use OpenCLAW to track what PMs in adjacent industries are solving — not to copy, but to see what problems are becoming table stakes. A pattern in industrial simulation pointed to ITAR-compliant air-gapped deployment as the next barrier for regulated aerospace customers. That signal informed the on-premise architecture decision months before it appeared in any sales call.",
   },
   {
-    area: "Knowledge Synthesis",
-    outcome: "Made roadmap decisions grounded in years of product history, not the loudest recent voice",
-    body: "Connecting current decisions to institutional knowledge — prior PRDs, past support escalations, earlier customer interviews — is the hardest part of PM at scale. I maintain a structured knowledge base and use AI to surface relevant precedents before writing specs. When a new alert design decision came up for AMVero, 18 months of prior engineering tradeoffs were in context in minutes, not weeks of archaeology.",
+    area: "Prototyping",
+    outcome: "Got operator sign-off on the AMVero alert UX before a single engineering ticket was written",
+    body: "I prototyped the AMVero alert rule-creation flow as a working interactive prototype and put it in front of operators before writing a single requirement. Operators flagged that the rule-creation flow was too abstract — they couldn't connect the conditions to real machine behavior. That feedback drove a UX redesign at prototype stage, not after release. Requirements only went to engineering after operators had validated the core interaction.",
   },
   {
     area: "User Feedback",
