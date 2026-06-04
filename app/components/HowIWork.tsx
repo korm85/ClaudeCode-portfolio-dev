@@ -17,9 +17,9 @@ const CARDS = [
     body: "Synthesizing hundreds of support tickets and field notes in one pass revealed that operators weren't struggling with detection accuracy — they were overwhelmed by alerts they couldn't interpret or act on. That pattern, surfaced in hours instead of months, redirected the entire Smart Alerting v26.2 roadmap. Without AI synthesis, the same signal would have arrived after engineering was already committed.",
   },
   {
-    area: "Decision Quality",
-    outcome: "Spec'd a deployment model that opened a market segment — by pressure-testing it before a single eng ticket",
-    body: "Before writing the AMVero on-premise deployment spec, I used AI to model the failure modes: IT coordination, compliance gaps, operator self-sufficiency. The pressure-test caught a week-long IT handoff process that would have killed enterprise adoption. The rewrite — from IT-assisted to self-service — happened at the spec stage, not after the first customer deployment failed.",
+    area: "Market Intelligence",
+    outcome: "Delivered a verified competitive rebuttal before the sales team asked for one",
+    body: "A custom agent monitors competitor product updates and pricing moves weekly. When a competitor claimed predictive defect detection, I had a verified technical breakdown ready before anyone in sales had flagged it. Proactive, not reactive — which is the only position that's actually useful to the business.",
   },
 ];
 
