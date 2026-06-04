@@ -26,7 +26,7 @@ type Decision = string | {
   docLabel?: string;
   docUrl?: string;
   label?: string;
-  metric?: { value: string; context: string };
+  metric?: { value: string; context: string; tag?: "outcome" | "impact" };
 };
 
 interface KpiStat {
@@ -215,9 +215,20 @@ function WorkCard({
                   {/* Metric burst — dominant visual anchor */}
                   {metric && (
                     <div>
-                      <span className="text-4xl md:text-5xl font-bold font-display text-primary leading-none tracking-tight">
-                        {metric.value}
-                      </span>
+                      {metric.tag && (
+                        <span className={`text-[8px] font-mono uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm mb-2 inline-block ${
+                          metric.tag === "outcome"
+                            ? "bg-primary/10 text-primary/70"
+                            : "bg-text-muted/10 text-text-muted"
+                        }`}>
+                          {metric.tag === "outcome" ? "Decision outcome" : "Product impact"}
+                        </span>
+                      )}
+                      <div>
+                        <span className="text-4xl md:text-5xl font-bold font-display text-primary leading-none tracking-tight">
+                          {metric.value}
+                        </span>
+                      </div>
                       <p className="text-[11px] font-mono text-text-muted mt-1 uppercase tracking-[0.12em]">
                         {metric.context}
                       </p>
@@ -288,26 +299,26 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
                 text: "Chose condition-based multi-layer filtering over severity thresholds — turned AMVero from a noise source into a trusted monitoring tool operators actually relied on.",
                 docLabel: "Alerts PRD",
                 docUrl: "/artifacts/amvero-smart-alerting-prd.html",
-                metric: { value: "98%", context: "reduction in operator review time" },
+                metric: { value: "98%", context: "reduction in operator review time", tag: "outcome" },
               },
               {
                 label: "Deployment Model",
                 text: "Defined on-premise as a product, not a cloud port, for aerospace and defense clients who required air-gapped environments.",
-                metric: { value: "5", context: "enterprise clients in 5 months" },
+                metric: { value: "5", context: "enterprise clients in 5 months", tag: "impact" },
               },
               {
                 label: "Onboarding",
                 text: "Wrote the deployment playbook to compress enterprise onboarding so regulated manufacturers could go live without disrupting production.",
                 docLabel: "Deployment Playbook",
                 docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
-                metric: { value: "136h", context: "saved per printer per year" },
+                metric: { value: "136h", context: "saved per printer per year", tag: "impact" },
               },
               {
                 label: "Pricing Model",
                 text: "Moved AMVero from flat per-seat to consumption-based credits, aligning costs with production volume. Built the ROI simulator to find the optimal rate.",
                 docLabel: "ROI Optimizer",
                 docUrl: "/artifacts/roi-optimizer.html",
-                metric: { value: "18%", context: "scrap cost reduction for clients" },
+                metric: { value: "18%", context: "scrap cost reduction for clients", tag: "impact" },
               },
             ]}
             image="/amvero-product.png"
@@ -350,17 +361,17 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               {
                 label: "Module Architecture",
                 text: "Shipped Thermal and Mechanical as separate modules, then unified them into the Thermo-mechanical module — both solvers in a single coupled pass. That step eliminated inter-stage wait times and made first-time-right serial production viable.",
-                metric: { value: "80%", context: "fewer dimensional errors" },
+                metric: { value: "80%", context: "fewer dimensional errors", tag: "outcome" },
               },
               {
                 label: "Infrastructure Scope",
                 text: "Validated on standard engineering workstations, not servers — a deliberate scope decision that expanded the addressable market to any manufacturer running 3DXpert, not just those with dedicated compute infrastructure.",
-                metric: { value: "99%+", context: "dimensional accuracy" },
+                metric: { value: "99%+", context: "dimensional accuracy", tag: "impact" },
               },
               {
                 label: "Beta Strategy",
                 text: "Ran a structured beta with Knauf to validate against real production components before release, reducing launch risk and generating a credible customer story at launch.",
-                metric: { value: "<150µm", context: "max measured dimensional deviation" },
+                metric: { value: "<150µm", context: "max measured dimensional deviation", tag: "impact" },
               },
             ]}
             image="/simulation-knauf-fit.png"
