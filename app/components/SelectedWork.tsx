@@ -75,53 +75,11 @@ function WorkCard({
         </div>
       </div>
 
-      {/* Two-col content */}
-      <div className="grid md:grid-cols-2 gap-8">
+      {/* Top row: title+description (left) | docs (right) */}
+      <div className="grid md:grid-cols-2 gap-8 mb-8">
         <div>
           <h3 className="text-xl md:text-2xl font-semibold font-display text-text-primary leading-snug mb-4">{title}</h3>
           <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
-          {decisions && decisions.length > 0 && (
-            <div className="mb-6">
-              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-3">Key decisions</div>
-              <div className="space-y-3">
-                {decisions.map((d, i) => {
-                  const text = typeof d === "string" ? d : d.text;
-                  const docLabel = typeof d !== "string" ? d.docLabel : undefined;
-                  const docUrl = typeof d !== "string" ? d.docUrl : undefined;
-                  const label = typeof d !== "string" ? d.label : undefined;
-                  const metric = typeof d !== "string" ? d.metric : undefined;
-                  return (
-                    <div key={i} className="border border-border-dark rounded-sm p-4 bg-canvas">
-                      <div className="flex items-center justify-between mb-2">
-                        {label && (
-                          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
-                            {label}
-                          </span>
-                        )}
-                        {docLabel && docUrl && (
-                          <a
-                            href={docUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1.5 py-0.5 whitespace-nowrap"
-                          >
-                            {docLabel} ↗
-                          </a>
-                        )}
-                      </div>
-                      <p className="text-xs text-text-secondary leading-relaxed">{text}</p>
-                      {metric && (
-                        <div className="mt-3 pt-3 border-t border-border-dark flex items-baseline gap-2">
-                          <span className="text-xl font-bold font-display text-primary">{metric.value}</span>
-                          <span className="text-[11px] text-text-muted leading-snug">{metric.context}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
           <p className="text-xs text-text-muted mb-4">
             <span className="text-text-secondary">Customers:</span> {customerLine}
           </p>
@@ -199,6 +157,50 @@ function WorkCard({
           })()}
         </div>
       </div>
+
+      {/* Decision tiles — full width 2-col grid on desktop */}
+      {decisions && decisions.length > 0 && (
+        <div className="border-t border-border-dark pt-8">
+          <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-4">Key decisions</div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {decisions.map((d, i) => {
+              const text = typeof d === "string" ? d : d.text;
+              const docLabel = typeof d !== "string" ? d.docLabel : undefined;
+              const docUrl = typeof d !== "string" ? d.docUrl : undefined;
+              const label = typeof d !== "string" ? d.label : undefined;
+              const metric = typeof d !== "string" ? d.metric : undefined;
+              return (
+                <div key={i} className="border border-border-dark rounded-sm p-4 bg-canvas">
+                  <div className="flex items-center justify-between mb-2">
+                    {label && (
+                      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
+                        {label}
+                      </span>
+                    )}
+                    {docLabel && docUrl && (
+                      <a
+                        href={docUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1.5 py-0.5 whitespace-nowrap"
+                      >
+                        {docLabel} ↗
+                      </a>
+                    )}
+                  </div>
+                  <p className="text-xs text-text-secondary leading-relaxed">{text}</p>
+                  {metric && (
+                    <div className="mt-3 pt-3 border-t border-border-dark flex items-baseline gap-2">
+                      <span className="text-xl font-bold font-display text-primary">{metric.value}</span>
+                      <span className="text-[11px] text-text-muted leading-snug">{metric.context}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Customer quote */}
       {quote && (
