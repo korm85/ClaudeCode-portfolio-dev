@@ -365,7 +365,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               },
               {
                 label: "Infrastructure Scope",
-                text: "Validated on standard engineering workstations, not servers. Aerospace and defense clients operate in air-gapped, ITAR-compliant environments where cloud compute is not an option — local processing was a compliance requirement, not just a performance choice.",
+                text: "Scoped validation to standard engineering workstations — not because it was easy, but because aerospace and defense clients operate in air-gapped, ITAR-compliant environments where cloud compute is not an option. Engineering made local execution feasible; I made the product decision to target it as the delivery platform, which turned that capability into an addressable market.",
                 metric: { value: "8h 15m", context: "full solve on local hardware — air-gapped, ITAR-compliant", tag: "outcome" },
               },
               {

@@ -2,24 +2,24 @@
 
 const CARDS = [
   {
-    area: "Customer Insight",
-    outcome: "Repositioned the Smart Alerting roadmap before a single sprint was planned",
-    body: "Reading across hundreds of support tickets at once surfaced the real problem: operators weren't struggling with detection — they were drowning in alerts they couldn't act on. That finding changed the entire direction of the roadmap. Without AI synthesis, the same pattern would have emerged from customer calls months later, after engineering was already committed.",
+    area: "Discovery",
+    outcome: "Found the market gap that shaped the Simulation roadmap before any customer asked for it",
+    body: "I use OpenCLAW to track what PMs in adjacent industries are solving — not to copy, but to see what problems are becoming table stakes. A pattern in industrial simulation pointed to ITAR-compliant air-gapped deployment as the next barrier for regulated aerospace customers. That signal informed the on-premise architecture decision months before it appeared in any sales call.",
   },
   {
-    area: "Spec Quality",
-    outcome: "Caught a threshold conflict in the alerting spec before engineering touched it",
-    body: "I pulled support data and Jira history into a single view before writing the AMVero alerting spec. A condition-based filtering conflict surfaced that would have shipped an alert operators couldn't act on. Caught at spec stage. That's the difference between a quiet fix in design review and a noisy rollback after release.",
+    area: "Knowledge Synthesis",
+    outcome: "Made roadmap decisions grounded in years of product history, not the loudest recent voice",
+    body: "Connecting current decisions to institutional knowledge — prior PRDs, past support escalations, earlier customer interviews — is the hardest part of PM at scale. I maintain a structured knowledge base and use AI to surface relevant precedents before writing specs. When a new alert design decision came up for AMVero, 18 months of prior engineering tradeoffs were in context in minutes, not weeks of archaeology.",
   },
   {
-    area: "Validation Speed",
-    outcome: "Validated the alert UX in days — operators flagged the flow before engineering started",
-    body: "I built the AMVero alert rule-creation flow as an interactive prototype before a single engineering ticket was written. Operators flagged the rule-creation UX in testing. We shipped a cleaner design in release 1 instead of patching it in release 3. The prototype cost two days. The fix it prevented would have cost two sprints.",
+    area: "User Feedback",
+    outcome: "Turned unstructured operator feedback into a prioritized roadmap shift — before a single sprint was planned",
+    body: "Synthesizing hundreds of support tickets and field notes in one pass revealed that operators weren't struggling with detection accuracy — they were overwhelmed by alerts they couldn't interpret or act on. That pattern, surfaced in hours instead of months, redirected the entire Smart Alerting v26.2 roadmap. Without AI synthesis, the same signal would have arrived after engineering was already committed.",
   },
   {
-    area: "Market Intelligence",
-    outcome: "Delivered a verified competitive rebuttal before the sales team asked for one",
-    body: "A custom agent monitors competitor product updates and pricing moves weekly. When a competitor claimed predictive defect detection, I had a verified technical breakdown ready before anyone in sales had flagged it. Proactive, not reactive — which is the only position that's actually useful to the business.",
+    area: "Decision Quality",
+    outcome: "Spec'd a deployment model that opened a market segment — by pressure-testing it before a single eng ticket",
+    body: "Before writing the AMVero on-premise deployment spec, I used AI to model the failure modes: IT coordination, compliance gaps, operator self-sufficiency. The pressure-test caught a week-long IT handoff process that would have killed enterprise adoption. The rewrite — from IT-assisted to self-service — happened at the spec stage, not after the first customer deployment failed.",
   },
 ];
 
@@ -33,7 +33,7 @@ export default function HowIWork() {
             Where AI changes what&apos;s possible
           </h2>
           <p className="text-base text-text-secondary max-w-2xl leading-relaxed">
-            AI doesn&apos;t make me a different PM. It makes me a faster one — catching signals earlier, validating before engineering commits, and arriving at decisions that would otherwise take months of customer calls.
+            AI doesn&apos;t change what I do as a PM — it changes what&apos;s possible to know before a decision, and how much signal I can act on before engineering commits.
           </p>
         </div>
 
