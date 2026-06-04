@@ -8,9 +8,8 @@ const TIMELINE = [
     company: "Oqton",
     role: "Senior PM, AI Platform",
     achievements: [
-      "Launched AMVero to 5 enterprise clients in 5 months",
-      "Designed condition-based alert system — cut operator review time by 98%",
-      "Defined on-premise product variant for aerospace and defense clients",
+      "Full ownership of AMVero from first enterprise pilot to commercial product",
+      "0-to-1 AI product in regulated industries — the role where a decade of testing instincts and PM accountability merged",
     ],
   },
   {
@@ -18,9 +17,8 @@ const TIMELINE = [
     company: "Oqton",
     role: "Product Manager, Simulation",
     achievements: [
-      "Shipped thermo-mechanical module — coupled two solvers, eliminated inter-stage wait times",
-      "Validated on standard workstations, expanding the addressable market beyond dedicated compute",
-      "Structured beta with Knauf reduced launch risk and produced a credible customer story at release",
+      "First PM role; owned a 3-year multi-module simulation build from roadmap to customer validation",
+      "Moved from testing how software behaves to deciding what it should do — same questions, different seat",
     ],
   },
   {
@@ -28,8 +26,8 @@ const TIMELINE = [
     company: "3D Systems",
     role: "QA Team Lead",
     achievements: [
-      "Built the QA function from scratch; led release certification for enterprise CAD/CAM software",
-      "Developed defect classification frameworks still used after the team scaled",
+      "Hired and structured the QA team; each engineer owned a product domain, not a test file",
+      "Set the operating principle: test for production scenarios, not for QA's sake — every defect had to matter to a real user before it was worth filing",
     ],
   },
   {
@@ -37,8 +35,9 @@ const TIMELINE = [
     company: "3D Systems",
     role: "QA Engineer (Founding Team)",
     achievements: [
-      "Wrote the first validation frameworks for a new generation of manufacturing tools",
-      "Pre-release environment, no existing playbook — high failure cost if defects shipped",
+      "First QA engineer on 3DXpert, an all-in-one design-to-manufacturing product in a domain I had to learn from scratch",
+      "Designed the first automated test suite; every test case traced back to a real manufacturing workflow, not coverage numbers",
+      "Worked directly with PM and engineering to verify the software did what users actually intended — the earliest version of the product thinking I'd later do as PM",
     ],
   },
   {
@@ -46,8 +45,8 @@ const TIMELINE = [
     company: "Cimatron",
     role: "QA Engineer",
     achievements: [
-      "Certified CAD/CAM software for tooling manufacturers across Europe and North America",
-      "Developed instinct for failure modes product teams hadn't considered",
+      "Junior QA on CAD/CAM tools for tooling manufacturers",
+      "Learned to test systematically in a domain where defects had real production costs",
     ],
   },
 ];
@@ -102,7 +101,7 @@ export default function CareerTimeline() {
         </div>
 
         <p className="text-sm text-text-muted mt-12 italic border-l-2 border-primary/30 pl-4">
-          A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping.
+          A decade of QA before PM means I approach product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, validate before shipping.
         </p>
       </div>
     </section>
