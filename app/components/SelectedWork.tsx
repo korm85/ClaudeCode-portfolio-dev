@@ -87,13 +87,13 @@ function WorkCard({
       <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
 
       {kpis && kpis.length > 0 && (
-        <div className="grid grid-cols-3 gap-px bg-border-dark border border-border-dark rounded overflow-hidden">
+        <div className="flex flex-col gap-2">
           {kpis.map((kpi, i) => (
-            <div key={i} className="bg-canvas px-4 py-3 flex flex-col gap-1">
-              <span className="text-2xl md:text-3xl font-bold font-display text-primary leading-none tracking-tight">
+            <div key={i} className="flex items-baseline gap-3">
+              <span className="text-2xl font-bold font-display text-primary leading-none tracking-tight shrink-0">
                 {kpi.value}
               </span>
-              <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-text-muted leading-snug">
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted leading-snug">
                 {kpi.label}
               </span>
             </div>
@@ -121,24 +121,28 @@ function WorkCard({
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-col gap-3">
         <button
           onClick={onCta}
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
+          className="self-start inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
         >
           {ctaLabel}
         </button>
-        {docs.map((doc, i) => (
-          <a
-            key={i}
-            href={doc.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[11px] text-text-muted hover:text-primary transition-colors underline underline-offset-2"
-          >
-            {doc.name}
-          </a>
-        ))}
+        {docs.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {docs.map((doc, i) => (
+              <a
+                key={i}
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-[10px] font-mono text-text-secondary hover:text-primary border border-border-dark hover:border-primary/30 rounded px-2 py-1 bg-canvas hover:bg-primary-dim transition-all"
+              >
+                {doc.name} ↗
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
