@@ -8,7 +8,7 @@ const TIMELINE = [
     company: "Oqton",
     role: "Senior PM, AI Platform",
     headline: "Took an AI monitoring product from internal pilot to five enterprise contracts in five months.",
-    detail: "First 0-to-1 AI product I owned end-to-end. The decade of QA before this role meant I knew exactly what would break in production before engineering built it — that judgment cut validation cycles and accelerated deployment.",
+    detail: "Full ownership of an AI monitoring product from pilot to commercial deployment. The decade of QA before this role meant I knew exactly what would break in production before engineering built it — that judgment cut validation cycles and accelerated deployment.",
   },
   {
     years: "2022–2025",
