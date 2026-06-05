@@ -55,7 +55,7 @@ export default function Home() {
               </h1>
 
               <p className="text-base md:text-lg text-text-secondary leading-relaxed mb-8 max-w-lg">
-                Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
+                I focus on the decisions between a capable system and one people actually rely on.
               </p>
 
               {/* Credential tags */}
