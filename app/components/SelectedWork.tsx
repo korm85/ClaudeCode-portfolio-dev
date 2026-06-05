@@ -43,6 +43,7 @@ interface WorkCardProps {
   decisions?: Decision[];
   image: string;
   imageAlt: string;
+  imagePosition?: "left" | "right";
   customerLine: string;
   ctaLabel: string;
   ctaSubtitle: string;
@@ -54,28 +55,45 @@ interface WorkCardProps {
 
 function WorkCard({
   eyebrow, roleTag, title, description, kpis, decisions, image, imageAlt,
-  customerLine, ctaLabel, onCta, docs, quote, prdQuote,
+  imagePosition = "left", customerLine, ctaLabel, onCta, docs, quote, prdQuote,
 }: WorkCardProps) {
   const ref = useScrollReveal();
 
-  return (
-    <div ref={ref} className="relative bg-surface border border-border-dark rounded p-8 md:p-10">
-      {/* Eyebrow */}
-      <div className="mb-4">
-        <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium font-mono">
-          {eyebrow}
-        </span>
+  const imageCol = (
+    <div className="relative overflow-hidden rounded border border-border-dark group md:self-stretch">
+      <img
+        src={image}
+        alt={imageAlt}
+        className="w-full h-full object-cover min-h-[220px] md:min-h-0 transition-transform duration-500 group-hover:scale-[1.02]"
+      />
+      <div className="absolute bottom-3 left-3">
+        <p className="text-xs text-text-secondary bg-surface/80 backdrop-blur-sm px-2 py-1 rounded border border-border-dark">
+          {roleTag}
+        </p>
       </div>
+    </div>
+  );
 
-      {/* KPI strip — 3 headline numbers before the image */}
+  const textCol = (
+    <div className="flex flex-col justify-center gap-5">
+      <span className="text-[12px] tracking-[0.4em] uppercase text-primary font-medium font-mono">
+        {eyebrow}
+      </span>
+
+      <h3 className="text-xl md:text-2xl font-semibold font-display text-text-primary leading-snug">
+        {title}
+      </h3>
+
+      <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
+
       {kpis && kpis.length > 0 && (
-        <div className="grid grid-cols-3 gap-px bg-border-dark border border-border-dark rounded overflow-hidden mb-8">
+        <div className="grid grid-cols-3 gap-px bg-border-dark border border-border-dark rounded overflow-hidden">
           {kpis.map((kpi, i) => (
-            <div key={i} className="bg-canvas px-5 py-4 flex flex-col gap-1">
-              <span className="text-3xl md:text-4xl font-bold font-display text-primary leading-none tracking-tight">
+            <div key={i} className="bg-canvas px-4 py-3 flex flex-col gap-1">
+              <span className="text-2xl md:text-3xl font-bold font-display text-primary leading-none tracking-tight">
                 {kpi.value}
               </span>
-              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-text-muted leading-snug">
+              <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-text-muted leading-snug">
                 {kpi.label}
               </span>
             </div>
@@ -83,66 +101,62 @@ function WorkCard({
         </div>
       )}
 
-      {/* 16:9 image */}
-      <div className="relative overflow-hidden rounded border border-border-dark mb-8 group">
-        <img
-          src={image}
-          alt={imageAlt}
-          className="w-full aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-        />
-        <div className="absolute bottom-3 left-3">
-          <p className="text-xs text-text-secondary bg-surface/80 backdrop-blur-sm px-2 py-1 rounded border border-border-dark">
-            {roleTag}
+      <p className="text-xs text-text-muted">
+        <span className="text-text-secondary">Customers:</span> {customerLine}
+      </p>
+
+      {prdQuote && (
+        <div className="border-l-2 border-primary/30 bg-primary-dim rounded-r px-3 py-2">
+          <p className="text-xs italic text-text-secondary leading-relaxed">
+            &ldquo;{prdQuote.text}&rdquo;
           </p>
+          <a
+            href={prdQuote.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[9px] font-mono uppercase tracking-widest text-primary/60 hover:text-primary transition-colors mt-1 inline-block"
+          >
+            {prdQuote.linkLabel} ↗
+          </a>
         </div>
+      )}
+
+      <button
+        onClick={onCta}
+        className="self-start inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
+      >
+        {ctaLabel}
+      </button>
+    </div>
+  );
+
+  return (
+    <div ref={ref} className="relative bg-surface border border-border-dark rounded overflow-hidden">
+      {/* 60/40 image + text — image alternates sides on desktop */}
+      <div className={`grid md:grid-cols-[3fr_2fr] gap-0 ${imagePosition === "right" ? "md:[&>*:first-child]:order-2" : ""}`}>
+        <div className="md:max-h-[480px]">{imageCol}</div>
+        <div className="p-8 md:p-10">{textCol}</div>
       </div>
 
-      {/* Top row: title+description (left) | docs (right) */}
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
-        <div>
-          <h3 className="text-xl md:text-2xl font-semibold font-display text-text-primary leading-snug mb-4">{title}</h3>
-          <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
-          <p className="text-xs text-text-muted mb-4">
-            <span className="text-text-secondary">Customers:</span> {customerLine}
-          </p>
-          {prdQuote && (
-            <div className="border-l-2 border-primary/30 bg-primary-dim rounded-r px-3 py-2 mb-4">
-              <p className="text-xs italic text-text-secondary leading-relaxed">
-                &ldquo;{prdQuote.text}&rdquo;
-              </p>
-              <a
-                href={prdQuote.linkUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[9px] font-mono uppercase tracking-widest text-primary/60 hover:text-primary transition-colors mt-1 inline-block"
-              >
-                {prdQuote.linkLabel} ↗
-              </a>
-            </div>
-          )}
-          <button
-            onClick={onCta}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
-          >
-            {ctaLabel}
-          </button>
-        </div>
+      {/* Detail section: docs + decisions + quote */}
+      <div className="border-t border-border-dark p-8 md:p-10 space-y-10 bg-canvas">
 
-        <div>
-          {/* Docs grouped by PM lifecycle category */}
-          {(() => {
-            const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
-              (acc, doc) => {
-                const cat = doc.category ?? "";
-                const existing = acc.find((g) => g.label === cat);
-                if (existing) existing.items.push(doc);
-                else acc.push({ label: cat, items: [doc] });
-                return acc;
-              },
-              []
-            );
-            const categorised = groups.some((g) => g.label !== "");
-            return (
+        {/* Docs */}
+        {docs.length > 0 && (() => {
+          const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
+            (acc, doc) => {
+              const cat = doc.category ?? "";
+              const existing = acc.find((g) => g.label === cat);
+              if (existing) existing.items.push(doc);
+              else acc.push({ label: cat, items: [doc] });
+              return acc;
+            },
+            []
+          );
+          const categorised = groups.some((g) => g.label !== "");
+          return (
+            <div>
+              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-3">Work artifacts</div>
               <div className={categorised ? "space-y-4" : ""}>
                 {groups.map((group, gi) => (
                   <div key={gi}>
@@ -151,14 +165,14 @@ function WorkCard({
                         {group.label}
                       </div>
                     )}
-                    <div className={`grid gap-2 ${group.items.length >= 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+                    <div className={`grid gap-2 ${group.items.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
                       {group.items.map((doc, i) => (
                         <a
                           key={i}
                           href={doc.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-start justify-between gap-1 text-xs text-text-secondary hover:text-primary transition-colors border border-border-dark hover:border-primary/30 rounded px-3 py-2 bg-canvas hover:bg-primary-dim"
+                          className="flex items-start justify-between gap-1 text-xs text-text-secondary hover:text-primary transition-colors border border-border-dark hover:border-primary/30 rounded px-3 py-2 bg-surface hover:bg-primary-dim"
                         >
                           <span className="leading-snug">
                             {doc.name}
@@ -175,80 +189,75 @@ function WorkCard({
                   </div>
                 ))}
               </div>
-            );
-          })()}
-        </div>
-      </div>
+            </div>
+          );
+        })()}
 
-      {/* Decision tiles — stat-burst layout: metric dominates, text is secondary */}
-      {decisions && decisions.length > 0 && (
-        <div className="border-t border-border-dark pt-8">
-          <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-4">Key decisions</div>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {decisions.map((d, i) => {
-              const text = typeof d === "string" ? d : d.text;
-              const docLabel = typeof d !== "string" ? d.docLabel : undefined;
-              const docUrl = typeof d !== "string" ? d.docUrl : undefined;
-              const label = typeof d !== "string" ? d.label : undefined;
-              const metric = typeof d !== "string" ? d.metric : undefined;
-              return (
-                <div key={i} className="border border-border-dark rounded-sm p-5 bg-canvas flex flex-col gap-3">
-                  {/* Label row */}
-                  <div className="flex items-center justify-between">
-                    {label && (
-                      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
-                        {label}
-                      </span>
-                    )}
-                    {docLabel && docUrl && (
-                      <a
-                        href={docUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1.5 py-0.5 whitespace-nowrap"
-                      >
-                        {docLabel} ↗
-                      </a>
-                    )}
-                  </div>
-
-                  {/* Metric burst — dominant visual anchor */}
-                  {metric && (
-                    <div>
-                      {metric.tag && (
-                        <span className={`text-[8px] font-mono uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm mb-2 inline-block ${
-                          metric.tag === "outcome"
-                            ? "bg-primary/10 text-primary/70"
-                            : "bg-text-muted/10 text-text-muted"
-                        }`}>
-                          {metric.tag === "outcome" ? "Decision outcome" : "Product impact"}
+        {/* Decision tiles */}
+        {decisions && decisions.length > 0 && (
+          <div>
+            <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-4">Key decisions</div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {decisions.map((d, i) => {
+                const text = typeof d === "string" ? d : d.text;
+                const docLabel = typeof d !== "string" ? d.docLabel : undefined;
+                const docUrl = typeof d !== "string" ? d.docUrl : undefined;
+                const label = typeof d !== "string" ? d.label : undefined;
+                const metric = typeof d !== "string" ? d.metric : undefined;
+                return (
+                  <div key={i} className="border border-border-dark rounded-sm p-5 bg-surface flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      {label && (
+                        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary/70">
+                          {label}
                         </span>
                       )}
-                      <div>
-                        <span className="text-4xl md:text-5xl font-bold font-display text-primary leading-none tracking-tight">
-                          {metric.value}
-                        </span>
-                      </div>
-                      <p className="text-[11px] font-mono text-text-muted mt-1 uppercase tracking-[0.12em]">
-                        {metric.context}
-                      </p>
+                      {docLabel && docUrl && (
+                        <a
+                          href={docUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[9px] font-mono tracking-wider text-primary/60 hover:text-primary transition-colors border border-primary/20 hover:border-primary/50 rounded px-1.5 py-0.5 whitespace-nowrap"
+                        >
+                          {docLabel} ↗
+                        </a>
+                      )}
                     </div>
-                  )}
 
-                  {/* Decision text — supporting detail below the number */}
-                  <p className="text-xs text-text-secondary leading-relaxed border-t border-border-dark pt-3">
-                    {text}
-                  </p>
-                </div>
-              );
-            })}
+                    {metric && (
+                      <div>
+                        {metric.tag && (
+                          <span className={`text-[8px] font-mono uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm mb-2 inline-block ${
+                            metric.tag === "outcome"
+                              ? "bg-primary/10 text-primary/70"
+                              : "bg-text-muted/10 text-text-muted"
+                          }`}>
+                            {metric.tag === "outcome" ? "Decision outcome" : "Product impact"}
+                          </span>
+                        )}
+                        <div>
+                          <span className="text-4xl md:text-5xl font-bold font-display text-primary leading-none tracking-tight">
+                            {metric.value}
+                          </span>
+                        </div>
+                        <p className="text-[11px] font-mono text-text-muted mt-1 uppercase tracking-[0.12em]">
+                          {metric.context}
+                        </p>
+                      </div>
+                    )}
+
+                    <p className="text-xs text-text-secondary leading-relaxed border-t border-border-dark pt-3">
+                      {text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Customer quote */}
-      {quote && (
-        <div className="mt-10 border-t border-border-dark pt-8">
+        {/* Customer quote */}
+        {quote && (
           <blockquote className="border-l-2 border-primary/40 pl-5">
             <p className="text-sm text-text-secondary leading-relaxed italic">
               &ldquo;{quote.text}&rdquo;
@@ -260,8 +269,8 @@ function WorkCard({
               </span>
             </footer>
           </blockquote>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
@@ -284,6 +293,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
 
         <div className="space-y-12">
           <WorkCard
+            imagePosition="left"
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
             title="Took an AI monitoring tool from pilot to five enterprise contracts in five months"
@@ -348,6 +358,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
           />
 
           <WorkCard
+            imagePosition="right"
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"

@@ -52,7 +52,14 @@ export default function Header() {
         </nav>
 
         {/* Right side controls */}
-        <div className="absolute right-6 md:right-12 flex items-center gap-3">
+        <div className="absolute right-6 md:right-12 flex items-center gap-4">
+          <a
+            href="/resume.pdf"
+            download
+            className="hidden md:block text-[10px] font-mono uppercase tracking-[0.2em] text-text-secondary hover:text-primary transition-colors duration-300"
+          >
+            CV
+          </a>
           <a
             href="https://www.linkedin.com/in/michael-korenevsky/"
             target="_blank"
