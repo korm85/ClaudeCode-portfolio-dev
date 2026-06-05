@@ -7,74 +7,68 @@ const TIMELINE = [
     years: "2025–Present",
     company: "Oqton",
     role: "Senior PM, AI Platform",
-    achievements: [
-      "Full ownership of AMVero from first enterprise pilot to commercial product",
-      "0-to-1 AI product in regulated industries — the role where a decade of testing instincts and PM accountability merged",
-    ],
+    headline: "Took an AI monitoring product from internal pilot to five enterprise contracts in five months.",
+    detail: "First 0-to-1 AI product I owned end-to-end. The decade of QA before this role meant I knew exactly what would break in production before engineering built it — that judgment cut validation cycles and accelerated deployment.",
   },
   {
     years: "2022–2025",
     company: "Oqton",
     role: "Product Manager, Simulation",
-    achievements: [
-      "First PM role; owned a 3-year multi-module simulation build from roadmap to customer validation",
-      "Moved from testing how software behaves to deciding what it should do — same questions, different seat",
-    ],
+    headline: "Owned a 3-year multi-module simulation build from initial roadmap to validated customer outcomes.",
+    detail: "Shipped three modules, culminating in a thermo-mechanical solver that compensated for close to 100% of dimensional distortion on first attempt. Same questions as QA — what will fail, for whom — but now I decided what to build, not just whether it worked.",
   },
   {
     years: "2017–2022",
     company: "3D Systems",
     role: "QA Team Lead",
-    achievements: [
-      "Hired and structured the QA team; each engineer owned a product domain, not a test file",
-      "Set the operating principle: test for production scenarios, not for QA's sake — every defect had to matter to a real user before it was worth filing",
-    ],
+    headline: "Built and structured the QA team; each engineer owned a product domain, not a test file.",
+    detail: "Set the operating standard: every defect had to trace to a real user scenario before it was worth filing. That principle — verify against production reality, not internal definitions — carried directly into the product decisions I make now.",
   },
   {
     years: "2015–2017",
     company: "3D Systems",
-    role: "QA Engineer (Founding Team)",
-    achievements: [
-      "First QA engineer on 3DXpert, an all-in-one design-to-manufacturing product in a domain I had to learn from scratch",
-      "Designed the first automated test suite; every test case traced back to a real manufacturing workflow, not coverage numbers",
-      "Worked directly with PM and engineering to verify the software did what users actually intended — the earliest version of the product thinking I'd later do as PM",
-    ],
+    role: "QA Engineer · Founding Team",
+    headline: "First QA engineer on an all-in-one design-to-manufacturing product — designed the test suite from scratch.",
+    detail: "Worked directly with PM and engineering to verify software did what users actually intended. The earliest version of the product thinking I would later do as PM.",
   },
   {
     years: "2012–2015",
     company: "Cimatron",
     role: "QA Engineer",
-    achievements: [
-      "Junior QA on CAD/CAM tools for tooling manufacturers",
-      "Learned to test systematically in a domain where defects had real production costs",
-    ],
+    headline: "Started in CAD/CAM software for tooling manufacturers — where software failure had direct production costs.",
+    detail: "Learned to test systematically in a domain with zero tolerance for ambiguity. The foundation for everything that followed.",
   },
 ];
 
-function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
+function TimelineEntry({ entry, isLast }: { entry: (typeof TIMELINE)[0]; isLast: boolean }) {
   const ref = useScrollReveal("left");
   return (
-    <div ref={ref} className="flex gap-6 md:gap-10 group">
-      <div className="hidden md:flex flex-col items-center pt-2">
-        <div className="w-[14px] h-[14px] rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300 flex items-center justify-center">
-          <div className="w-[5px] h-[5px] rounded-full bg-text-muted group-hover:bg-primary transition-colors" />
-        </div>
+    <div ref={ref} className={`flex gap-8 md:gap-12 group ${!isLast ? "pb-16" : ""}`}>
+      {/* Timeline dot + line */}
+      <div className="hidden md:flex flex-col items-center pt-1.5 shrink-0">
+        <div className="w-3 h-3 rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300" />
+        {!isLast && <div className="w-px flex-1 bg-border-dark mt-3" />}
       </div>
-      <div className="flex-1 pb-12 border-b border-border-dark last:border-0 last:pb-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
-          <span className="text-xs text-primary font-medium tracking-wider font-mono">{entry.years}</span>
-          <span className="text-sm font-semibold font-display text-text-primary">{entry.company}</span>
-          <span className="text-xs text-text-muted">·</span>
+
+      {/* Content */}
+      <div className="flex-1">
+        {/* Meta row */}
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+          <span className="text-[11px] font-mono tracking-[0.2em] text-primary uppercase">{entry.years}</span>
+          <span className="text-base font-semibold font-display text-text-primary">{entry.company}</span>
+          <span className="text-text-muted text-sm">·</span>
           <span className="text-sm text-text-secondary">{entry.role}</span>
         </div>
-        <ul className="space-y-2">
-          {entry.achievements.map((a, i) => (
-            <li key={i} className="flex gap-2.5 text-sm text-text-muted leading-snug">
-              <span className="text-primary/40 mt-[3px] shrink-0">—</span>
-              <span>{a}</span>
-            </li>
-          ))}
-        </ul>
+
+        {/* Impact headline */}
+        <p className="text-base md:text-lg font-semibold font-display text-text-primary leading-snug mb-3">
+          {entry.headline}
+        </p>
+
+        {/* Supporting narrative */}
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
+          {entry.detail}
+        </p>
       </div>
     </div>
   );
@@ -87,22 +81,19 @@ export default function CareerTimeline() {
         <div className="mb-16">
           <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Career</span>
           <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
-            10+ years in industrial B2B software
+            A decade of breaking enterprise software before building it.
           </h2>
+          <p className="text-base text-text-secondary mt-3 max-w-2xl leading-relaxed">
+            Ten years in QA across industrial software — not as a detour, but as the foundation. Every product decision I make is shaped by having seen what fails in production before it ships.
+          </p>
         </div>
 
         <div className="relative">
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-border-dark hidden md:block" />
-          <div className="space-y-0">
-            {TIMELINE.map((entry, i) => (
-              <TimelineEntry key={i} entry={entry} />
-            ))}
-          </div>
+          <div className="absolute left-[5px] top-2 bottom-0 w-px bg-border-dark hidden md:block" />
+          {TIMELINE.map((entry, i) => (
+            <TimelineEntry key={i} entry={entry} isLast={i === TIMELINE.length - 1} />
+          ))}
         </div>
-
-        <p className="text-sm text-text-muted mt-12 italic border-l-2 border-primary/30 pl-4">
-          A decade of QA before PM means I approach product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, validate before shipping.
-        </p>
       </div>
     </section>
   );
