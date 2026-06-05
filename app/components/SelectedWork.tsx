@@ -260,7 +260,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
             title="Took an AI monitoring tool from pilot to five enterprise contracts in five months"
-            description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production. Led a cross-functional team of 3 engineers and 1 designer across 5 enterprise deployments."
+            description="Took AMVero from first enterprise pilot to commercial product. Wrote the GTM narrative, designed the smart alerting system that cut operator noise, and built the deployment playbook that got regulated manufacturers live without disrupting production."
             kpis={[
               { value: "98%", label: "Engineering review time cut" },
               { value: "5", label: "Enterprise clients · 5 mo" },
@@ -281,14 +281,14 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
               },
               {
                 label: "Onboarding",
-                text: "Wrote the deployment playbook to turn a week-long IT coordination process (company IT, shopfloor operator, Oqton rep) into a self-service setup requiring minimal guidance. Regulated manufacturers went live without disrupting production.",
+                text: "Turned a week-long IT coordination process into a self-service setup. Regulated manufacturers went live without disrupting production.",
                 docLabel: "Deployment Playbook",
                 docUrl: "/artifacts/amvero-enterprise-deployment-playbook.pdf",
                 metric: { value: "1 Day", context: "time-to-live (was 1 week)", tag: "outcome" },
               },
               {
                 label: "Pricing Model",
-                text: "Moved AMVero from flat per-seat to consumption-based credits. Small shops with low print volume pay only when printing; large enterprises avoid high upfront costs to get started. The 18% scrap reduction is the ROI that justified both models.",
+                text: "Moved from flat per-seat to consumption-based credits. Small shops pay only when printing; enterprises avoid high upfront cost. The 18% scrap reduction justified the model for both.",
                 docLabel: "ROI Optimizer",
                 docUrl: "/artifacts/roi-optimizer.html",
                 metric: { value: "18%", context: "scrap cost reduction — the ROI that made credits viable", tag: "impact" },
@@ -325,7 +325,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
-            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients compensate for close to 100% of dimensional distortion without running trial parts or waiting between stages. Owned the full product lifecycle across 3 modules, working with a core team of 4 simulation engineers."
+            description="Built the Simulation Suite across three modules — Thermal, Mechanical, then the Thermo-mechanical solver that ran both in a single pass. That final module eliminated trial parts and inter-stage wait times, making first-time-right manufacturing achievable for the first time."
             kpis={[
               { value: "~100%", label: "Distortion compensated (Knauf)" },
               { value: "80%", label: "Fewer dimensional errors" },
