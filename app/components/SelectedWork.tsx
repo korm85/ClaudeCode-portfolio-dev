@@ -282,13 +282,11 @@ interface SelectedWorkProps {
 
 export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: SelectedWorkProps) {
   return (
-    <section id="work" className="px-6 md:px-12 py-24 border-t border-border-dark bg-canvas">
+    <section id="work" className="px-6 md:px-12 pt-16 pb-24 border-t border-border-dark bg-canvas">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-16">
+        <div className="mb-10">
           <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Selected Work</span>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
-            Two products I owned. Documented decisions. Verified outcomes.
-          </h2>
+          <p className="text-sm text-text-secondary mt-1">Two products owned end-to-end. Documented decisions. Verified outcomes.</p>
         </div>
 
         <div className="space-y-12">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "./components/Header";
 import SelectedWork from "./components/SelectedWork";
 import HowIWork from "./components/HowIWork";
@@ -34,58 +35,75 @@ export default function Home() {
     <main className="flex flex-col min-h-screen bg-canvas text-text-primary overflow-x-hidden">
       <Header />
 
-      {/* ── Hero ── */}
+      {/* ── Hero — editorial full-bleed ── */}
       <section
         id="hero"
-        className="flex items-center justify-center px-6 md:px-12 pt-32 pb-20 md:pt-40 md:pb-24 border-b border-border-dark bg-canvas"
+        className="relative px-6 md:px-12 pt-28 pb-12 md:pt-32 md:pb-16 border-b border-border-dark bg-canvas overflow-hidden"
       >
-        <div className="max-w-3xl w-full text-center">
-          <p className="font-mono text-[12px] uppercase tracking-[0.3em] text-primary font-medium mb-5">
+        <div className="max-w-5xl mx-auto">
+
+          {/* Eyebrow */}
+          <p className="font-mono text-[12px] uppercase tracking-[0.35em] text-primary font-medium mb-8">
             Senior PM · Oqton · AI Platform
           </p>
 
-          <h1 className="text-4xl md:text-6xl font-bold font-display text-text-primary leading-tight tracking-tight mb-5">
-            Michael Korenevsky
-          </h1>
+          {/* Main editorial row: huge name left, photo + value right */}
+          <div className="flex flex-col md:flex-row md:items-end md:gap-12 gap-8 mb-10">
 
-          <p className="text-lg md:text-xl text-text-secondary leading-relaxed mb-10 max-w-xl mx-auto">
-            I turn AI capability into products where reliability matters.
-          </p>
+            {/* Name — dominates the left */}
+            <div className="flex-1">
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-display text-text-primary leading-[0.9] tracking-tight">
+                Michael<br />Korenevsky
+              </h1>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#work"
-              className="text-white text-sm font-medium bg-primary px-7 py-3 rounded hover:bg-primary-bright transition-all"
-            >
-              View Work
-            </a>
-            <a
-              href="#contact"
-              className="text-primary text-sm font-medium border border-primary/40 bg-surface px-7 py-3 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
-            >
-              Get in Touch
-            </a>
+            {/* Right col: photo + value sentence */}
+            <div className="flex flex-row md:flex-col items-start md:items-end gap-6 md:gap-5 md:pb-2 shrink-0 md:max-w-xs">
+              <div className="shrink-0">
+                <div className="rounded-full p-[2px] bg-primary-dim border border-primary/20">
+                  <Image
+                    src="/profile.jpeg"
+                    alt="Michael Korenevsky"
+                    width={96}
+                    height={96}
+                    priority
+                    className="h-20 w-20 md:h-24 md:w-24 rounded-full object-cover object-[center_15%]"
+                  />
+                </div>
+              </div>
+              <p className="text-base md:text-lg text-text-secondary leading-relaxed md:text-right">
+                I turn AI capability into products where reliability matters.
+              </p>
+            </div>
           </div>
+
+          {/* Bottom row: CTAs left, client list right */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-6 border-t border-border-dark">
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#work"
+                className="text-white text-sm font-medium bg-primary px-7 py-2.5 rounded hover:bg-primary-bright transition-all"
+              >
+                View Work
+              </a>
+              <a
+                href="#contact"
+                className="text-primary text-sm font-medium border border-primary/40 bg-surface px-7 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
+              >
+                Get in Touch
+              </a>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-text-muted">Shipped to</span>
+              {["Baker Hughes", "Thales", "Elos Medtech", "Beehive"].map((name) => (
+                <span key={name} className="text-xs font-semibold text-text-secondary font-display">{name}</span>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
-
-      {/* ── Client strip ── */}
-      <div className="px-6 md:px-12 py-4 border-b border-border-dark bg-surface">
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-text-muted">Shipped to</span>
-          {[
-            { name: "Baker Hughes", industry: "Energy" },
-            { name: "Thales", industry: "Defense" },
-            { name: "Elos Medtech", industry: "Medical Devices" },
-            { name: "Beehive", industry: "Manufacturing" },
-          ].map(({ name, industry }) => (
-            <div key={name} className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-text-primary font-display">{name}</span>
-              <span className="text-[9px] font-mono uppercase tracking-wider text-primary/60">{industry}</span>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* ── Selected Work ── */}
       <SelectedWork
