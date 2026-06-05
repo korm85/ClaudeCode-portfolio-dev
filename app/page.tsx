@@ -47,7 +47,7 @@ export default function Home() {
             {/* Left col — text */}
             <div className="flex-1 flex flex-col items-start">
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary font-medium mb-6">
-                👋 Hi, I&apos;m Michael, Senior Product Manager
+                Senior PM · Oqton · AI Platform
               </p>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-text-primary leading-tight tracking-tight mb-6">
@@ -70,7 +70,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="#work"
                   className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
@@ -82,6 +82,21 @@ export default function Home() {
                   className="text-white text-sm font-medium bg-primary px-6 py-2.5 rounded hover:bg-primary-bright transition-all"
                 >
                   Get in Touch
+                </a>
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
+                >
+                  Download CV
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/michael-korenevsky/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-secondary text-sm font-medium hover:text-primary transition-colors py-2.5"
+                >
+                  LinkedIn ↗
                 </a>
               </div>
             </div>

@@ -287,9 +287,9 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="AI Platform"
             roleTag="Senior PM, AI Platform · Oqton · 2025–Present"
             title="Took an AI monitoring tool from pilot to five enterprise contracts in five months"
-            description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production."
+            description="I took AMVero from first enterprise pilot to five paying clients in five months, writing the GTM narrative, designing the smart alerting system that eliminated operator alert fatigue, and authoring the deployment playbook that got regulated manufacturers live without disrupting production. Led a cross-functional team of 3 engineers and 1 designer across 5 enterprise deployments."
             kpis={[
-              { value: "98%", label: "Alert review time cut" },
+              { value: "98%", label: "Engineering review time cut" },
               { value: "5", label: "Enterprise clients · 5 mo" },
               { value: "136h", label: "Saved / printer / yr" },
             ]}
@@ -351,7 +351,7 @@ export default function SelectedWork({ onOpenAmvero, onOpenSimulation }: Selecte
             eyebrow="Predictive Simulation"
             roleTag="Product Manager, Simulation · Oqton · 2022–2025"
             title="Shipped three simulation modules, culminating in the thermo-mechanical solver that made first-time-right manufacturing achievable"
-            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients compensate for close to 100% of dimensional distortion without running trial parts or waiting between stages."
+            description="I built out the Simulation Suite over three years, shipping a Thermal module, a Mechanical module, and then the Thermo-mechanical module that combined both into a single pass. The Thermo-mechanical module is the flagship: it simultaneously predicts heat distribution and physical distortion, which is what lets clients compensate for close to 100% of dimensional distortion without running trial parts or waiting between stages. Owned the full product lifecycle across 3 modules, working with a core team of 4 simulation engineers."
             kpis={[
               { value: "~100%", label: "Distortion compensated (Knauf)" },
               { value: "80%", label: "Fewer dimensional errors" },
