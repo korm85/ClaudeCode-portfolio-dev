@@ -51,9 +51,7 @@ export default function Home() {
               </p>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-text-primary leading-tight tracking-tight mb-6">
-                I spent a decade{" "}
-                <em className="not-italic text-primary">breaking</em>{" "}
-                enterprise software before I built it.
+                I turn AI capability into products where reliability matters.
               </h1>
 
               <p className="text-base md:text-lg text-text-secondary leading-relaxed mb-8 max-w-lg">
