@@ -86,7 +86,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right col — photo + client chips. On mobile appears above text via order-first */}
+            {/* Right col — photo only on mobile (chips rendered below text col on mobile) */}
             <div className="flex flex-col items-center md:items-end gap-8 md:w-72 shrink-0 md:self-start md:pt-2 order-first md:order-last">
               <div className="rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
                 <Image
@@ -99,12 +99,12 @@ export default function Home() {
                 />
               </div>
 
-              {/* Client chips */}
-              <div className="w-full">
-                <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3 text-center md:text-right">
+              {/* Client chips — desktop only here */}
+              <div className="hidden md:block w-full">
+                <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3 text-right">
                   Shipped to
                 </p>
-                <div className="flex flex-wrap justify-center md:justify-end gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
                   {[
                     { name: "Baker Hughes", industry: "Energy" },
                     { name: "Thales", industry: "Defense" },
@@ -122,6 +122,31 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Client chips — mobile only, after text */}
+            <div className="md:hidden w-full">
+              <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mb-3 text-center">
+                Shipped to
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { name: "Baker Hughes", industry: "Energy" },
+                  { name: "Thales", industry: "Defense" },
+                  { name: "Elos Medtech", industry: "Medical Devices" },
+                  { name: "Beehive", industry: "Manufacturing" },
+                ].map(({ name, industry }) => (
+                  <div
+                    key={name}
+                    className="flex items-center gap-2 border border-border-dark rounded px-3 py-2 bg-surface"
+                  >
+                    <span className="text-xs font-semibold text-text-primary font-display">{name}</span>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-primary/60 border-l border-border-dark pl-2">
+                      {industry}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 

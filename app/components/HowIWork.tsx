@@ -25,7 +25,7 @@ const CARDS = [
 
 export default function HowIWork() {
   return (
-    <section id="how-i-work" className="px-6 md:px-12 py-24 border-t border-border-dark bg-surface">
+    <section id="how-i-work" className="px-6 md:px-12 py-16 border-t border-border-dark bg-surface">
       <div className="max-w-5xl mx-auto">
         <div className="mb-16">
           <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">AI Practice</span>
