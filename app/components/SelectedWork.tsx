@@ -121,12 +121,25 @@ function WorkCard({
         </div>
       )}
 
-      <button
-        onClick={onCta}
-        className="self-start inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
-      >
-        {ctaLabel}
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          onClick={onCta}
+          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs border border-primary/40 rounded text-primary hover:bg-primary-dim hover:border-primary/70 transition-all uppercase tracking-[0.08em] font-mono font-medium"
+        >
+          {ctaLabel}
+        </button>
+        {docs.map((doc, i) => (
+          <a
+            key={i}
+            href={doc.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-text-muted hover:text-primary transition-colors underline underline-offset-2"
+          >
+            {doc.name}
+          </a>
+        ))}
+      </div>
     </div>
   );
 
@@ -138,60 +151,8 @@ function WorkCard({
         <div className="p-8 md:p-10">{textCol}</div>
       </div>
 
-      {/* Detail section: docs + decisions + quote */}
+      {/* Detail section: decisions + quote */}
       <div className="border-t border-border-dark p-8 md:p-10 space-y-10 bg-canvas">
-
-        {/* Docs */}
-        {docs.length > 0 && (() => {
-          const groups = docs.reduce<Array<{ label: string; items: Doc[] }>>(
-            (acc, doc) => {
-              const cat = doc.category ?? "";
-              const existing = acc.find((g) => g.label === cat);
-              if (existing) existing.items.push(doc);
-              else acc.push({ label: cat, items: [doc] });
-              return acc;
-            },
-            []
-          );
-          const categorised = groups.some((g) => g.label !== "");
-          return (
-            <div>
-              <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-3">Work artifacts</div>
-              <div className={categorised ? "space-y-4" : ""}>
-                {groups.map((group, gi) => (
-                  <div key={gi}>
-                    {categorised && group.label && (
-                      <div className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-muted mb-1.5">
-                        {group.label}
-                      </div>
-                    )}
-                    <div className={`grid gap-2 ${group.items.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
-                      {group.items.map((doc, i) => (
-                        <a
-                          key={i}
-                          href={doc.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-start justify-between gap-1 text-xs text-text-secondary hover:text-primary transition-colors border border-border-dark hover:border-primary/30 rounded px-3 py-2 bg-surface hover:bg-primary-dim"
-                        >
-                          <span className="leading-snug">
-                            {doc.name}
-                            {doc.suffix && (
-                              <span className="block opacity-50 text-[10px] mt-0.5">{doc.suffix}</span>
-                            )}
-                          </span>
-                          <svg className="w-3 h-3 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                          </svg>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })()}
 
         {/* Decision tiles */}
         {decisions && decisions.length > 0 && (
