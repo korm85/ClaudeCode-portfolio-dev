@@ -35,60 +35,73 @@ export default function Home() {
     <main className="flex flex-col min-h-screen bg-canvas text-text-primary overflow-x-hidden">
       <Header />
 
-      {/* ── Hero ── */}
+      {/* ── Hero — editorial full-bleed ── */}
       <section
         id="hero"
-        className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 border-b border-border-dark overflow-hidden bg-canvas"
+        className="relative px-6 md:px-12 pt-28 pb-12 md:pt-32 md:pb-16 border-b border-border-dark bg-canvas overflow-hidden"
       >
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto px-4">
-          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-primary font-medium mb-8">
-            👋 Hi, I&apos;m Michael, Senior Product Manager
+        <div className="max-w-5xl mx-auto">
+
+          {/* Eyebrow */}
+          <p className="font-mono text-[12px] uppercase tracking-[0.35em] text-primary font-medium mb-8">
+            Senior PM · Oqton · AI Platform
           </p>
 
-          <div className="mb-10 rounded-full p-[3px] bg-primary-dim border border-primary/20 hover:border-primary/50 transition-colors duration-500">
-            <Image
-              src="/profile.jpeg"
-              alt="Michael Korenevsky"
-              width={220}
-              height={220}
-              priority
-              className="h-44 w-44 md:h-52 md:w-52 rounded-full object-cover object-top p-0.5"
-            />
+          {/* Main editorial row: huge name left, photo + value right */}
+          <div className="flex flex-col md:flex-row md:items-end md:gap-12 gap-8 mb-10">
+
+            {/* Name — dominates the left */}
+            <div className="flex-1">
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-display text-text-primary leading-[0.9] tracking-tight">
+                Michael<br />Korenevsky
+              </h1>
+            </div>
+
+            {/* Right col: photo + value sentence */}
+            <div className="flex flex-row md:flex-col items-start md:items-end gap-6 md:gap-5 md:pb-2 shrink-0 md:max-w-xs">
+              <div className="shrink-0">
+                <div className="rounded-full p-[2px] bg-primary-dim border border-primary/20">
+                  <Image
+                    src="/profile.jpeg"
+                    alt="Michael Korenevsky"
+                    width={96}
+                    height={96}
+                    priority
+                    className="h-20 w-20 md:h-24 md:w-24 rounded-full object-cover object-[center_15%]"
+                  />
+                </div>
+              </div>
+              <p className="text-base md:text-lg text-text-secondary leading-relaxed md:text-right">
+                I turn AI capability into products where reliability matters.
+              </p>
+            </div>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-text-primary leading-tight tracking-tight max-w-3xl mb-8">
-            I spent a decade{" "}
-            <em className="not-italic text-primary">breaking</em>{" "}
-            enterprise software before I built it.
-          </h1>
+          {/* Bottom row: CTAs left, client list right */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-6 border-t border-border-dark">
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#work"
+                className="text-white text-sm font-medium bg-primary px-7 py-2.5 rounded hover:bg-primary-bright transition-all"
+              >
+                View Work
+              </a>
+              <a
+                href="#contact"
+                className="text-primary text-sm font-medium border border-primary/40 bg-surface px-7 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
+              >
+                Get in Touch
+              </a>
+            </div>
 
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mb-12">
-            Now I apply that edge-case thinking to AI products where a missed alert costs a production run, and a wrong decision costs a customer.
-          </p>
-
-          <div className="flex gap-4 mb-14">
-            <a
-              href="#work"
-              className="text-primary text-sm font-medium border border-primary/40 bg-surface px-6 py-2.5 rounded hover:bg-primary-dim hover:border-primary/70 transition-all"
-            >
-              View Work
-            </a>
-            <a
-              href="#contact"
-              className="text-white text-sm font-medium bg-primary px-6 py-2.5 rounded hover:bg-primary-bright transition-all"
-            >
-              Get in Touch
-            </a>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-text-muted">Shipped to</span>
+              {["Baker Hughes", "Thales", "Elos Medtech", "Beehive"].map((name) => (
+                <span key={name} className="text-xs font-semibold text-text-secondary font-display">{name}</span>
+              ))}
+            </div>
           </div>
 
-          <div className="w-full max-w-md border-t border-border-dark mb-8" />
-
-          <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-text-muted">
-            Shipped to:{" "}
-            <span className="text-text-secondary font-semibold">
-              Baker Hughes · Thales · Elos Medtech · Beehive
-            </span>
-          </p>
         </div>
       </section>
 

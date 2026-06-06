@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scripts and playwright artifacts
+/scripts/
+/.playwright-screenshots/
+.claude/worktrees/

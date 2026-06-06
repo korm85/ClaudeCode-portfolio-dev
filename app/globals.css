@@ -18,16 +18,35 @@
   --font-display: var(--font-space-grotesk), sans-serif;
 }
 
+.dark {
+  --color-canvas: #0f1117;
+  --color-surface: #1a1d27;
+  --color-surface-dim: #252836;
+  --color-border-dark: #2e3244;
+  --color-text-primary: #f0f2f5;
+  --color-text-secondary: #a8abbe;
+  --color-text-muted: #6b7087;
+  --color-primary: #4d8eff;
+  --color-primary-bright: #6ba3ff;
+  --color-primary-dim: rgba(77, 142, 255, 0.12);
+  --color-outline-variant: #3a3f56;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     background-color: var(--color-canvas);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     font-family: var(--font-sans);
     color: var(--color-text-primary);
-    background-color: #f7f9fb;
+    background-color: var(--color-canvas);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100dvh;

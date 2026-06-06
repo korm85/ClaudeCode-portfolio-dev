@@ -7,51 +7,68 @@ const TIMELINE = [
     years: "2025–Present",
     company: "Oqton",
     role: "Senior PM, AI Platform",
-    line: "Launched AMVero to five enterprise customers in five months: authored the deployment playbook, designed the smart alerting system, and defined the on-premise product variant for regulated industries.",
+    headline: "Took an AI monitoring product from internal pilot to five enterprise contracts in five months.",
+    detail: "Full ownership of an AI monitoring product from pilot to commercial deployment. The decade of QA before this role meant I knew exactly what would break in production before engineering built it — that judgment cut validation cycles and accelerated deployment.",
   },
   {
     years: "2022–2025",
     company: "Oqton",
     role: "Product Manager, Simulation",
-    line: "Shipped the thermo-mechanical simulation module — coupled two previously separate solvers, validated on standard workstations, and ran a structured beta with Knauf that eliminated launch risk and delivered a credible customer story at release.",
+    headline: "Owned a 3-year multi-module simulation build from initial roadmap to validated customer outcomes.",
+    detail: "Shipped three modules, culminating in a thermo-mechanical solver that compensated for close to 100% of dimensional distortion on first attempt. Same questions as QA — what will fail, for whom — but now I decided what to build, not just whether it worked.",
   },
   {
     years: "2017–2022",
     company: "3D Systems",
     role: "QA Team Lead",
-    line: "Built the QA function from scratch and led a team responsible for release certification on enterprise CAD/CAM software; the role where systematic defect thinking became the default.",
+    headline: "Built and structured the QA team; each engineer owned a product domain, not a test file.",
+    detail: "Set the operating standard: every defect had to trace to a real user scenario before it was worth filing. That principle — verify against production reality, not internal definitions — carried directly into the product decisions I make now.",
   },
   {
     years: "2015–2017",
     company: "3D Systems",
-    role: "QA Engineer (Founding Team)",
-    line: "Wrote the first validation frameworks for a new generation of manufacturing tools: pre-release, no existing playbook, high failure cost if defects shipped.",
+    role: "QA Engineer · Founding Team",
+    headline: "First QA engineer on an all-in-one design-to-manufacturing product — designed the test suite from scratch.",
+    detail: "Worked directly with PM and engineering to verify software did what users actually intended. The earliest version of the product thinking I would later do as PM.",
   },
   {
     years: "2012–2015",
     company: "Cimatron",
     role: "QA Engineer",
-    line: "Certified CAD/CAM software for tooling manufacturers across Europe and North America; learned to find the failure modes product teams hadn't imagined.",
+    headline: "Started in CAD/CAM software for tooling manufacturers — where software failure had direct production costs.",
+    detail: "Learned to test systematically in a domain with zero tolerance for ambiguity. The foundation for everything that followed.",
   },
 ];
 
-function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
+function TimelineEntry({ entry, isLast }: { entry: (typeof TIMELINE)[0]; isLast: boolean }) {
   const ref = useScrollReveal("left");
   return (
-    <div ref={ref} className="flex gap-6 md:gap-10 group">
-      <div className="hidden md:flex flex-col items-center pt-2">
-        <div className="w-[14px] h-[14px] rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300 flex items-center justify-center">
-          <div className="w-[5px] h-[5px] rounded-full bg-text-muted group-hover:bg-primary transition-colors" />
-        </div>
+    <div ref={ref} className={`flex gap-8 md:gap-12 group ${!isLast ? "pb-16" : ""}`}>
+      {/* Timeline dot + line */}
+      <div className="hidden md:flex flex-col items-center pt-1.5 shrink-0">
+        <div className="w-3 h-3 rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300" />
+        {!isLast && <div className="w-px flex-1 bg-border-dark mt-3" />}
       </div>
-      <div className="flex-1 pb-8 border-b border-border-dark last:border-0 last:pb-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-          <span className="text-xs text-primary font-medium tracking-wider font-mono">{entry.years}</span>
-          <span className="text-sm font-semibold font-display text-text-primary">{entry.company}</span>
-          <span className="text-xs text-text-muted">·</span>
+
+      {/* Content */}
+      <div className="flex-1">
+        {/* Meta row */}
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+          <span className="text-[11px] font-mono tracking-[0.2em] text-primary uppercase">{entry.years}</span>
+          <span className="text-base font-semibold font-display text-text-primary">{entry.company}</span>
+          <span className="text-text-muted text-sm">·</span>
           <span className="text-sm text-text-secondary">{entry.role}</span>
         </div>
-        <p className="text-sm text-text-muted leading-relaxed">{entry.line}</p>
+
+        {/* Impact headline */}
+        <p className="text-base md:text-lg font-semibold font-display text-text-primary leading-snug mb-3">
+          {entry.headline}
+        </p>
+
+        {/* Supporting narrative */}
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
+          {entry.detail}
+        </p>
       </div>
     </div>
   );
@@ -64,22 +81,19 @@ export default function CareerTimeline() {
         <div className="mb-16">
           <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Career</span>
           <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
-            10+ years in industrial B2B software
+            A decade of breaking enterprise software before building it.
           </h2>
+          <p className="text-base text-text-secondary mt-3 max-w-2xl leading-relaxed">
+            Ten years in QA across industrial software — not as a detour, but as the foundation. Every product decision I make is shaped by having seen what fails in production before it ships.
+          </p>
         </div>
 
         <div className="relative">
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-border-dark hidden md:block" />
-          <div className="space-y-0">
-            {TIMELINE.map((entry, i) => (
-              <TimelineEntry key={i} entry={entry} />
-            ))}
-          </div>
+          <div className="absolute left-[5px] top-2 bottom-0 w-px bg-border-dark hidden md:block" />
+          {TIMELINE.map((entry, i) => (
+            <TimelineEntry key={i} entry={entry} isLast={i === TIMELINE.length - 1} />
+          ))}
         </div>
-
-        <p className="text-sm text-text-muted mt-12 italic border-l-2 border-primary/30 pl-4">
-          A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping.
-        </p>
       </div>
     </section>
   );
