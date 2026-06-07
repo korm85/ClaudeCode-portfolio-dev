@@ -1,59 +1,64 @@
 # Portfolio Project Status
 
 ## Current state
-Portfolio site is a complete light-theme redesign ("Stitch design"). The dark teal canvas has been replaced with a Modern Minimalist Corporate Precision aesthetic: `#f7f9fb` background, primary blue (`#004ac6`), Space Grotesk headlines, Roboto Flex body, JetBrains Mono labels. All components — hero, work cards, HowIWork, CareerTimeline, ContactSection, modals, and RoiCalculator — are fully reskinned to the new design system. The AmveroPrototype intentionally retains its dark industrial UI (simulates the actual product). Content and PM attribution copy is unchanged.
+
+Full Themishka-inspired redesign complete and live on `themishka.me`. Dark canvas (`#1b1916`), cream paper (`#f3efe6`), forest green accent (`#16a34a`). Fraunces display serif, Hanken Grotesk body, JetBrains Mono labels. Long-scroll layout with alternating dark/cream sections, crow rows, border-grid metrics, Fraunces italic pullquotes, scroll progress bar in header. All modals (AmveroModal, SimulationModal), overlays (RoiOverlay, ImageOverlay), and mobile layouts are production-ready. Caveman token compression is active globally — full mode, always-on from session start. Both repos are clean and up to date.
 
 ## Last completed
-- 2026-05-28: Full Stitch design implementation — complete dark→light reskin across all components using Space Grotesk + Roboto Flex + JetBrains Mono, primary blue `#004ac6`, white/`#f7f9fb` surfaces, `#E2E8F0` borders.
-- 2026-05-27: Session-wrap infrastructure — created `/done` skill and PostToolUse hook in global settings.json; hook injects WRAP_TRIGGER into model context after any `vercel --prod` deploy so STATUS.md is always updated before the session closes.
-- 2026-05-27: Initialized memory system — MEMORY.md index + 4 memory files: PM copy voice rules, copy transformation context, Michael's PM profile, and reference to `docs/product-case-studies.md` as the authoritative metrics/customer data source.
-- 2026-05-27: PM copy transformation — rewrote work cards, timeline, AmveroModal PM contribution, and HowIWork cards to attribute outcomes to Michael's decisions. Added `Decision` union type with inline doc-ref badges. Fixed doc badge grid alignment, removed all em dashes.
-- 2026-05-27: AMVero card 4th decision (credit pricing + ROI Optimizer badge) + Simulation three-module story (Thermal→Mechanical→Thermo-mechanical). ROI Optimizer moved from Simulation CTA to AMVero.
+
+- 2026-06-08: Installed Caveman globally — full mode set as permanent default via `~/.config/caveman/config.json`, auto-activates every session via SessionStart hook. cavecrew-* sub-agents (investigator/builder/reviewer) available for token-efficient sub-tasks.
+- 2026-06-08: Audited and fixed all stale `/home/michaek/` paths across both repos (`AGENTS.md`, `setup-global-claude.sh`, scratch scripts, planning docs) for WSL2 environment. Both repos committed and pushed.
+- 2026-06-08: Pushed complete redesign to official repo and deployed to `themishka.me`. BRIEF.md and STATUS.md in official repo updated to match current design.
+- 2026-06-08: Added ImageOverlay (hero image lightbox) and RoiOverlay (Credit Pricing Model, zoomable). Made all doc chips readable at rest (`text-ink-soft`). Removed ROI tab from SimulationModal, rewrote PM contribution copy.
+- 2026-06-08: Rewrote HowIWork (02) section — four cards with first-person AI-impact framing tied to named projects. Removed marketing language.
 
 ## In progress
+
 Nothing. Clean state.
 
-## Next up (in order)
-Nothing. Awaiting Michael's direction.
+## Next up
+
+- Run `/caveman-compress` on `~/.claude/CLAUDE.md` and memory files to reduce input tokens per session (~46% savings)
+- Review `themishka.me` on a real mobile device
+- Consider adding Credit Pricing Model as a tab inside AmveroModal
 
 ## Decisions log
-- **Stitch Design System**: Replaced dark teal theme (`#0a0a0a` canvas, `#5eead4` accent) with light corporate blue (`#f7f9fb` canvas, `#004ac6` primary). Typography swapped from Poppins/Hepta Slab to Space Grotesk (headlines) + Roboto Flex (body) + JetBrains Mono (labels).
-- **AmveroPrototype stays dark**: The interactive prototype intentionally retains its dark industrial UI with hardcoded hex values — it simulates the actual AMVero product (which is dark-themed enterprise software). Changing it to light would make it look inauthentic.
-- **RoiCalculator reskinned to light**: Unlike the prototype, the ROI calculator is a portfolio-owned tool (not a product simulation), so it follows the new light theme.
-- **Session-End Hooks**: Two triggers for session wrap-up: (1) PostToolUse Bash hook detects `vercel --prod` and injects WRAP_TRIGGER context; (2) `/done` skill runs the full checklist (STATUS update + next-session starter + optional deploy). Hook lives in `~/.claude/settings.json` (global); skill lives in `.claude/skills/done/SKILL.md` (project).
-- **Memory System Bootstrap**: Created `~/.claude/projects/.../memory/` with MEMORY.md index and 4 typed memory files. All future sessions start with PM copy voice rules, project context, and the authoritative data source pre-loaded.
-- **PM Attribution Copy Pattern**: Rewrote metrics with attribution clauses ("achieved by designing X") so each number is causally linked to a Michael decision, not just associated with the product.
-- **Decision→Doc Visual Link**: Extended `Decision` type to `string | { text, docLabel?, docUrl? }` — renders an inline `[doc ↗]` badge at bullet end, creating a direct visual connection between a decision and its proof artifact.
+
+- **Caveman full mode always-on**: Compression active from first message every session via SessionStart hook. Default locked to `full` in `~/.config/caveman/config.json` so it survives tool updates. cavecrew-* agents used for sub-tasks (investigator=Haiku read-only, builder=Sonnet 1-2 file edits, reviewer=Haiku diff review).
+- **caveman-shrink not configured**: Installed as MCP proxy but left unwrapped — no MCP servers currently returning verbose output worth compressing.
+- **Themishka layout over bento grid**: Replaced expand-in-place bento with linear long-scroll. Sections alternate dark/cream. Cleaner for recruiters who scan vertically.
+- **Forest green `#16a34a` accent**: Pairs with cream without gold's corporate-finance connotation.
+- **Custom cursor removed**: Visual gimmick with no recruiter value.
+- **ROI tab removed from SimulationModal**: AMVero pricing content misplaced in Simulation case study. Now lives in its own `RoiOverlay` with zoom controls.
+- **HowIWork copy rule**: Cards must name the specific project and outcome — not generic AI productivity claims.
+- **Official repo deploy path**: Dev work in `ClaudeCode-portfolio-dev`. To ship: copy `app/` and `public/artifacts/` to `michael-korenevsky-portfolio`, commit, push. Vercel auto-deploys via GitHub.
 
 ## Next session starter
 
 ```
-This is Michael's PM portfolio site (Next.js + Tailwind, deployed to Vercel dev project).
-It was fully reskinned this session (2026-05-28) from a dark teal theme to the Stitch design:
-light corporate blue aesthetic, Space Grotesk + Roboto Flex + JetBrains Mono fonts.
+This is Michael's PM portfolio (Next.js 16 + Tailwind CSS v4, deployed to themishka.me).
+Dev repo: /home/korm85/projects/ClaudeCode-portfolio-dev
+Official repo: /home/korm85/projects/michael-korenevsky-portfolio (github.com/korm85/michael-korenevsky-portfolio)
 
-What was done last session (2026-05-28):
-- Complete Stitch design implementation: dark→light reskin across ALL components
-- New color system: #f7f9fb canvas, #004ac6 primary blue, #E2E8F0 borders, white cards
-- New fonts: Space Grotesk (headlines/display), Roboto Flex (body), JetBrains Mono (labels)
-- AmveroPrototype kept dark intentionally (simulates real product UI)
-- RoiCalculator reskinned to light (portfolio-owned tool, not a product simulation)
+What was done last session (2026-06-08):
+- Caveman token compression installed globally — full mode, always-on from session start
+- cavecrew-* sub-agents available (investigator/builder/reviewer) for token-efficient tasks
+- All stale /home/michaek/ paths fixed across both repos for WSL2 environment
+- Themishka redesign is live on themishka.me — no portfolio code changed this session
 
-Key files:
-- app/globals.css — new @theme tokens (light palette, new font CSS vars)
-- app/layout.tsx — Space_Grotesk + Roboto_Flex + JetBrains_Mono imports
-- app/page.tsx — hero section (light, no custom cursor, blue primary CTAs)
-- app/components/*.tsx — all reskinned to light theme
-- docs/product-case-studies.md — authoritative source for ALL metrics and customer names
-
-Design reference: docs/Stitch design/product_strategy_framework/DESIGN.md
+Design tokens in app/globals.css under @theme {}.
+Key tokens: bg-canvas (#1b1916), bg-paper (#f3efe6), bg-paper-2 (#ebe5d8), text-accent (#16a34a).
 
 Constraints to carry forward:
-- NEVER deploy to /home/michaek/ClaudeCode-portfolio (official site) — only this dev repo
-- No em dashes anywhere in copy
-- Oqton is the employer/builder, never a customer in "Shipped to" lists
-- Before any UI/copy change: invoke portfolio-design-system and portfolio-copy-voice skills
-- Before referencing customer names or metrics: invoke ip-handling skill
+- All experimental work stays in ClaudeCode-portfolio-dev
+- To ship to themishka.me: copy app/ and public/artifacts/ to official repo, commit, push
+- No em dashes in body copy
+- Simulation is physics-based — never call it AI
+- Doc chips must use text-ink-soft minimum at rest (not text-ink-faint)
+- Read BRIEF.md in official repo before any UI/design changes
 
-Nothing is actively in progress. Next work is open — await Michael's direction.
+Next tasks (in order):
+- Run /caveman-compress on ~/.claude/CLAUDE.md and memory files (46% input token savings)
+- Mobile review of themishka.me on real device
+- Any feedback-driven changes from sharing the site
 ```

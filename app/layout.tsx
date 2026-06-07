@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Roboto_Flex, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
-const robotoFlex = Roboto_Flex({
-  variable: "--font-roboto-flex",
+const hankenGrotesk = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const jetBrainsMono = JetBrains_Mono({
@@ -31,9 +33,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${robotoFlex.variable} ${jetBrainsMono.variable} h-full`}
+      className={`${fraunces.variable} ${hankenGrotesk.variable} ${jetBrainsMono.variable} h-full`}
     >
-      <body className="min-h-full bg-canvas text-text-primary">
+      <body className="min-h-full bg-canvas text-on-dark antialiased">
         {children}
       </body>
     </html>

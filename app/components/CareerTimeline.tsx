@@ -1,7 +1,5 @@
 "use client";
 
-import { useScrollReveal } from "../hooks/useScrollReveal";
-
 const TIMELINE = [
   {
     years: "2025–Present",
@@ -35,50 +33,56 @@ const TIMELINE = [
   },
 ];
 
-function TimelineEntry({ entry }: { entry: (typeof TIMELINE)[0] }) {
-  const ref = useScrollReveal("left");
-  return (
-    <div ref={ref} className="flex gap-6 md:gap-10 group">
-      <div className="hidden md:flex flex-col items-center pt-2">
-        <div className="w-[14px] h-[14px] rounded-full border-2 border-border-dark group-hover:border-primary group-hover:bg-primary-dim transition-all duration-300 flex items-center justify-center">
-          <div className="w-[5px] h-[5px] rounded-full bg-text-muted group-hover:bg-primary transition-colors" />
-        </div>
-      </div>
-      <div className="flex-1 pb-8 border-b border-border-dark last:border-0 last:pb-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-          <span className="text-xs text-primary font-medium tracking-wider font-mono">{entry.years}</span>
-          <span className="text-sm font-semibold font-display text-text-primary">{entry.company}</span>
-          <span className="text-xs text-text-muted">·</span>
-          <span className="text-sm text-text-secondary">{entry.role}</span>
-        </div>
-        <p className="text-sm text-text-muted leading-relaxed">{entry.line}</p>
-      </div>
-    </div>
-  );
-}
-
 export default function CareerTimeline() {
   return (
-    <section id="career" className="px-6 md:px-12 py-24 border-t border-border-dark bg-canvas">
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-16">
-          <span className="text-[10px] tracking-[0.4em] uppercase text-text-muted font-mono">Career</span>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mt-2">
-            10+ years in industrial B2B software
+    <section id="career" className="bg-paper px-6 py-14 md:py-24 xl:py-32">
+      <div className="max-w-[1180px] mx-auto">
+        {/* Section header */}
+        <div className="flex items-baseline gap-4 border-b border-line pb-6 mb-16">
+          <span className="font-mono text-[11px] text-accent font-medium tracking-[0.1em]">03</span>
+          <h2
+            className="font-display font-light text-ink leading-tight"
+            style={{ fontSize: "clamp(2rem, 5.4vw, 3.6rem)" }}
+          >
+            10+ years in enterprise software
           </h2>
         </div>
 
-        <div className="relative">
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-border-dark hidden md:block" />
-          <div className="space-y-0">
-            {TIMELINE.map((entry, i) => (
-              <TimelineEntry key={i} entry={entry} />
-            ))}
-          </div>
+        {/* Crow rows */}
+        <div>
+          {TIMELINE.map((entry, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-1 sm:grid-cols-[110px_1fr] gap-1 sm:gap-6 py-6 border-b border-line last:border-0 items-baseline transition-all duration-200 hover:pl-1"
+            >
+              <span className="font-mono text-[10px] text-accent tracking-[0.06em] pt-0.5">
+                {entry.years}
+              </span>
+              <div>
+                <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5 mb-2">
+                  <span
+                    className="font-display font-light text-ink"
+                    style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)" }}
+                  >
+                    {entry.company}
+                  </span>
+                  <span className="text-ink-faint text-sm">·</span>
+                  <span className="text-ink-soft text-sm">{entry.role}</span>
+                </div>
+                <p className="text-ink-faint text-sm leading-relaxed">{entry.line}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <p className="text-sm text-text-muted mt-12 italic border-l-2 border-primary/30 pl-4">
-          A decade of QA before PM means I approach AI product decisions the way a test engineer approaches release certification: assume it will fail, design for the edge case, then validate before shipping.
+        {/* Closing note */}
+        <p
+          className="font-display italic text-ink-soft mt-12 max-w-2xl"
+          style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)" }}
+        >
+          A decade of QA before PM means I approach AI product decisions the way a test
+          engineer approaches release certification: assume it will fail, design for the
+          edge case, then validate before shipping.
         </p>
       </div>
     </section>
