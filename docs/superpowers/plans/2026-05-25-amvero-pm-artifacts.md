@@ -78,7 +78,7 @@ In the `WorkCard` function body, find the customer line `<p>` (the line that ren
 - [ ] **Step 3: Verify TypeScript compiles**
 
 ```bash
-cd /home/michaek/ClaudeCode-portfolio-dev && npm run build 2>&1 | grep -E "error|warning|✓"
+cd /home/korm85/projects/ClaudeCode-portfolio-dev && npm run build 2>&1 | grep -E "error|warning|✓"
 ```
 
 Expected: `✓ Compiled successfully`

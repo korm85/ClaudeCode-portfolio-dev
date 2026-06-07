@@ -69,14 +69,14 @@ Before making any changes to settings.json (hooks, permissions, env vars):
 <!-- BEGIN:repo-identity -->
 # This is the DEVELOPMENT / EXPERIMENT repository
 
-**Official site repo:** `/home/michaek/ClaudeCode-portfolio` → deploys to `https://michael-korenevsky.vercel.app`
-**This repo:** `/home/michaek/ClaudeCode-portfolio-dev` → deploys to its own dev Vercel URL
+**Official site repo:** `/home/korm85/projects/michael-korenevsky-portfolio` → deploys to `themishka.me` via Vercel GitHub integration
+**This repo:** `/home/korm85/projects/ClaudeCode-portfolio-dev` → deploys to `michael-korenevsky-portfolio-dev.vercel.app`
 
 ## Rules
 - All experimental work, redesigns, and feature exploration happen here.
 - NEVER run `npx vercel --prod --yes` targeting the official project from this repo.
 - Deploy this repo freely to its own Vercel project for review.
-- When Michael explicitly says "push to the official site", copy the relevant changes to `/home/michaek/ClaudeCode-portfolio` and deploy from there.
+- When Michael explicitly says "push to the official site", copy the relevant changes to `/home/korm85/projects/michael-korenevsky-portfolio` and push to GitHub — Vercel auto-deploys via GitHub integration.
 <!-- END:repo-identity -->
 
 <!-- BEGIN:status-continuity -->
