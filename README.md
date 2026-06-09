@@ -1,8 +1,8 @@
 # Michael Korenevsky — PM Portfolio (Dev Repo)
 
-> Claude Code-built portfolio site for a Senior PM at Oqton — proving AI products at enterprise scale.
+> A PM portfolio that proves the pitch — designed, built, and shipped solo with Claude Code. No designers. No engineers.
 
-Experiment and development repo for `themishka.me`. All redesigns and new features are built and reviewed here before being promoted to the official site. The site targets recruiters and hiring managers at AI-native B2B companies — optimized for a 30–90 second attention window.
+The work is the argument. Every PM claims they understand AI products — this site was built with one to demonstrate it. Experiment and development repo for `themishka.me`; all redesigns are validated here before promoting to the official site. The site targets hiring managers at AI-native B2B companies and is optimized for a 30–90 second attention window.
 
 ---
 
