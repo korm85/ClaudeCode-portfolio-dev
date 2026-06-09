@@ -1,113 +1,135 @@
-# Portfolio Project
+# Michael Korenevsky — PM Portfolio (Dev Repo)
 
-A Claude Code project for building Michael Korenevsky's PM portfolio site.
+> Claude Code-built portfolio site for a Senior PM at Oqton — proving AI products at enterprise scale.
 
-The site uses a **single-view grid with expand-in-place tiles**. No long scroll. No modal overlays. A recruiter sees the full structure in 5 seconds, drills into pieces by clicking tiles.
+Experiment and development repo for `themishka.me`. All redesigns and new features are built and reviewed here before being promoted to the official site. The site targets recruiters and hiring managers at AI-native B2B companies — optimized for a 30–90 second attention window.
+
+---
+
+## What it does
+
+```
+Recruiter lands on themishka.me
+         │
+         ▼
+  ┌──────────────────────────────────┐
+  │  Dark canvas · teal accent       │
+  │  Single-page scroll              │
+  │                                  │
+  │  Hero ──────── name + tagline    │
+  │  Work ──────── AMVero            │
+  │             └─ Simulation        │
+  │  How I Work ── AI practice       │
+  │  Career ─────── timeline         │
+  │  About ──────── education        │
+  │  Contact ─────── links           │
+  └──────────────────────────────────┘
+         │
+         ▼
+  Click a WorkCard
+         │
+         ▼
+  ┌──────────────────────────────────┐
+  │  Case study expands in-place     │
+  │  Metrics · Outcomes · Context    │
+  └──────────────────────────────────┘
+```
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────┐
+│  THIS REPO (dev/experiment)             │
+│  ClaudeCode-portfolio-dev               │
+│  → michael-korenevsky-portfolio-dev     │
+│     .vercel.app  (manual deploy)        │
+└──────────────────┬──────────────────────┘
+                   │ approve → copy changes
+                   ▼
+┌─────────────────────────────────────────┐
+│  OFFICIAL REPO                          │
+│  michael-korenevsky-portfolio           │
+│  → themishka.me                         │
+│     (auto-deploy via GitHub → Vercel)   │
+└─────────────────────────────────────────┘
+
+Claude Code dev loop:
+┌──────────────────────────────────────────────┐
+│  Claude Code CLI                             │
+│  ├── superpowers skill   (plan + execute)    │
+│  ├── portfolio-design-system (visual rules)  │
+│  ├── portfolio-copy-voice  (editorial)       │
+│  ├── ip-handling           (attribution)     │
+│  ├── Google Drive MCP      (content source)  │
+│  └── Figma MCP             (design ref)      │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Framework | Next.js 16 App Router · TypeScript |
+| Styling | CSS Modules · custom design tokens |
+| Fonts | Poppins · Hepta Slab · JetBrains Mono |
+| Theme | Dark canvas (#000000) · teal accent (#5eead4) |
+| Motion | Scroll-triggered reveals · custom cursor |
+| Deploy | Vercel (dev preview + official) |
+| AI tooling | Claude Code + Superpowers plugin |
+
+---
+
+## Key features
+
+- **Single-page scroll** — hero → work → how I work → career → about → contact
+- **WorkCard expand-in-place** — case study depth on click, no modal overlay
+- **AI vs physics distinction** — AMVero is AI (computer vision), Simulation is physics-based
+- **Skill-driven development** — design system, copy voice, IP handling enforced via Claude Code skills
+- **Content source of truth** — `docs/product-case-studies.md` gates all metrics and customer references
+- **Dev/prod separation** — experiment here, promote to `themishka.me` when approved
+
+---
 
 ## Quick start
 
 ```bash
-# 1. Unzip this folder
-cd portfolio-project
-
-# 2. Initialize git
-git init
-
-# 3. Pull the TypeUI Bento design skill
-npx typeui.sh pull bento
-
-# 4. Set up MCP servers (see below)
-
-# 5. Start Claude Code in this directory
-claude
-
-# 6. First prompt to Claude Code:
-# "Read BRIEF.md and all skills (Bento SKILL.md just pulled, plus the four
-#  in .claude/skills/). Delete any previous portfolio code. Confirm MCP
-#  servers are connected. Build the grid layout with all six tiles in
-#  collapsed/preview state only. Apply the gradient palette overrides
-#  from BRIEF.md. Show me the grid before adding expansion logic."
+git clone git@github.com:korm85/ClaudeCode-portfolio-dev
+cd ClaudeCode-portfolio-dev
+npm install
+npm run dev     # → http://localhost:3000
 ```
 
-## Design system: TypeUI Bento + custom overrides
+---
 
-This project uses the **Bento** design skill from TypeUI as the structural and typographic base. Pulled via:
+## Restoring this setup
 
-```bash
-npx typeui.sh pull bento
-```
+See [RESTORE.md](./RESTORE.md) — complete step-by-step guide an AI agent can follow to rebuild the environment (Claude Code config, MCP servers, plugins, Vercel link).
 
-Reference: https://www.typeui.sh/design-skills/bento
+See [`.claude-backup/`](./.claude-backup/) for:
+- Claude Code hooks and settings
+- MCP server configuration (secrets scrubbed)
+- Installed plugins list
+- Infrastructure documentation
 
-**The brief overrides Bento's default warm-pastel palette with four professional gradient tiles.** Do not use Bento's default tile colors. See "Visual system" in `BRIEF.md` for the exact gradient definitions.
+---
 
-Everything else from Bento (grid structure, card patterns, typography, spacing) stays as Bento ships it.
+## Design rules (non-negotiable)
 
-## How the skills work together
+- **Always invoke `portfolio-design-system` skill before any UI change**
+- `BRIEF.md` overrides Bento defaults — read it before touching layout or palette
+- Never add a metric not in `docs/product-case-studies.md`
+- Never call the products SaaS — they are enterprise software
+- Never remove a bullet permanently — bench it in `master-cv.md` first
 
-- **Bento SKILL.md**: structural base (grid, card patterns, typography, spacing)
-- **BRIEF.md**: architecture (grid + expand-in-place), tile content, palette overrides, interaction rules
-- **portfolio-copy-voice**: editorial rules (no em dashes, voice constraints, anti-jargon)
-- **ip-handling**: Oqton attribution scrubbing, AI vs. physics distinction
-- **portfolio-content-from-drive**: how to pull from Drive MCP
-- **portfolio-deploy**: Vercel deployment steps
+---
 
-If Bento and BRIEF.md disagree on a visual detail, **BRIEF.md wins** (it has the project-specific overrides). The other skills are non-negotiable.
+## Repo identity
 
-## MCP setup
-
-Two MCP servers must be connected before the AMVero and Simulation tiles can be fully built.
-
-### Google Drive MCP
-
-Used to fetch Simulation accuracy data from the shared portfolio folder.
-
-```bash
-claude mcp add google-drive npx @modelcontextprotocol/server-gdrive
-```
-
-Authenticate with the Google account that has access to the portfolio Drive folder.
-
-Shared folder reference: https://drive.google.com/drive/folders/184rMRm2T_1RM4CjZvGG_wtHHoHYS4Ip2
-
-Verify with `/mcp` inside Claude Code.
-
-### Figma MCP (Dev Mode)
-
-Used to extract design references from the AMVero and Simulation Figma files.
-
-Prerequisite: Figma desktop app installed, logged in, with Dev Mode MCP enabled in Figma settings.
-
-```bash
-claude mcp add figma-dev-mode --transport http http://127.0.0.1:3845/mcp
-```
-
-The Figma desktop app must be running. Verify with `/mcp` inside Claude Code.
-
-Figma file references:
-- AMVero Design: https://www.figma.com/design/Nu8ghzAlidpkeoaiXqlyNm/AMVero-Design
-- Simulation flows: https://www.figma.com/board/nYR5upFW85oPRLffvl3vH1/
-
-### If MCP setup fails
-
-The grid scaffold and structure can be built without MCP. AMVero and Simulation tiles use placeholder content for their expanded states until MCP is wired.
-
-## Project structure
-
-```
-portfolio-project/
-├── BRIEF.md                                # Content, architecture, palette overrides
-├── README.md                               # This file
-├── SKILL.md (or similar)                   # Bento skill, pulled via CLI
-├── .claude/
-│   └── skills/
-│       ├── portfolio-copy-voice/
-│       ├── ip-handling/
-│       ├── portfolio-content-from-drive/
-│       └── portfolio-deploy/
-└── .gitignore
-```
-
-## Deployment
-
-See `.claude/skills/portfolio-deploy/SKILL.md`. Short version: install Vercel CLI, run `vercel`, follow prompts.
+| Repo | Deploys to | How |
+|---|---|---|
+| `ClaudeCode-portfolio-dev` | `michael-korenevsky-portfolio-dev.vercel.app` | `npx vercel --prod --yes` |
+| `michael-korenevsky-portfolio` | `themishka.me` | GitHub push → Vercel auto |
