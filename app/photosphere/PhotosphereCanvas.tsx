@@ -6,10 +6,9 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 const DEG = Math.PI / 180
-const SPHERE_R = 7
-const FRAME_H = 1.4 // uniform height for all frames → seamless horizontal strip
+const SPHERE_R = 8
+const FRAME_H = 1.8
 
-// Module-level mutable state — no stale closures in useFrame
 const view = {
   targetAz: Math.PI, az: Math.PI, velAz: 0,
   targetEl: 0, el: 0, velEl: 0,
@@ -22,15 +21,14 @@ const bridge = {
   meshes: [] as Array<THREE.Mesh | null>,
 }
 
-// ar = width/height pixel ratio for correct aspect without distortion
-// az positions calculated so adjacent frames touch edge-to-edge at R=7
-// Δaz ≈ (W_left/2 + W_right/2) / R  where W = FRAME_H * ar
+// Touching-edge positions at R=8, H=1.8. Δaz ≈ (W_a/2 + W_b/2) / R (radians → degrees)
+// Left→right: profile | heatmap | amvero | comparison | sim-product
 const FRAMES = [
   {
     id: 'about',
-    az: -32, el: 0,
+    az: -36, el: 0,
     img: '/profile.jpeg',
-    ar: 1,          // 1024×1024 ≈ square
+    ar: 1,
     tag: 'Who I am',
     title: 'Michael Korenevsky',
     lead: '14 years building enterprise software for high-stakes industries.',
@@ -38,9 +36,9 @@ const FRAMES = [
   },
   {
     id: 'simulation',
-    az: -17, el: 0,
+    az: -19, el: 0,
     img: '/simulation-heatmap.png',
-    ar: 1934 / 1152, // 1.679
+    ar: 1934 / 1152,
     tag: 'Physics simulation',
     title: 'Powder bed fusion, predicted',
     lead: 'Built the PM function at Oqton for physics-based AM simulation — zero to shipped.',
@@ -50,7 +48,7 @@ const FRAMES = [
     id: 'amvero',
     az: 0, el: 0,
     img: '/amvero-product.png',
-    ar: 2500 / 1934, // 1.293
+    ar: 2500 / 1934,
     tag: 'AI inspection',
     title: 'AMVero — automated defect detection',
     lead: '98% detection rate. 73% faster inspection. 4 enterprise customers.',
@@ -58,9 +56,9 @@ const FRAMES = [
   },
   {
     id: 'ai',
-    az: 15, el: 0,
+    az: 16, el: 0,
     img: '/amvero-comparison.png',
-    ar: 1819 / 1448, // 1.256
+    ar: 1819 / 1448,
     tag: 'AI practice',
     title: 'How I work with AI',
     lead: 'Systematic approach to integrating AI into product workflows.',
@@ -68,9 +66,9 @@ const FRAMES = [
   },
   {
     id: 'next',
-    az: 34, el: 0,
+    az: 38, el: 0,
     img: '/simulation-product.png',
-    ar: 2500 / 1197, // 2.089 — wide panoramic
+    ar: 2500 / 1197,
     tag: "What's next",
     title: 'Senior PM · AI · Enterprise',
     lead: 'Open to senior PM roles in AI-native or deep-tech companies.',
@@ -80,14 +78,21 @@ const FRAMES = [
 
 type FrameConfig = typeof FRAMES[0]
 
-function spherePos(azDeg: number, elDeg: number): THREE.Vector3 {
+function spherePos(azDeg: number, elDeg: number, r = SPHERE_R): THREE.Vector3 {
   const az = azDeg * DEG
   const el = elDeg * DEG
   return new THREE.Vector3(
-    SPHERE_R * Math.cos(el) * Math.sin(az),
-    SPHERE_R * Math.sin(el),
-    SPHERE_R * Math.cos(el) * Math.cos(az),
+    r * Math.cos(el) * Math.sin(az),
+    r * Math.sin(el),
+    r * Math.cos(el) * Math.cos(az),
   )
+}
+
+function frameQuat(pos: THREE.Vector3): THREE.Quaternion {
+  const dummy = new THREE.Object3D()
+  dummy.position.copy(pos)
+  dummy.lookAt(0, 0, 0)
+  return dummy.quaternion.clone()
 }
 
 function useAsyncTexture(url: string) {
@@ -107,20 +112,11 @@ function useAsyncTexture(url: string) {
   return tex
 }
 
-function FrameMesh({
-  f, idx, selRef,
-}: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const tex = useAsyncTexture(f.img)
-
-  const [localPos] = useState(() => spherePos(f.az, f.el))
-  const [quat] = useState(() => {
-    const dummy = new THREE.Object3D()
-    dummy.position.copy(localPos)
-    dummy.lookAt(0, 0, 0)
-    return dummy.quaternion.clone()
-  })
-
+  const [pos] = useState(() => spherePos(f.az, f.el))
+  const [quat] = useState(() => frameQuat(pos))
   const w = FRAME_H * f.ar
   const h = FRAME_H
 
@@ -135,8 +131,8 @@ function FrameMesh({
     const sel = selRef.current
     const isSel = sel === idx
     const anySelected = sel >= 0
-    const targetScale = isSel ? 1.12 : 1
-    const targetOpacity = anySelected && !isSel ? 0.18 : 1
+    const targetScale = isSel ? 1.1 : 1
+    const targetOpacity = anySelected && !isSel ? 0.2 : 1
     const t = 1 - Math.pow(0.04, dt * 60)
     m.scale.setScalar(THREE.MathUtils.lerp(m.scale.x, targetScale, t))
     const mat = m.material as THREE.MeshBasicMaterial
@@ -144,11 +140,11 @@ function FrameMesh({
   })
 
   return (
-    <mesh ref={meshRef} position={localPos} quaternion={quat}>
+    <mesh ref={meshRef} position={pos} quaternion={quat}>
       <planeGeometry args={[w, h]} />
       <meshBasicMaterial
         map={tex ?? undefined}
-        color={tex ? '#ffffff' : '#111827'}
+        color={tex ? '#ffffff' : '#1a2235'}
         transparent
         opacity={1}
         side={THREE.DoubleSide}
@@ -157,37 +153,35 @@ function FrameMesh({
   )
 }
 
-function GlowBorder({
-  f, idx, selRef,
-}: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+// Border: at R+0.07 so it peeks around frame edges without z-fighting
+function FrameBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const ref = useRef<THREE.Mesh>(null)
-  const [localPos] = useState(() => spherePos(f.az, f.el))
-  const [quat] = useState(() => {
-    const dummy = new THREE.Object3D()
-    dummy.position.copy(localPos)
-    dummy.lookAt(0, 0, 0)
-    return dummy.quaternion.clone()
-  })
-  const w = FRAME_H * f.ar + 0.1
-  const h = FRAME_H + 0.1
+  const [pos] = useState(() => spherePos(f.az, f.el, SPHERE_R + 0.07))
+  const [quat] = useState(() => frameQuat(pos))
+  const w = FRAME_H * f.ar + 0.12
+  const h = FRAME_H + 0.12
 
   useFrame((_, dt) => {
     const m = ref.current
     if (!m) return
     const mat = m.material as THREE.MeshBasicMaterial
-    const target = selRef.current === idx ? 1 : 0
+    const sel = selRef.current
+    const target = sel === idx ? 1 : 0.07
     mat.opacity = THREE.MathUtils.lerp(mat.opacity, target, 1 - Math.pow(0.04, dt * 60))
+    const col = mat.color as THREE.Color
+    const targetCol = sel === idx ? new THREE.Color('#16a34a') : new THREE.Color('#4a5568')
+    col.lerp(targetCol, 1 - Math.pow(0.04, dt * 60))
   })
 
   return (
-    <mesh ref={ref} position={localPos} quaternion={quat} renderOrder={-1}>
+    <mesh ref={ref} position={pos} quaternion={quat}>
       <planeGeometry args={[w, h]} />
       <meshBasicMaterial
-        color="#16a34a"
+        color="#4a5568"
         transparent
-        opacity={0}
-        depthWrite={false}
+        opacity={0.07}
         side={THREE.DoubleSide}
+        depthWrite={false}
       />
     </mesh>
   )
@@ -202,43 +196,20 @@ function Bridge() {
   return null
 }
 
-function Stars() {
-  const [geo] = useState(() => {
-    const g = new THREE.BufferGeometry()
-    const n = 400
-    const pos = new Float32Array(n * 3)
-    for (let i = 0; i < n; i++) {
-      const th = Math.random() * 2 * Math.PI
-      const ph = Math.acos(2 * Math.random() - 1)
-      const r = 20 + Math.random() * 8
-      pos[i * 3] = r * Math.sin(ph) * Math.cos(th)
-      pos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th)
-      pos[i * 3 + 2] = r * Math.cos(ph)
-    }
-    g.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    return g
-  })
-  return (
-    <points geometry={geo}>
-      <pointsMaterial color="#6677aa" size={0.05} transparent opacity={0.3} sizeAttenuation />
-    </points>
-  )
-}
-
 function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
   const rig = useRef<THREE.Group>(null)
 
   useFrame((_, dt) => {
     const idle = !view.dragging && performance.now() - view.lastInteraction > 2500
-    if (idle) view.targetAz += 0.12 * dt
+    if (idle) view.targetAz += 0.1 * dt
 
     const stiffness = 0.08, damping = 0.72
     view.velAz = view.velAz * damping + (view.targetAz - view.az) * stiffness
     view.az += view.velAz
     view.velEl = view.velEl * damping + (view.targetEl - view.el) * stiffness
     view.el += view.velEl
-    view.el = Math.max(-22 * DEG, Math.min(22 * DEG, view.el))
-    view.targetEl = Math.max(-22 * DEG, Math.min(22 * DEG, view.targetEl))
+    view.el = Math.max(-20 * DEG, Math.min(20 * DEG, view.el))
+    view.targetEl = Math.max(-20 * DEG, Math.min(20 * DEG, view.targetEl))
 
     if (rig.current) {
       rig.current.rotation.y = view.az
@@ -248,10 +219,15 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
 
   return (
     <group ref={rig}>
-      <Stars />
+      {/* Gallery wall — fills all gaps between frames, no black void */}
+      <mesh renderOrder={-5}>
+        <cylinderGeometry args={[SPHERE_R + 0.5, SPHERE_R + 0.5, 200, 48, 1, true]} />
+        <meshBasicMaterial color="#0b0f16" side={THREE.BackSide} depthWrite={false} />
+      </mesh>
+
       {FRAMES.map((f, i) => (
         <group key={f.id}>
-          <GlowBorder f={f} idx={i} selRef={selRef} />
+          <FrameBorder f={f} idx={i} selRef={selRef} />
           <FrameMesh f={f} idx={i} selRef={selRef} />
         </group>
       ))}
@@ -264,9 +240,9 @@ function Scene({ selRef }: { selRef: React.MutableRefObject<number> }) {
     <>
       <Rig selRef={selRef} />
       <Bridge />
-      <ambientLight intensity={1.2} />
+      <ambientLight intensity={1.1} />
       <EffectComposer>
-        <Bloom luminanceThreshold={0.55} luminanceSmoothing={0.9} intensity={0.5} mipmapBlur />
+        <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.9} intensity={0.45} mipmapBlur />
       </EffectComposer>
     </>
   )
@@ -350,7 +326,6 @@ export default function PhotosphereCanvas() {
 
   return (
     <div style={{ position: 'fixed', inset: 0, background: '#08080e' }}>
-      {/* Canvas */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
         <Canvas
           camera={{ position: [0, 0, 0.01], fov: 80 }}
@@ -366,7 +341,6 @@ export default function PhotosphereCanvas() {
         </Canvas>
       </div>
 
-      {/* Pointer capture surface */}
       <div
         style={{
           position: 'absolute',
@@ -381,7 +355,6 @@ export default function PhotosphereCanvas() {
         onPointerCancel={onUp}
       />
 
-      {/* First-visit hint */}
       {hint && (
         <div
           aria-hidden="true"
@@ -395,21 +368,19 @@ export default function PhotosphereCanvas() {
             pointerEvents: 'none',
           }}
         >
-          <span
-            style={{
-              fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: 'rgba(179, 171, 155, 0.4)',
-            }}
-          >
+          <span style={{
+            fontFamily: 'var(--font-jetbrains-mono, monospace)',
+            fontSize: 11,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'rgba(179, 171, 155, 0.4)',
+          }}>
             drag to explore · tap to focus
           </span>
         </div>
       )}
 
-      {/* Content panel */}
+      {/* Content panel — slides up on selection */}
       <div
         style={{
           position: 'fixed',
@@ -422,42 +393,36 @@ export default function PhotosphereCanvas() {
           pointerEvents: selFrame ? 'auto' : 'none',
         }}
       >
-        <div
-          style={{
-            background: 'rgba(8, 8, 14, 0.96)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            borderTop: '1px solid rgba(22, 163, 74, 0.35)',
-            padding: '20px 24px 40px',
-            maxHeight: '44vh',
-            overflowY: 'auto',
-          }}
-        >
+        <div style={{
+          background: 'rgba(8, 8, 14, 0.97)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderTop: '1px solid rgba(22, 163, 74, 0.4)',
+          padding: '20px 24px 40px',
+          maxHeight: '44vh',
+          overflowY: 'auto',
+        }}>
           {selFrame && (
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
                 <div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-jetbrains-mono, monospace)',
-                      fontSize: 10,
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: '#16a34a',
-                      marginBottom: 5,
-                    }}
-                  >
+                  <div style={{
+                    fontFamily: 'var(--font-jetbrains-mono, monospace)',
+                    fontSize: 10,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    color: '#16a34a',
+                    marginBottom: 5,
+                  }}>
                     {selFrame.tag}
                   </div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-fraunces, Georgia, serif)',
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: '#f0ebe0',
-                      lineHeight: 1.25,
-                    }}
-                  >
+                  <div style={{
+                    fontFamily: 'var(--font-fraunces, Georgia, serif)',
+                    fontSize: 20,
+                    fontWeight: 400,
+                    color: '#f0ebe0',
+                    lineHeight: 1.25,
+                  }}>
                     {selFrame.title}
                   </div>
                 </div>
@@ -481,26 +446,22 @@ export default function PhotosphereCanvas() {
                   ×
                 </button>
               </div>
-              <p
-                style={{
-                  fontFamily: 'var(--font-hanken, system-ui, sans-serif)',
-                  fontSize: 15,
-                  color: '#b3ab9b',
-                  lineHeight: 1.65,
-                  margin: '0 0 10px',
-                }}
-              >
+              <p style={{
+                fontFamily: 'var(--font-hanken, system-ui, sans-serif)',
+                fontSize: 15,
+                color: '#b3ab9b',
+                lineHeight: 1.65,
+                margin: '0 0 10px',
+              }}>
                 {selFrame.lead}
               </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-hanken, system-ui, sans-serif)',
-                  fontSize: 13,
-                  color: '#75705f',
-                  lineHeight: 1.75,
-                  margin: 0,
-                }}
-              >
+              <p style={{
+                fontFamily: 'var(--font-hanken, system-ui, sans-serif)',
+                fontSize: 13,
+                color: '#75705f',
+                lineHeight: 1.75,
+                margin: 0,
+              }}>
                 {selFrame.body}
               </p>
             </>
