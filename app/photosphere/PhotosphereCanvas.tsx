@@ -67,8 +67,8 @@ const FRAMES = [
   {
     id: 'next',
     az: 38, el: 0,
-    img: '/simulation-product.png',
-    ar: 2500 / 1197,
+    img: '/amvero-roi.png',
+    ar: 1200 / 750,
     tag: "What's next",
     title: 'Senior PM · AI · Enterprise',
     lead: 'Open to senior PM roles in AI-native or deep-tech companies.',
@@ -196,6 +196,42 @@ function Bridge() {
   return null
 }
 
+function GridFloor() {
+  const ref = useRef<THREE.GridHelper>(null)
+  useEffect(() => {
+    if (!ref.current) return
+    const mats = Array.isArray(ref.current.material)
+      ? (ref.current.material as THREE.LineBasicMaterial[])
+      : [ref.current.material as THREE.LineBasicMaterial]
+    mats.forEach(m => { m.transparent = true; m.opacity = 0.45 })
+  }, [])
+  return (
+    <gridHelper
+      ref={ref}
+      args={[120, 40, '#16a34a', '#0d1e2a']}
+      position={[0, -2.4, 0]}
+    />
+  )
+}
+
+function GridCeiling() {
+  const ref = useRef<THREE.GridHelper>(null)
+  useEffect(() => {
+    if (!ref.current) return
+    const mats = Array.isArray(ref.current.material)
+      ? (ref.current.material as THREE.LineBasicMaterial[])
+      : [ref.current.material as THREE.LineBasicMaterial]
+    mats.forEach(m => { m.transparent = true; m.opacity = 0.15 })
+  }, [])
+  return (
+    <gridHelper
+      ref={ref}
+      args={[120, 40, '#16a34a', '#0d1e2a']}
+      position={[0, 2.4, 0]}
+    />
+  )
+}
+
 function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
   const rig = useRef<THREE.Group>(null)
 
@@ -219,11 +255,15 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
 
   return (
     <group ref={rig}>
-      {/* Gallery wall — fills all gaps between frames, no black void */}
+      {/* Gallery wall — fills horizontal gaps between frames */}
       <mesh renderOrder={-5}>
         <cylinderGeometry args={[SPHERE_R + 0.5, SPHERE_R + 0.5, 200, 48, 1, true]} />
         <meshBasicMaterial color="#0b0f16" side={THREE.BackSide} depthWrite={false} />
       </mesh>
+
+      {/* Spatial grid floor and ceiling */}
+      <GridFloor />
+      <GridCeiling />
 
       {FRAMES.map((f, i) => (
         <group key={f.id}>
