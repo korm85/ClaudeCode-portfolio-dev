@@ -246,8 +246,9 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
   const rig = useRef<THREE.Group>(null)
 
   useFrame((state, dt) => {
-    // Auto-rotate when idle
-    const idle = !view.dragging && performance.now() - view.lastInteraction > 2500
+    // Auto-rotate when idle and nothing selected
+    const sel = selRef.current
+    const idle = !view.dragging && sel < 0 && performance.now() - view.lastInteraction > 2500
     if (idle) view.targetAz += 0.1 * dt
 
     // Spring physics for rig rotation
@@ -265,12 +266,11 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
     }
 
     // Camera dolly — smoothly approach selected frame
-    const sel = selRef.current
     const lerpF = 1 - Math.pow(0.95, dt * 60)
 
     if (sel >= 0 && bridge.meshes[sel]) {
       bridge.meshes[sel]!.getWorldPosition(_wp)
-      camAnim.pos.lerp(_wp.clone().multiplyScalar(0.55), lerpF)
+      camAnim.pos.lerp(_wp.clone().multiplyScalar(0.72), lerpF)
       camAnim.lookTgt.lerp(_wp, lerpF)
     } else {
       camAnim.pos.lerp(_origin, lerpF)
@@ -340,7 +340,8 @@ export default function PhotosphereCanvas() {
     view.lastInteraction = performance.now()
     camAnim.pos.set(0, 0, 0.01)
     camAnim.lookTgt.set(0, 0, -8)
-    bridge.meshes = new Array(FRAMES.length).fill(null)
+    // Do NOT reset bridge.meshes here — ContentFrame children populate it
+    // in their useEffects, which run before this parent effect.
     setMounted(true)
   }, [])
 
