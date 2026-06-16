@@ -7,13 +7,38 @@ import * as THREE from 'three'
 
 const DEG = Math.PI / 180
 const SPHERE_R = 8
-const FRAME_H = 1.8
+const CELL_W = 2.0
+const CELL_H = 1.6
+const GRID_COLS = 10
+const GRID_ROWS = 10
+const CONTENT_ROW = 4 // row index where content frames live
 
+// Equal-spacing column azimuths: Δaz = CELL_W/R radians
+const COL_AZ = Array.from({ length: GRID_COLS }, (_, k) =>
+  (k - (GRID_COLS - 1) / 2) * (CELL_W / SPHERE_R) * (180 / Math.PI)
+)
+// ≈ [-64.3, -50.0, -35.7, -21.4, -7.2, 7.2, 21.4, 35.7, 50.0, 64.3] degrees
+
+const ROW_Y = Array.from({ length: GRID_ROWS }, (_, r) =>
+  (r - (GRID_ROWS - 1) / 2) * CELL_H
+)
+// ≈ [-7.2, -5.6, -4.0, -2.4, -0.8, 0.8, 2.4, 4.0, 5.6, 7.2]
+
+// Rig spring state (module-level for stale-closure-free useFrame)
 const view = {
   targetAz: Math.PI, az: Math.PI, velAz: 0,
   targetEl: 0, el: 0, velEl: 0,
   dragging: false, lastInteraction: 0,
 }
+
+// Camera dolly state
+const camAnim = {
+  pos: new THREE.Vector3(0, 0, 0.01),
+  lookTgt: new THREE.Vector3(0, 0, -8),
+}
+const _wp = new THREE.Vector3()
+const _origin = new THREE.Vector3(0, 0, 0.01)
+const _defaultLook = new THREE.Vector3(0, 0, -8)
 
 const bridge = {
   raycaster: null as THREE.Raycaster | null,
@@ -21,54 +46,43 @@ const bridge = {
   meshes: [] as Array<THREE.Mesh | null>,
 }
 
-// Touching-edge positions at R=8, H=1.8. Δaz ≈ (W_a/2 + W_b/2) / R (radians → degrees)
-// Left→right: profile | heatmap | amvero | comparison | sim-product
+// Content frames: cols 2–6, all at CONTENT_ROW
 const FRAMES = [
   {
-    id: 'about',
-    az: -36, el: 0,
-    img: '/profile.jpeg',
-    ar: 1,
+    id: 'about', col: 2,
+    img: '/profile.jpeg', ar: 1,
     tag: 'Who I am',
     title: 'Michael Korenevsky',
     lead: '14 years building enterprise software for high-stakes industries.',
     body: 'Started as a software engineer, moved into PM to own the full product lifecycle — from customer discovery to engineering handoff to market launch. Now focused on AI-powered tools for manufacturing and construction.',
   },
   {
-    id: 'simulation',
-    az: -19, el: 0,
-    img: '/simulation-heatmap.png',
-    ar: 1934 / 1152,
+    id: 'simulation', col: 3,
+    img: '/simulation-heatmap.png', ar: 1934 / 1152,
     tag: 'Physics simulation',
     title: 'Powder bed fusion, predicted',
     lead: 'Built the PM function at Oqton for physics-based AM simulation — zero to shipped.',
     body: 'Simulation predicts thermal gradients and distortion before printing, eliminating costly trial runs. Shipped across 3 enterprise customers. Led requirements, roadmap, and launch from scratch.',
   },
   {
-    id: 'amvero',
-    az: 0, el: 0,
-    img: '/amvero-product.png',
-    ar: 2500 / 1934,
+    id: 'amvero', col: 4,
+    img: '/amvero-product.png', ar: 2500 / 1934,
     tag: 'AI inspection',
     title: 'AMVero — automated defect detection',
     lead: '98% detection rate. 73% faster inspection. 4 enterprise customers.',
     body: 'Brought AI anomaly detection to production quality control. Model trained on real defect data; deployed in live manufacturing environments at scale.',
   },
   {
-    id: 'ai',
-    az: 16, el: 0,
-    img: '/amvero-comparison.png',
-    ar: 1819 / 1448,
+    id: 'ai', col: 5,
+    img: '/amvero-comparison.png', ar: 1819 / 1448,
     tag: 'AI practice',
     title: 'How I work with AI',
     lead: 'Systematic approach to integrating AI into product workflows.',
     body: 'Use AI for spec generation, prototype iteration, and roadmap prioritization. Every case study on this site was built with AI-assisted PM process.',
   },
   {
-    id: 'next',
-    az: 38, el: 0,
-    img: '/amvero-roi.png',
-    ar: 1200 / 750,
+    id: 'next', col: 6,
+    img: '/amvero-roi.png', ar: 1200 / 750,
     tag: "What's next",
     title: 'Senior PM · AI · Enterprise',
     lead: 'Open to senior PM roles in AI-native or deep-tech companies.',
@@ -78,17 +92,12 @@ const FRAMES = [
 
 type FrameConfig = typeof FRAMES[0]
 
-function spherePos(azDeg: number, elDeg: number, r = SPHERE_R): THREE.Vector3 {
+function cylPos(azDeg: number, y: number, r = SPHERE_R): THREE.Vector3 {
   const az = azDeg * DEG
-  const el = elDeg * DEG
-  return new THREE.Vector3(
-    r * Math.cos(el) * Math.sin(az),
-    r * Math.sin(el),
-    r * Math.cos(el) * Math.cos(az),
-  )
+  return new THREE.Vector3(r * Math.sin(az), y, r * Math.cos(az))
 }
 
-function frameQuat(pos: THREE.Vector3): THREE.Quaternion {
+function faceOriginQuat(pos: THREE.Vector3): THREE.Quaternion {
   const dummy = new THREE.Object3D()
   dummy.position.copy(pos)
   dummy.lookAt(0, 0, 0)
@@ -112,13 +121,44 @@ function useAsyncTexture(url: string) {
   return tex
 }
 
-function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+// 10×10 decorative grid — InstancedMesh for performance
+function DecorativeGrid() {
+  const ref = useRef<THREE.InstancedMesh>(null)
+  const count = GRID_COLS * GRID_ROWS
+
+  useEffect(() => {
+    const m = ref.current
+    if (!m) return
+    const dummy = new THREE.Object3D()
+    let idx = 0
+    for (let row = 0; row < GRID_ROWS; row++) {
+      for (let col = 0; col < GRID_COLS; col++) {
+        const pos = cylPos(COL_AZ[col], ROW_Y[row])
+        dummy.position.copy(pos)
+        dummy.lookAt(0, 0, 0)
+        dummy.updateMatrix()
+        m.setMatrixAt(idx, dummy.matrix)
+        idx++
+      }
+    }
+    m.instanceMatrix.needsUpdate = true
+  }, [])
+
+  return (
+    <instancedMesh ref={ref} args={[undefined, undefined, count]}>
+      <planeGeometry args={[CELL_W, CELL_H]} />
+      <meshBasicMaterial color="#0d1828" side={THREE.DoubleSide} />
+    </instancedMesh>
+  )
+}
+
+function ContentFrame({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const tex = useAsyncTexture(f.img)
-  const [pos] = useState(() => spherePos(f.az, f.el))
-  const [quat] = useState(() => frameQuat(pos))
-  const w = FRAME_H * f.ar
-  const h = FRAME_H
+  const [pos] = useState(() => cylPos(COL_AZ[f.col], ROW_Y[CONTENT_ROW], SPHERE_R - 0.08))
+  const [quat] = useState(() => faceOriginQuat(pos))
+  const w = CELL_H * f.ar
+  const h = CELL_H
 
   useEffect(() => {
     bridge.meshes[idx] = meshRef.current
@@ -131,12 +171,13 @@ function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: Re
     const sel = selRef.current
     const isSel = sel === idx
     const anySelected = sel >= 0
-    const targetScale = isSel ? 1.1 : 1
-    const targetOpacity = anySelected && !isSel ? 0.2 : 1
+    const targetScale = isSel ? 1.08 : 1
+    const targetOpacity = anySelected && !isSel ? 0.25 : 1
     const t = 1 - Math.pow(0.04, dt * 60)
     m.scale.setScalar(THREE.MathUtils.lerp(m.scale.x, targetScale, t))
-    const mat = m.material as THREE.MeshBasicMaterial
-    mat.opacity = THREE.MathUtils.lerp(mat.opacity, targetOpacity, t)
+    ;(m.material as THREE.MeshBasicMaterial).opacity = THREE.MathUtils.lerp(
+      (m.material as THREE.MeshBasicMaterial).opacity, targetOpacity, t
+    )
   })
 
   return (
@@ -153,38 +194,43 @@ function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: Re
   )
 }
 
-// Border: at R+0.07 so it peeks around frame edges without z-fighting
-function FrameBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+function ContentBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const ref = useRef<THREE.Mesh>(null)
-  const [pos] = useState(() => spherePos(f.az, f.el, SPHERE_R + 0.07))
-  const [quat] = useState(() => frameQuat(pos))
-  const w = FRAME_H * f.ar + 0.12
-  const h = FRAME_H + 0.12
+  const [pos] = useState(() => cylPos(COL_AZ[f.col], ROW_Y[CONTENT_ROW], SPHERE_R))
+  const [quat] = useState(() => faceOriginQuat(pos))
+  const w = CELL_H * f.ar + 0.1
+  const h = CELL_H + 0.1
 
   useFrame((_, dt) => {
     const m = ref.current
     if (!m) return
     const mat = m.material as THREE.MeshBasicMaterial
     const sel = selRef.current
-    const target = sel === idx ? 1 : 0.07
-    mat.opacity = THREE.MathUtils.lerp(mat.opacity, target, 1 - Math.pow(0.04, dt * 60))
-    const col = mat.color as THREE.Color
-    const targetCol = sel === idx ? new THREE.Color('#16a34a') : new THREE.Color('#4a5568')
-    col.lerp(targetCol, 1 - Math.pow(0.04, dt * 60))
+    const targetOpacity = sel === idx ? 1 : 0.08
+    const targetColor = sel === idx ? new THREE.Color('#16a34a') : new THREE.Color('#4a5568')
+    const t = 1 - Math.pow(0.04, dt * 60)
+    mat.opacity = THREE.MathUtils.lerp(mat.opacity, targetOpacity, t)
+    mat.color.lerp(targetColor, t)
   })
 
   return (
     <mesh ref={ref} position={pos} quaternion={quat}>
       <planeGeometry args={[w, h]} />
-      <meshBasicMaterial
-        color="#4a5568"
-        transparent
-        opacity={0.07}
-        side={THREE.DoubleSide}
-        depthWrite={false}
-      />
+      <meshBasicMaterial color="#4a5568" transparent opacity={0.08} side={THREE.DoubleSide} depthWrite={false} />
     </mesh>
   )
+}
+
+function GridFloor() {
+  const ref = useRef<THREE.GridHelper>(null)
+  useEffect(() => {
+    if (!ref.current) return
+    const mats = Array.isArray(ref.current.material)
+      ? (ref.current.material as THREE.LineBasicMaterial[])
+      : [ref.current.material as THREE.LineBasicMaterial]
+    mats.forEach(m => { m.transparent = true; m.opacity = 0.3 })
+  }, [])
+  return <gridHelper ref={ref} args={[120, 40, '#16a34a', '#0d1e2a']} position={[0, -3, 0]} />
 }
 
 function Bridge() {
@@ -196,49 +242,15 @@ function Bridge() {
   return null
 }
 
-function GridFloor() {
-  const ref = useRef<THREE.GridHelper>(null)
-  useEffect(() => {
-    if (!ref.current) return
-    const mats = Array.isArray(ref.current.material)
-      ? (ref.current.material as THREE.LineBasicMaterial[])
-      : [ref.current.material as THREE.LineBasicMaterial]
-    mats.forEach(m => { m.transparent = true; m.opacity = 0.45 })
-  }, [])
-  return (
-    <gridHelper
-      ref={ref}
-      args={[120, 40, '#16a34a', '#0d1e2a']}
-      position={[0, -2.4, 0]}
-    />
-  )
-}
-
-function GridCeiling() {
-  const ref = useRef<THREE.GridHelper>(null)
-  useEffect(() => {
-    if (!ref.current) return
-    const mats = Array.isArray(ref.current.material)
-      ? (ref.current.material as THREE.LineBasicMaterial[])
-      : [ref.current.material as THREE.LineBasicMaterial]
-    mats.forEach(m => { m.transparent = true; m.opacity = 0.15 })
-  }, [])
-  return (
-    <gridHelper
-      ref={ref}
-      args={[120, 40, '#16a34a', '#0d1e2a']}
-      position={[0, 2.4, 0]}
-    />
-  )
-}
-
 function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
   const rig = useRef<THREE.Group>(null)
 
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
+    // Auto-rotate when idle
     const idle = !view.dragging && performance.now() - view.lastInteraction > 2500
     if (idle) view.targetAz += 0.1 * dt
 
+    // Spring physics for rig rotation
     const stiffness = 0.08, damping = 0.72
     view.velAz = view.velAz * damping + (view.targetAz - view.az) * stiffness
     view.az += view.velAz
@@ -251,24 +263,40 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
       rig.current.rotation.y = view.az
       rig.current.rotation.x = view.el
     }
+
+    // Camera dolly — smoothly approach selected frame
+    const sel = selRef.current
+    const lerpF = 1 - Math.pow(0.95, dt * 60)
+
+    if (sel >= 0 && bridge.meshes[sel]) {
+      bridge.meshes[sel]!.getWorldPosition(_wp)
+      camAnim.pos.lerp(_wp.clone().multiplyScalar(0.55), lerpF)
+      camAnim.lookTgt.lerp(_wp, lerpF)
+    } else {
+      camAnim.pos.lerp(_origin, lerpF)
+      camAnim.lookTgt.lerp(_defaultLook, lerpF)
+    }
+
+    state.camera.position.copy(camAnim.pos)
+    state.camera.lookAt(camAnim.lookTgt)
   })
 
   return (
     <group ref={rig}>
-      {/* Gallery wall — fills horizontal gaps between frames */}
+      {/* Gallery cylinder — fills gaps with dark wall */}
       <mesh renderOrder={-5}>
         <cylinderGeometry args={[SPHERE_R + 0.5, SPHERE_R + 0.5, 200, 48, 1, true]} />
-        <meshBasicMaterial color="#0b0f16" side={THREE.BackSide} depthWrite={false} />
+        <meshBasicMaterial color="#0a0d14" side={THREE.BackSide} depthWrite={false} />
       </mesh>
 
-      {/* Spatial grid floor and ceiling */}
-      <GridFloor />
-      <GridCeiling />
+      {/* 10×10 decorative arc wall */}
+      <DecorativeGrid />
 
+      {/* Content frames (in front of decorative grid) */}
       {FRAMES.map((f, i) => (
         <group key={f.id}>
-          <FrameBorder f={f} idx={i} selRef={selRef} />
-          <FrameMesh f={f} idx={i} selRef={selRef} />
+          <ContentBorder f={f} idx={i} selRef={selRef} />
+          <ContentFrame f={f} idx={i} selRef={selRef} />
         </group>
       ))}
     </group>
@@ -279,10 +307,11 @@ function Scene({ selRef }: { selRef: React.MutableRefObject<number> }) {
   return (
     <>
       <Rig selRef={selRef} />
+      <GridFloor />
       <Bridge />
       <ambientLight intensity={1.1} />
       <EffectComposer>
-        <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.9} intensity={0.45} mipmapBlur />
+        <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.9} intensity={0.4} mipmapBlur />
       </EffectComposer>
     </>
   )
@@ -309,6 +338,8 @@ export default function PhotosphereCanvas() {
     view.velEl = 0
     view.dragging = false
     view.lastInteraction = performance.now()
+    camAnim.pos.set(0, 0, 0.01)
+    camAnim.lookTgt.set(0, 0, -8)
     bridge.meshes = new Array(FRAMES.length).fill(null)
     setMounted(true)
   }, [])
@@ -338,6 +369,12 @@ export default function PhotosphereCanvas() {
     const { on, moved } = drag.current
     drag.current.on = false
     if (!on) return
+
+    // Significant drag while selected → deselect and allow pan
+    if (moved >= 8 && selRef.current >= 0) {
+      setSyncedSel(-1)
+      return
+    }
 
     if (moved < 8 && bridge.raycaster && bridge.camera) {
       const el = e.currentTarget as HTMLElement
@@ -424,9 +461,7 @@ export default function PhotosphereCanvas() {
       <div
         style={{
           position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
+          bottom: 0, left: 0, right: 0,
           zIndex: 20,
           transform: selFrame ? 'translateY(0)' : 'translateY(100%)',
           transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
