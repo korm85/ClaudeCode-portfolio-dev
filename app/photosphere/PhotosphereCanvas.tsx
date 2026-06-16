@@ -6,27 +6,31 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 const DEG = Math.PI / 180
-const SPHERE_R = 6
+const SPHERE_R = 7
+const FRAME_H = 1.4 // uniform height for all frames → seamless horizontal strip
 
-// Module-level state for zero-stale-closure animation
+// Module-level mutable state — no stale closures in useFrame
 const view = {
   targetAz: Math.PI, az: Math.PI, velAz: 0,
   targetEl: 0, el: 0, velEl: 0,
   dragging: false, lastInteraction: 0,
 }
 
-// Shared raycaster bridge between DOM handlers and R3F
 const bridge = {
   raycaster: null as THREE.Raycaster | null,
   camera: null as THREE.Camera | null,
   meshes: [] as Array<THREE.Mesh | null>,
 }
 
+// ar = width/height pixel ratio for correct aspect without distortion
+// az positions calculated so adjacent frames touch edge-to-edge at R=7
+// Δaz ≈ (W_left/2 + W_right/2) / R  where W = FRAME_H * ar
 const FRAMES = [
   {
     id: 'about',
-    az: -56, el: 14,
-    img: '/profile.jpeg', aw: 1, ah: 1,
+    az: -32, el: 0,
+    img: '/profile.jpeg',
+    ar: 1,          // 1024×1024 ≈ square
     tag: 'Who I am',
     title: 'Michael Korenevsky',
     lead: '14 years building enterprise software for high-stakes industries.',
@@ -34,8 +38,9 @@ const FRAMES = [
   },
   {
     id: 'simulation',
-    az: -28, el: -14,
-    img: '/simulation-heatmap.png', aw: 16, ah: 10,
+    az: -17, el: 0,
+    img: '/simulation-heatmap.png',
+    ar: 1934 / 1152, // 1.679
     tag: 'Physics simulation',
     title: 'Powder bed fusion, predicted',
     lead: 'Built the PM function at Oqton for physics-based AM simulation — zero to shipped.',
@@ -43,8 +48,9 @@ const FRAMES = [
   },
   {
     id: 'amvero',
-    az: 1, el: 12,
-    img: '/amvero-product.png', aw: 4, ah: 3,
+    az: 0, el: 0,
+    img: '/amvero-product.png',
+    ar: 2500 / 1934, // 1.293
     tag: 'AI inspection',
     title: 'AMVero — automated defect detection',
     lead: '98% detection rate. 73% faster inspection. 4 enterprise customers.',
@@ -52,8 +58,9 @@ const FRAMES = [
   },
   {
     id: 'ai',
-    az: 29, el: -14,
-    img: '/amvero-comparison.png', aw: 5, ah: 4,
+    az: 15, el: 0,
+    img: '/amvero-comparison.png',
+    ar: 1819 / 1448, // 1.256
     tag: 'AI practice',
     title: 'How I work with AI',
     lead: 'Systematic approach to integrating AI into product workflows.',
@@ -61,8 +68,9 @@ const FRAMES = [
   },
   {
     id: 'next',
-    az: 58, el: 14,
-    img: '/simulation-product.png', aw: 16, ah: 10,
+    az: 34, el: 0,
+    img: '/simulation-product.png',
+    ar: 2500 / 1197, // 2.089 — wide panoramic
     tag: "What's next",
     title: 'Senior PM · AI · Enterprise',
     lead: 'Open to senior PM roles in AI-native or deep-tech companies.',
@@ -88,10 +96,10 @@ function useAsyncTexture(url: string) {
     let dead = false
     new THREE.TextureLoader().loadAsync(url)
       .then(t => {
-        if (!dead) {
-          t.colorSpace = THREE.SRGBColorSpace
-          setTex(t)
-        }
+        if (dead) return
+        t.colorSpace = THREE.SRGBColorSpace
+        t.needsUpdate = true
+        setTex(t)
       })
       .catch(() => {})
     return () => { dead = true }
@@ -99,7 +107,9 @@ function useAsyncTexture(url: string) {
   return tex
 }
 
-function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+function FrameMesh({
+  f, idx, selRef,
+}: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const tex = useAsyncTexture(f.img)
 
@@ -111,9 +121,8 @@ function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: Re
     return dummy.quaternion.clone()
   })
 
-  const maxDim = Math.max(f.aw, f.ah)
-  const w = 2.2 * f.aw / maxDim
-  const h = 2.2 * f.ah / maxDim
+  const w = FRAME_H * f.ar
+  const h = FRAME_H
 
   useEffect(() => {
     bridge.meshes[idx] = meshRef.current
@@ -126,8 +135,8 @@ function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: Re
     const sel = selRef.current
     const isSel = sel === idx
     const anySelected = sel >= 0
-    const targetScale = isSel ? 1.14 : 1
-    const targetOpacity = anySelected && !isSel ? 0.2 : 1
+    const targetScale = isSel ? 1.12 : 1
+    const targetOpacity = anySelected && !isSel ? 0.18 : 1
     const t = 1 - Math.pow(0.04, dt * 60)
     m.scale.setScalar(THREE.MathUtils.lerp(m.scale.x, targetScale, t))
     const mat = m.material as THREE.MeshBasicMaterial
@@ -139,15 +148,18 @@ function FrameMesh({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: Re
       <planeGeometry args={[w, h]} />
       <meshBasicMaterial
         map={tex ?? undefined}
-        color={tex ? '#ffffff' : '#1e3248'}
+        color={tex ? '#ffffff' : '#111827'}
         transparent
         opacity={1}
+        side={THREE.DoubleSide}
       />
     </mesh>
   )
 }
 
-function GlowBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
+function GlowBorder({
+  f, idx, selRef,
+}: { f: FrameConfig; idx: number; selRef: React.MutableRefObject<number> }) {
   const ref = useRef<THREE.Mesh>(null)
   const [localPos] = useState(() => spherePos(f.az, f.el))
   const [quat] = useState(() => {
@@ -156,9 +168,8 @@ function GlowBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: R
     dummy.lookAt(0, 0, 0)
     return dummy.quaternion.clone()
   })
-  const maxDim = Math.max(f.aw, f.ah)
-  const w = 2.2 * f.aw / maxDim + 0.14
-  const h = 2.2 * f.ah / maxDim + 0.14
+  const w = FRAME_H * f.ar + 0.1
+  const h = FRAME_H + 0.1
 
   useFrame((_, dt) => {
     const m = ref.current
@@ -171,7 +182,13 @@ function GlowBorder({ f, idx, selRef }: { f: FrameConfig; idx: number; selRef: R
   return (
     <mesh ref={ref} position={localPos} quaternion={quat} renderOrder={-1}>
       <planeGeometry args={[w, h]} />
-      <meshBasicMaterial color="#16a34a" transparent opacity={0} depthWrite={false} />
+      <meshBasicMaterial
+        color="#16a34a"
+        transparent
+        opacity={0}
+        depthWrite={false}
+        side={THREE.DoubleSide}
+      />
     </mesh>
   )
 }
@@ -188,12 +205,12 @@ function Bridge() {
 function Stars() {
   const [geo] = useState(() => {
     const g = new THREE.BufferGeometry()
-    const n = 500
+    const n = 400
     const pos = new Float32Array(n * 3)
     for (let i = 0; i < n; i++) {
       const th = Math.random() * 2 * Math.PI
       const ph = Math.acos(2 * Math.random() - 1)
-      const r = 22 + Math.random() * 6
+      const r = 20 + Math.random() * 8
       pos[i * 3] = r * Math.sin(ph) * Math.cos(th)
       pos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th)
       pos[i * 3 + 2] = r * Math.cos(ph)
@@ -203,7 +220,7 @@ function Stars() {
   })
   return (
     <points geometry={geo}>
-      <pointsMaterial color="#8899cc" size={0.055} transparent opacity={0.35} sizeAttenuation />
+      <pointsMaterial color="#6677aa" size={0.05} transparent opacity={0.3} sizeAttenuation />
     </points>
   )
 }
@@ -213,15 +230,15 @@ function Rig({ selRef }: { selRef: React.MutableRefObject<number> }) {
 
   useFrame((_, dt) => {
     const idle = !view.dragging && performance.now() - view.lastInteraction > 2500
-    if (idle) view.targetAz += 0.15 * dt
+    if (idle) view.targetAz += 0.12 * dt
 
     const stiffness = 0.08, damping = 0.72
     view.velAz = view.velAz * damping + (view.targetAz - view.az) * stiffness
     view.az += view.velAz
     view.velEl = view.velEl * damping + (view.targetEl - view.el) * stiffness
     view.el += view.velEl
-    view.el = Math.max(-28 * DEG, Math.min(28 * DEG, view.el))
-    view.targetEl = Math.max(-28 * DEG, Math.min(28 * DEG, view.targetEl))
+    view.el = Math.max(-22 * DEG, Math.min(22 * DEG, view.el))
+    view.targetEl = Math.max(-22 * DEG, Math.min(22 * DEG, view.targetEl))
 
     if (rig.current) {
       rig.current.rotation.y = view.az
@@ -249,7 +266,7 @@ function Scene({ selRef }: { selRef: React.MutableRefObject<number> }) {
       <Bridge />
       <ambientLight intensity={1.2} />
       <EffectComposer>
-        <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} intensity={0.6} mipmapBlur />
+        <Bloom luminanceThreshold={0.55} luminanceSmoothing={0.9} intensity={0.5} mipmapBlur />
       </EffectComposer>
     </>
   )
@@ -268,7 +285,6 @@ export default function PhotosphereCanvas() {
   }, [])
 
   useEffect(() => {
-    // Reset module-level state on mount
     view.targetAz = Math.PI
     view.az = Math.PI
     view.velAz = 0
@@ -307,7 +323,6 @@ export default function PhotosphereCanvas() {
     drag.current.on = false
     if (!on) return
 
-    // Tap: totalMoved < 8px triggers raycast
     if (moved < 8 && bridge.raycaster && bridge.camera) {
       const el = e.currentTarget as HTMLElement
       const rect = el.getBoundingClientRect()
@@ -351,7 +366,7 @@ export default function PhotosphereCanvas() {
         </Canvas>
       </div>
 
-      {/* Pointer capture surface — covers whole screen, above canvas */}
+      {/* Pointer capture surface */}
       <div
         style={{
           position: 'absolute',
@@ -386,7 +401,7 @@ export default function PhotosphereCanvas() {
               fontSize: 11,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
-              color: 'rgba(179, 171, 155, 0.45)',
+              color: 'rgba(179, 171, 155, 0.4)',
             }}
           >
             drag to explore · tap to focus
@@ -394,7 +409,7 @@ export default function PhotosphereCanvas() {
         </div>
       )}
 
-      {/* Content panel — slides up from bottom on selection */}
+      {/* Content panel */}
       <div
         style={{
           position: 'fixed',
