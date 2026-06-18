@@ -59,6 +59,11 @@ const PRACTICE_CARDS = [
     title: "Support intelligence",
     body: "AI read 500 support tickets and found operators were drowning in false alerts, not accuracy problems. That finding redirected the entire Smart Alerting roadmap.",
   },
+  {
+    num: "05",
+    title: "Toolkit calibration",
+    body: "AI capabilities shift faster than most PM routines. A standing weekly review of new prompt patterns, agent workflows, and emerging tool categories keeps the practice from stagnating between product cycles.",
+  },
 ];
 
 const TIMELINE = [
@@ -271,7 +276,7 @@ export default function PortfolioPage() {
             AI lets me cover more ground in less time and build working prototypes without waiting on development. I can bring something testable to every client and stakeholder conversation instead of a description of what I am imagining.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
             {PRACTICE_CARDS.map((card) => (
               <div
                 key={card.num}

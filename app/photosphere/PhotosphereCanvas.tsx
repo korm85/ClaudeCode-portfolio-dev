@@ -77,8 +77,8 @@ const FRAMES = [
     img: '/amvero-comparison.png', ar: 1819 / 1448,
     tag: 'AI practice',
     title: 'How I work with AI',
-    lead: 'Systematic approach to integrating AI into product workflows.',
-    body: 'Use AI for spec generation, prototype iteration, and roadmap prioritization. Every case study on this site was built with AI-assisted PM process.',
+    lead: 'Four active workflows — discovery synthesis, rapid prototyping, market surveillance, support analysis — each with a documented outcome on a live product.',
+    body: 'Spec synthesis caught a threshold conflict before it shipped. A weekly agent flagged a competitor pricing shift that changed the billing model. AI is decision infrastructure, not output acceleration.',
   },
   {
     id: 'next', col: 6,
